@@ -17,7 +17,7 @@ public class Rooms extends JFrame {
 
     public Rooms(BookingResource bookingResource) {
         setContentPane(this.rooms);
-        setTitle("ROOMS");
+        setTitle("ESCAPE THEMES");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -89,7 +89,7 @@ public class Rooms extends JFrame {
         rooms = new JPanel();
         rooms.setLayout(new GridBagLayout());
         ADDROOMButton = new JButton();
-        ADDROOMButton.setText("ADD ROOM");
+        ADDROOMButton.setText("ADD THEME");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -102,19 +102,19 @@ public class Rooms extends JFrame {
         gbc.fill = GridBagConstraints.VERTICAL;
         rooms.add(spacer1, gbc);
         DELETEROOMSButton = new JButton();
-        DELETEROOMSButton.setText("DELETE ROOMS");
+        DELETEROOMSButton.setText("DELETE THEME");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;
         rooms.add(DELETEROOMSButton, gbc);
         VIEWROOMSButton = new JButton();
-        VIEWROOMSButton.setText("VIEW ROOMS");
+        VIEWROOMSButton.setText("VIEW THEMES");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 1;
         rooms.add(VIEWROOMSButton, gbc);
         final JLabel label1 = new JLabel();
-        label1.setText("ROOMS");
+        label1.setText("ESCAPE THEMES");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;

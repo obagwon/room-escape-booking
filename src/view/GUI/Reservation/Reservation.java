@@ -12,12 +12,14 @@ public class Reservation extends JFrame {
     private JButton BOOKAROOMButton;
     private JButton DELETEABOOKINGButton;
     private JButton MAINMENUButton;
+    private JButton ADDPLAYRESULTButton;
+    private JButton VIEWPLAYRESULTSButton;
     private JPanel reservation;
 
     public Reservation(BookingResource bookingResource) {
         setContentPane(this.reservation);
-        setTitle("RESERVATION");
-        setSize(450, 450);
+        setTitle("Escape Room Manager - Reservations");
+        setSize(540, 420);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         MAINMENUButton.addActionListener(new ActionListener() {
@@ -56,6 +58,20 @@ public class Reservation extends JFrame {
                 new DelReservation(bookingResource);
             }
         });
+        ADDPLAYRESULTButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new AddPlayResult(bookingResource);
+            }
+        });
+        VIEWPLAYRESULTSButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new ViewPlayResults(bookingResource);
+            }
+        });
     }
 
     {
@@ -76,7 +92,7 @@ public class Reservation extends JFrame {
         reservation = new JPanel();
         reservation.setLayout(new GridBagLayout());
         BOOKAROOMButton = new JButton();
-        BOOKAROOMButton.setText("BOOK A ROOM");
+        BOOKAROOMButton.setText("1. Book Escape Theme");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -89,19 +105,32 @@ public class Reservation extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         reservation.add(spacer1, gbc);
         DELETEABOOKINGButton = new JButton();
-        DELETEABOOKINGButton.setText("DELETE A BOOKING");
+        DELETEABOOKINGButton.setText("2. Delete Reservation");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
         reservation.add(DELETEABOOKINGButton, gbc);
         MAINMENUButton = new JButton();
-        MAINMENUButton.setText("MAIN MENU");
+        MAINMENUButton.setText("Back to Main Menu");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        reservation.add(MAINMENUButton, gbc);
+        ADDPLAYRESULTButton = new JButton();
+        ADDPLAYRESULTButton.setText("3. Add Play Result");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
-        reservation.add(MAINMENUButton, gbc);
+        reservation.add(ADDPLAYRESULTButton, gbc);
+        VIEWPLAYRESULTSButton = new JButton();
+        VIEWPLAYRESULTSButton.setText("4. View Play Results");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        reservation.add(VIEWPLAYRESULTSButton, gbc);
         final JLabel label1 = new JLabel();
-        label1.setText("RESERVATION");
+        label1.setFont(new Font(label1.getFont().getName(), Font.BOLD, 18));
+        label1.setText("Reservation & Play Result Management");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;

@@ -17,7 +17,7 @@ public class AddBuildings extends JFrame {
 
     public AddBuildings(BookingResource bookingResource) {
         setContentPane(this.addBuildings);
-        setTitle("ADD BUILDING");
+        setTitle("ADD CAFE BRANCH");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -77,7 +77,7 @@ public class AddBuildings extends JFrame {
         addBuildings = new JPanel();
         addBuildings.setLayout(new GridBagLayout());
         final JLabel label1 = new JLabel();
-        label1.setText("ADD BUILDING");
+        label1.setText("ADD CAFE BRANCH");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -97,7 +97,7 @@ public class AddBuildings extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         addBuildings.add(backButton, gbc);
         final JLabel label2 = new JLabel();
-        label2.setText("Enter Building Name");
+        label2.setText("Enter Cafe Branch Name");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;

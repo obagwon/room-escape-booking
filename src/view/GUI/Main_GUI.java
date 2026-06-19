@@ -30,12 +30,13 @@ public class Main_GUI extends JFrame implements Runnable {
     private JButton LOADDATAButton;
     private JButton EXITButton;
     private JButton ROOMSButton1;
+    private JButton STATISTICSButton;
 
     public Main_GUI(BookingResource bookingResource) {
         this.isGUIView = true;
         setContentPane(this.main_GUI);
-        setTitle("UNIVERSITY ROOM BOOKING APPLICATION");
-        setSize(450, 450);
+        setTitle("ESCAPE ROOM MANAGER");
+        setSize(620, 700);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         ADDDELVIEWUsersButton.addActionListener(new ActionListener() {
@@ -60,6 +61,7 @@ public class Main_GUI extends JFrame implements Runnable {
             public void actionPerformed(ActionEvent e) {
                 try {
                     bookingResource.resSave();
+                    bookingResource.playResultSave();
                     bookingResource.roomSave();
                     bookingResource.userSave();
                     bookingResource.buildSave();
@@ -82,6 +84,7 @@ public class Main_GUI extends JFrame implements Runnable {
                     bookingResource.buildLoad();
                     bookingResource.roomLoad();
                     bookingResource.resLoad();
+                    bookingResource.playResultLoad();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 } catch (ClassNotFoundException ex) {
@@ -169,7 +172,7 @@ public class Main_GUI extends JFrame implements Runnable {
                 try {
                     Map<String, Reservation> allRooms = bookingResource.bookedRooms();
                     for (Map.Entry<String, Reservation> entry : allRooms.entrySet()) {
-                        JOptionPane.showMessageDialog(main_GUI, "Booked Rooms :\n" + "Booking Reference: " + entry.getValue().getBookingID() + "\n" + entry.getValue().getRoom() + " is booked by " + entry.getValue().getEmail() + " from " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + " to " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime());
+                        JOptionPane.showMessageDialog(main_GUI, "Reserved Escape Themes :\n" + "Booking Reference: " + entry.getValue().getBookingID() + "\n" + entry.getValue().getRoom() + " is reserved by " + entry.getValue().getEmail() + " from " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + " to " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime());
                     }
                 } catch (IllegalArgumentException ex) {
                     String error = ex.getLocalizedMessage();
@@ -193,6 +196,13 @@ public class Main_GUI extends JFrame implements Runnable {
                     String error = ex.getLocalizedMessage();
                     JOptionPane.showMessageDialog(main_GUI, error);
                 }
+            }
+        });
+        STATISTICSButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new StatisticsGUI(bookingResource);
             }
         });
     }
@@ -223,7 +233,7 @@ public class Main_GUI extends JFrame implements Runnable {
         main_GUI = new JPanel();
         main_GUI.setLayout(new GridBagLayout());
         ADDDELVIEWUsersButton = new JButton();
-        ADDDELVIEWUsersButton.setText("USER");
+        ADDDELVIEWUsersButton.setText("1. Manage Customers");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -231,75 +241,83 @@ public class Main_GUI extends JFrame implements Runnable {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(ADDDELVIEWUsersButton, gbc);
         BUILDINGSButton = new JButton();
-        BUILDINGSButton.setText("BUILDINGS");
+        BUILDINGSButton.setText("2. Manage Cafe Branches");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(BUILDINGSButton, gbc);
         RESERVATIONSButton = new JButton();
-        RESERVATIONSButton.setText("RESERVATIONS");
+        RESERVATIONSButton.setText("4. Reservations & Play Results");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(RESERVATIONSButton, gbc);
         final JLabel label1 = new JLabel();
-        label1.setText("University Booking Application");
+        label1.setFont(new Font(label1.getFont().getName(), Font.BOLD, 20));
+        label1.setText("Escape Room Manager");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
         main_GUI.add(label1, gbc);
         VIEWRESERVATIONSBYBOOKINGButton = new JButton();
-        VIEWRESERVATIONSBYBOOKINGButton.setText("VIEW RESERVATIONS BY BOOKING ID");
+        VIEWRESERVATIONSBYBOOKINGButton.setText("5. Find Reservation by Booking ID");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(VIEWRESERVATIONSBYBOOKINGButton, gbc);
         VIEWBOOKEDROOMSButton = new JButton();
-        VIEWBOOKEDROOMSButton.setText("VIEW BOOKED ROOMS");
+        VIEWBOOKEDROOMSButton.setText("6. View Reserved Themes");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(VIEWBOOKEDROOMSButton, gbc);
         VIEWRESERVATIONSBYEMAILButton = new JButton();
-        VIEWRESERVATIONSBYEMAILButton.setText("VIEW RESERVATIONS BY EMAIL ID");
+        VIEWRESERVATIONSBYEMAILButton.setText("7. Find Reservations by Customer Email");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 7;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(VIEWRESERVATIONSBYEMAILButton, gbc);
         SAVEDATAButton = new JButton();
-        SAVEDATAButton.setText("SAVE DATA");
+        SAVEDATAButton.setText("8. Save Data");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 8;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(SAVEDATAButton, gbc);
         LOADDATAButton = new JButton();
-        LOADDATAButton.setText("LOAD DATA");
+        LOADDATAButton.setText("9. Load Data");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 9;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(LOADDATAButton, gbc);
         EXITButton = new JButton();
-        EXITButton.setText("EXIT");
+        EXITButton.setText("Exit");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 10;
+        gbc.gridy = 11;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(EXITButton, gbc);
         ROOMSButton1 = new JButton();
-        ROOMSButton1.setText("ROOMS");
+        ROOMSButton1.setText("3. Manage Escape Themes");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(ROOMSButton1, gbc);
+        STATISTICSButton = new JButton();
+        STATISTICSButton.setText("10. Operation Statistics");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 10;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        main_GUI.add(STATISTICSButton, gbc);
     }
 
     /**

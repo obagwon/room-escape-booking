@@ -7,13 +7,13 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="e91dc" class="javax.swing.JButton" binding="BOOKAROOMButton" default-binding="true">
+      <component id="e91dc" class="javax.swing.JButton" binding="BOOKATHEMEButton" default-binding="true">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="BOOK A ROOM"/>
+          <text value="BOOK A THEME"/>
         </properties>
       </component>
       <hspacer id="3d7cf">
@@ -33,11 +33,29 @@
       </component>
       <component id="fdba2" class="javax.swing.JButton" binding="MAINMENUButton" default-binding="true">
         <constraints>
-          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
           <text value="MAIN MENU"/>
+        </properties>
+      </component>
+      <component id="a63e1" class="javax.swing.JButton" binding="ADDPLAYRESULTButton" default-binding="true">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="ADD PLAY RESULT"/>
+        </properties>
+      </component>
+      <component id="a63e2" class="javax.swing.JButton" binding="VIEWPLAYRESULTSButton" default-binding="true">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="VIEW PLAY RESULTS"/>
         </properties>
       </component>
       <component id="dd2f5" class="javax.swing.JLabel">

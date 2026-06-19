@@ -18,7 +18,7 @@ public class Buildings extends JFrame {
 
     public Buildings(BookingResource bookingResource) {
         setContentPane(this.building);
-        setTitle("BUILDINGS");
+        setTitle("CAFE BRANCHES");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -102,7 +102,7 @@ public class Buildings extends JFrame {
         building = new JPanel();
         building.setLayout(new GridBagLayout());
         ADDBUILDINGButton = new JButton();
-        ADDBUILDINGButton.setText("ADD BUILDING");
+        ADDBUILDINGButton.setText("ADD CAFE BRANCH");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -122,14 +122,14 @@ public class Buildings extends JFrame {
         gbc.fill = GridBagConstraints.VERTICAL;
         building.add(spacer2, gbc);
         DELETEBUILDINGButton = new JButton();
-        DELETEBUILDINGButton.setText("DELETE BUILDING");
+        DELETEBUILDINGButton.setText("DELETE CAFE BRANCH");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         building.add(DELETEBUILDINGButton, gbc);
         VIEWBUILDINGButton = new JButton();
-        VIEWBUILDINGButton.setText("VIEW BUILDING");
+        VIEWBUILDINGButton.setText("VIEW CAFE BRANCHES");
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 1;
@@ -143,7 +143,7 @@ public class Buildings extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         building.add(BACKButton, gbc);
         final JLabel label1 = new JLabel();
-        label1.setText("BUILDINGS");
+        label1.setText("CAFE BRANCHES");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 0;

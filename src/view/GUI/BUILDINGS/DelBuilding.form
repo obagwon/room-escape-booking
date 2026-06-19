@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GUI.BUILDINGS.DelBuilding">
-  <grid id="27dc6" binding="delBuilding" layout-manager="GridBagLayout">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GUI.CAFE BRANCHES.DelCafe Branch">
+  <grid id="27dc6" binding="delCafe Branch" layout-manager="GridBagLayout">
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
@@ -13,7 +13,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="DELETE BUILDING"/>
+          <text value="DELETE CAFE BRANCH"/>
         </properties>
       </component>
       <hspacer id="e4c58">
@@ -28,7 +28,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="USER EMAIL"/>
+          <text value="CUSTOMER EMAIL"/>
         </properties>
       </component>
       <component id="b3bd2" class="javax.swing.JTextField" binding="textField1" default-binding="true">
@@ -46,7 +46,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="BUILDING NAME"/>
+          <text value="CAFE BRANCH NAME"/>
         </properties>
       </component>
       <component id="bdce2" class="javax.swing.JTextField" binding="textField2" default-binding="true">

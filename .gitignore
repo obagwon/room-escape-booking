@@ -1,0 +1,8 @@
+# Java build output
+out/
+*.class
+
+# IntelliJ IDEA local files
+.idea/
+*.ipr
+*.iws

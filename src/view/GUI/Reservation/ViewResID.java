@@ -19,7 +19,7 @@ public class ViewResID extends JFrame {
 
     public ViewResID(BookingResource bookingResource) {
         setContentPane(this.viewRES);
-        setTitle("UNIVERSITY ROOM BOOKING APPLICATION");
+        setTitle("ESCAPE ROOM MANAGER");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);

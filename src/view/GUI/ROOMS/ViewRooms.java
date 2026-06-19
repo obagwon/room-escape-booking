@@ -16,7 +16,7 @@ public class ViewRooms extends JFrame {
 
     public ViewRooms(BookingResource bookingResource) {
         setContentPane(this.viewRooms);
-        setTitle("VIEW ALL ROOMS");
+        setTitle("VIEW ALL ESCAPE THEMES");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -45,7 +45,7 @@ public class ViewRooms extends JFrame {
                     for (Map.Entry<String, Room> entry : rooms.entrySet()) {
                         Object buildingName = entry.getValue().getBuildingName();
                         Object roomName = entry.getValue().getRoomName();
-                        JOptionPane.showMessageDialog(viewRooms, "Rooms :\n" + buildingName + " has the room " + roomName + "." + "\n");
+                        JOptionPane.showMessageDialog(viewRooms, "Escape Themes :\n" + buildingName + " offers " + roomName + "." + "\n");
                     }
                 } catch (IllegalArgumentException ex) {
                     String error = ex.getLocalizedMessage();
@@ -73,7 +73,7 @@ public class ViewRooms extends JFrame {
         viewRooms = new JPanel();
         viewRooms.setLayout(new GridBagLayout());
         viewAllRoomsButton = new JButton();
-        viewAllRoomsButton.setText("View All Rooms");
+        viewAllRoomsButton.setText("View All Escape Themes");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -98,7 +98,7 @@ public class ViewRooms extends JFrame {
         gbc.gridy = 2;
         viewRooms.add(backButton, gbc);
         final JLabel label1 = new JLabel();
-        label1.setText("VIEW ALL ROOMS");
+        label1.setText("VIEW ALL ESCAPE THEMES");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;

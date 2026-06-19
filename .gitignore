@@ -1,5 +1,6 @@
 # Java build output
 out/
+target/
 *.class
 
 # IntelliJ IDEA local files

@@ -64,7 +64,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="BUILDING NAME"/>
+          <text value="CAFE BRANCH NAME"/>
         </properties>
       </component>
       <component id="b0e09" class="javax.swing.JTextField" binding="textField3" default-binding="true">
@@ -82,7 +82,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="ROOM NAME"/>
+          <text value="THEME NAME"/>
         </properties>
       </component>
       <component id="a660" class="javax.swing.JTextField" binding="textField4" default-binding="true">

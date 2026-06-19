@@ -17,7 +17,7 @@ public class DelRoom extends JFrame {
 
     public DelRoom(BookingResource bookingResource) {
         setContentPane(this.delRoom);
-        setTitle("DELETE ROOMS");
+        setTitle("DELETE ESCAPE THEME");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -34,7 +34,7 @@ public class DelRoom extends JFrame {
                 String room = textField3.getText();
                 try {
                     bookingResource.delRoom(buildingName, room);
-                    JOptionPane.showMessageDialog(delRoom, "Room Deleted Successfully");
+                    JOptionPane.showMessageDialog(delRoom, "Escape theme deleted successfully");
                 } catch (IllegalArgumentException ex) {
                     String error = ex.getLocalizedMessage();
                     JOptionPane.showMessageDialog(delRoom, error);
@@ -94,7 +94,7 @@ public class DelRoom extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delRoom.add(textField2, gbc);
         final JLabel label2 = new JLabel();
-        label2.setText("ROOM NAME");
+        label2.setText("THEME NAME");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 4;
@@ -121,7 +121,7 @@ public class DelRoom extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delRoom.add(backButton, gbc);
         final JLabel label3 = new JLabel();
-        label3.setText("BUILDING NAME");
+        label3.setText("CAFE BRANCH NAME");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;

@@ -15,7 +15,7 @@ public class DelUser extends JFrame {
 
     public DelUser(BookingResource bookingResource) {
         setContentPane(this.delUser);
-        setTitle("DELETE USER");
+        setTitle("DELETE CUSTOMER");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -106,7 +106,7 @@ public class DelUser extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delUser.add(backButton, gbc);
         final JLabel label2 = new JLabel();
-        label2.setText("DELETE A USER");
+        label2.setText("DELETE A CUSTOMER");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;

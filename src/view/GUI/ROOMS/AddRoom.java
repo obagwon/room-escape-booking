@@ -17,7 +17,7 @@ public class AddRoom extends JFrame {
 
     public AddRoom(BookingResource bookingResource) {
         setContentPane(this.addRoom);
-        setTitle("ADD ROOMS");
+        setTitle("ADD ESCAPE THEME");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -39,7 +39,7 @@ public class AddRoom extends JFrame {
                     bookingResource.checkUser(emailID);
                     bookingResource.checkBuilding(buildingName);
                     bookingResource.addRoom(buildingName, roomName, false);
-                    JOptionPane.showMessageDialog(addRoom, "Room saved Successfully.");
+                    JOptionPane.showMessageDialog(addRoom, "Escape theme saved successfully.");
                 } catch (IllegalArgumentException ex) {
                     String error = ex.getLocalizedMessage();
                     JOptionPane.showMessageDialog(addRoom, error);
@@ -104,7 +104,7 @@ public class AddRoom extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         addRoom.add(textField1, gbc);
         final JLabel label2 = new JLabel();
-        label2.setText("BUILDING NAME");
+        label2.setText("CAFE BRANCH NAME");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 3;
@@ -117,7 +117,7 @@ public class AddRoom extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         addRoom.add(textField2, gbc);
         final JLabel label3 = new JLabel();
-        label3.setText("ROOM NAME");
+        label3.setText("THEME NAME");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 5;
@@ -144,7 +144,7 @@ public class AddRoom extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         addRoom.add(backButton, gbc);
         final JLabel label4 = new JLabel();
-        label4.setText("ADD A ROOM");
+        label4.setText("ADD AN ESCAPE THEME");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;

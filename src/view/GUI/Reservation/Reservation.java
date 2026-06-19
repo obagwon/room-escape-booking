@@ -12,6 +12,8 @@ public class Reservation extends JFrame {
     private JButton BOOKAROOMButton;
     private JButton DELETEABOOKINGButton;
     private JButton MAINMENUButton;
+    private JButton ADDPLAYRESULTButton;
+    private JButton VIEWPLAYRESULTSButton;
     private JPanel reservation;
 
     public Reservation(BookingResource bookingResource) {
@@ -56,6 +58,20 @@ public class Reservation extends JFrame {
                 new DelReservation(bookingResource);
             }
         });
+        ADDPLAYRESULTButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new AddPlayResult(bookingResource);
+            }
+        });
+        VIEWPLAYRESULTSButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new ViewPlayResults(bookingResource);
+            }
+        });
     }
 
     {
@@ -76,7 +92,7 @@ public class Reservation extends JFrame {
         reservation = new JPanel();
         reservation.setLayout(new GridBagLayout());
         BOOKAROOMButton = new JButton();
-        BOOKAROOMButton.setText("BOOK A ROOM");
+        BOOKAROOMButton.setText("BOOK A THEME");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -98,8 +114,20 @@ public class Reservation extends JFrame {
         MAINMENUButton.setText("MAIN MENU");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 5;
         reservation.add(MAINMENUButton, gbc);
+        ADDPLAYRESULTButton = new JButton();
+        ADDPLAYRESULTButton.setText("ADD PLAY RESULT");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        reservation.add(ADDPLAYRESULTButton, gbc);
+        VIEWPLAYRESULTSButton = new JButton();
+        VIEWPLAYRESULTSButton.setText("VIEW PLAY RESULTS");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        reservation.add(VIEWPLAYRESULTSButton, gbc);
         final JLabel label1 = new JLabel();
         label1.setText("RESERVATION");
         gbc = new GridBagConstraints();

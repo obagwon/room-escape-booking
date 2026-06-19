@@ -219,4 +219,8 @@ public class ReservationService implements Serializable {
 
 
     }
+
+    public Map<String, Reservation> getReservations() {
+        return new HashMap<>(reservation);
+    }
 }

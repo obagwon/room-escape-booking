@@ -17,7 +17,7 @@ public class ViewBuilding extends JFrame {
 
     public ViewBuilding(BookingResource bookingResource) {
         setContentPane(this.viewBuildings);
-        setTitle("VIEW ALL BUILDINGS");
+        setTitle("VIEW ALL CAFE BRANCHES");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -82,7 +82,7 @@ public class ViewBuilding extends JFrame {
         gbc.fill = GridBagConstraints.VERTICAL;
         viewBuildings.add(spacer1, gbc);
         final JLabel label1 = new JLabel();
-        label1.setText("VIEW ALL BUILDINGS");
+        label1.setText("VIEW ALL CAFE BRANCHES");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -94,7 +94,7 @@ public class ViewBuilding extends JFrame {
         gbc.gridy = 2;
         viewBuildings.add(BACKButton, gbc);
         SHOWBUILDINGSButton = new JButton();
-        SHOWBUILDINGSButton.setText("SHOW BUILDINGS");
+        SHOWBUILDINGSButton.setText("SHOW CAFE BRANCHES");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;

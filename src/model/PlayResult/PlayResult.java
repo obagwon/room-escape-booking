@@ -3,7 +3,11 @@ package model.PlayResult;
 import java.io.Serializable;
 
 /**
- * Play result for a completed escape-room reservation.
+ * 방탈출 플레이 종료 후 기록하는 결과 Model 클래스입니다.
+ *
+ * <p>Reservation의 bookingId와 연결되며, 성공 여부, 힌트 사용 횟수,
+ * 남은 시간, 직원 메모를 저장합니다. 발표에서는 "예약 이후 운영 데이터"를
+ * 담당하는 클래스라고 설명하면 됩니다.
  */
 public class PlayResult implements Serializable {
     private final String bookingId;

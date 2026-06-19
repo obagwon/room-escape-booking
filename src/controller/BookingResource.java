@@ -24,7 +24,11 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Controller (Booking Resource) will call the Service layer's objects to get or update Models, or other requests.
+ * View(GUI/CLI)와 Service 계층 사이를 연결하는 Controller 클래스입니다.
+ *
+ * <p>발표 시 코드 흐름은 View → BookingResource → Service → Model 순서로 설명하면 됩니다.
+ * 이 클래스는 화면에서 받은 요청을 각 서비스로 전달하고, 예약/플레이 결과/통계 기능의
+ * 진입점 역할을 합니다.
  *
  * @author 220031985.
  */
@@ -263,6 +267,9 @@ public class BookingResource implements Runnable {
 
     /**
      * Adds or updates a play result for an existing booking ID.
+     *
+     * <p>PlayResult는 반드시 기존 Reservation의 bookingId와 연결되어야 하므로,
+     * 저장 전에 reservationService.viewMyRes(bookingId)로 예약 존재 여부를 확인합니다.
      */
     public void addPlayResult(String bookingId, boolean success, int hintCount, int remainingMinutes, String staffMemo) {
         reservationService.viewMyRes(bookingId);
@@ -278,6 +285,8 @@ public class BookingResource implements Runnable {
 
     /**
      * Builds escape-room operation statistics without throwing on empty data.
+     *
+     * <p>StatisticsService는 Reservation과 PlayResult의 복사본을 받아 Stream API로 통계를 계산합니다.
      */
     public String viewStatistics() {
         return statisticsService.buildStatisticsReport(reservationService.getReservations(), playResultService.getPlayResults());

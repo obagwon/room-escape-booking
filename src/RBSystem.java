@@ -11,8 +11,11 @@ import java.awt.GraphicsEnvironment;
 
 
 /**
- * This is the main class of the entire Program.
- * Calling view. GUI AND COMMAND LINE - TWO UI VIEWS.
+ * Escape Room Manager의 실행 시작점입니다.
+ *
+ * <p>발표 시에는 이 클래스에서 프로그램 실행 흐름을 설명하면 됩니다.
+ * 1) Service 객체 생성 → 2) BookingResource 컨트롤러 연결 →
+ * 3) 샘플 방탈출 테마 등록 → 4) GUI/CLI 실행 모드 선택 순서로 동작합니다.
  *
  * @author 220031985
  */
@@ -63,6 +66,7 @@ public class RBSystem extends Thread {
     }
 
     private static void loadSampleEscapeThemes(BookingResource bookingResource) {
+        // 발표 시연용 기본 데이터입니다. 저장된 파일이 없어도 바로 테마 목록을 확인할 수 있습니다.
         final String branchName = "Escape Room Cafe";
         final String sampleAdminEmail = "manager@escaperoom.local";
 

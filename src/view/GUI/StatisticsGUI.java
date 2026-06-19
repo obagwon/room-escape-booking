@@ -5,6 +5,12 @@ import controller.BookingResource;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * 운영 통계 결과를 보여주는 Swing 화면입니다.
+ *
+ * <p>StatisticsService가 만든 텍스트 리포트를 JTextArea에 표시합니다.
+ * 발표 시에는 이 화면을 통해 Stream API로 계산한 통계 결과를 시연하면 됩니다.
+ */
 public class StatisticsGUI extends JFrame {
     private final JPanel statisticsPanel;
     private final JTextArea statisticsArea;
@@ -15,8 +21,8 @@ public class StatisticsGUI extends JFrame {
         statisticsArea.setEditable(false);
 
         setContentPane(statisticsPanel);
-        setTitle("OPERATION STATISTICS");
-        setSize(700, 560);
+        setTitle("Escape Room Manager - Operation Statistics");
+        setSize(760, 620);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         buildView(bookingResource);
         statisticsArea.setText(bookingResource.viewStatistics());
@@ -28,12 +34,12 @@ public class StatisticsGUI extends JFrame {
         gbc.insets = new Insets(4, 4, 4, 4);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel title = new JLabel("ESCAPE ROOM OPERATION STATISTICS");
+        JLabel title = new JLabel("Escape Room Operation Statistics");
         gbc.gridx = 0;
         gbc.gridy = 0;
         statisticsPanel.add(title, gbc);
 
-        JButton refreshButton = new JButton("REFRESH STATISTICS");
+        JButton refreshButton = new JButton("Refresh Statistics");
         refreshButton.addActionListener(e -> statisticsArea.setText(bookingResource.viewStatistics()));
         gbc.gridy = 1;
         statisticsPanel.add(refreshButton, gbc);
@@ -42,7 +48,7 @@ public class StatisticsGUI extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         statisticsPanel.add(new JScrollPane(statisticsArea), gbc);
 
-        JButton backButton = new JButton("BACK");
+        JButton backButton = new JButton("Back to Main Menu");
         backButton.addActionListener(e -> {
             dispose();
             new Main_GUI(bookingResource);

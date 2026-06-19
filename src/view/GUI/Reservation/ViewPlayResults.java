@@ -17,8 +17,8 @@ public class ViewPlayResults extends JFrame {
         resultsArea.setEditable(false);
 
         setContentPane(viewPlayResults);
-        setTitle("VIEW PLAY RESULTS");
-        setSize(620, 520);
+        setTitle("Escape Room Manager - Play Results");
+        setSize(680, 560);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         buildView(bookingResource);
         setVisible(true);
@@ -29,12 +29,12 @@ public class ViewPlayResults extends JFrame {
         gbc.insets = new Insets(4, 4, 4, 4);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel title = new JLabel("PLAY RESULT LIST");
+        JLabel title = new JLabel("Play Result List");
         gbc.gridx = 0;
         gbc.gridy = 0;
         viewPlayResults.add(title, gbc);
 
-        JButton loadButton = new JButton("SHOW RESULTS");
+        JButton loadButton = new JButton("Refresh Results");
         loadButton.addActionListener(e -> loadResults(bookingResource));
         gbc.gridy = 1;
         viewPlayResults.add(loadButton, gbc);
@@ -43,7 +43,7 @@ public class ViewPlayResults extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         viewPlayResults.add(new JScrollPane(resultsArea), gbc);
 
-        JButton backButton = new JButton("BACK");
+        JButton backButton = new JButton("Back to Reservation Menu");
         backButton.addActionListener(e -> {
             dispose();
             new Reservation(bookingResource);

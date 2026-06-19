@@ -4,7 +4,11 @@ package model.Reservation;
 import java.io.Serializable;
 
 /**
- * Reservation Model Layer of the application.
+ * 방탈출 테마 예약 정보를 저장하는 Model 클래스입니다.
+ *
+ * <p>기존 프로젝트의 Room Booking 구조를 유지하기 위해 필드명은 buildingName, room 등을 사용하지만,
+ * 발표에서는 buildingName = 카페 지점, room = 방탈출 테마로 설명하면 됩니다.
+ * bookingID는 예약 조회와 PlayResult 연결에 사용되는 핵심 식별자입니다.
  */
 public class Reservation implements Serializable {
 
@@ -19,6 +23,7 @@ public class Reservation implements Serializable {
     private final String checkOutTime;
 
     private final boolean isBooked = false;
+    private final ReservationStatus status;
 
 
     /**
@@ -42,6 +47,7 @@ public class Reservation implements Serializable {
         this.checkOutDate = checkOutDate;
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
+        this.status = isBooked ? ReservationStatus.RESERVED : ReservationStatus.CANCELLED;
     }
 
 
@@ -116,5 +122,13 @@ public class Reservation implements Serializable {
     public String getCheckOutTime() {
         return checkOutTime;
     }
-}
 
+    /**
+     * Returns the reservation status enum used for presentation and future extension.
+     *
+     * @return reservation status.
+     */
+    public ReservationStatus getStatus() {
+        return status;
+    }
+}

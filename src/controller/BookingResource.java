@@ -2,12 +2,15 @@ package controller;
 
 
 import model.Building.Building;
+import model.PlayResult.PlayResult;
 import model.Reservation.Reservation;
 import model.Room.Room;
 import model.User.User;
 import service.BuildingService;
+import service.PlayResultService;
 import service.ReservationService;
 import service.RoomService;
+import service.StatisticsService;
 import service.UserService;
 
 import java.io.IOException;
@@ -31,12 +34,16 @@ public class BookingResource implements Runnable {
     private final RoomService roomService;
     private final ReservationService reservationService;
     private final BuildingService buildingService;
+    private final PlayResultService playResultService;
+    private final StatisticsService statisticsService;
 
     public BookingResource(UserService userService, RoomService roomService, ReservationService reservationService, BuildingService buildingService) {
         this.userService = userService;
         this.roomService = roomService;
         this.reservationService = reservationService;
         this.buildingService = buildingService;
+        this.playResultService = new PlayResultService();
+        this.statisticsService = new StatisticsService();
     }
 
 
@@ -254,6 +261,28 @@ public class BookingResource implements Runnable {
 
     }
 
+    /**
+     * Adds or updates a play result for an existing booking ID.
+     */
+    public void addPlayResult(String bookingId, boolean success, int hintCount, int remainingMinutes, String staffMemo) {
+        reservationService.viewMyRes(bookingId);
+        playResultService.addPlayResult(bookingId, success, hintCount, remainingMinutes, staffMemo);
+    }
+
+    /**
+     * Views all saved escape-room play results.
+     */
+    public Map<String, PlayResult> viewPlayResults() {
+        return playResultService.viewPlayResults();
+    }
+
+    /**
+     * Builds escape-room operation statistics without throwing on empty data.
+     */
+    public String viewStatistics() {
+        return statisticsService.buildStatisticsReport(reservationService.getReservations(), playResultService.getPlayResults());
+    }
+
 
     /**
      * Saving User Data.
@@ -332,6 +361,14 @@ public class BookingResource implements Runnable {
      */
     public void resLoad() throws IOException {
         reservationService.resLoad();
+    }
+
+    public void playResultSave() throws IOException {
+        playResultService.playResultSave();
+    }
+
+    public void playResultLoad() {
+        playResultService.playResultLoad();
     }
 
     //To implement the following parameters for these types of functions.(Addressed)

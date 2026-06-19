@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GUI.USER.User">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GUI.CUSTOMER.Customer">
   <grid id="27dc6" binding="user" layout-manager="GridBagLayout">
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
@@ -13,7 +13,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="ADD/DELETE/VIEW USERS"/>
+          <text value="ADD/DELETE/VIEW CUSTOMERS"/>
         </properties>
       </component>
       <hspacer id="9fdef">
@@ -22,31 +22,31 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
       </hspacer>
-      <component id="8b791" class="javax.swing.JButton" binding="ADDUSERButton" default-binding="true">
+      <component id="8b791" class="javax.swing.JButton" binding="ADDCUSTOMERButton" default-binding="true">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="ADD USER"/>
+          <text value="ADD CUSTOMER"/>
         </properties>
       </component>
-      <component id="4d00" class="javax.swing.JButton" binding="DELETEUSERButton" default-binding="true">
+      <component id="4d00" class="javax.swing.JButton" binding="DELETECUSTOMERButton" default-binding="true">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="DELETE USER"/>
+          <text value="DELETE CUSTOMER"/>
         </properties>
       </component>
-      <component id="22f42" class="javax.swing.JButton" binding="VIEWUSERSButton" default-binding="true">
+      <component id="22f42" class="javax.swing.JButton" binding="VIEWCUSTOMERSButton" default-binding="true">
         <constraints>
           <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="VIEW USERS"/>
+          <text value="VIEW CUSTOMERS"/>
         </properties>
       </component>
       <vspacer id="43247">

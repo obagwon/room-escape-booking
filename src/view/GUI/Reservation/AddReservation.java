@@ -140,7 +140,7 @@ public class AddReservation extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         addReservation.add(textField2, gbc);
         final JLabel label4 = new JLabel();
-        label4.setText("BUILDING NAME");
+        label4.setText("CAFE BRANCH NAME");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 5;
@@ -153,7 +153,7 @@ public class AddReservation extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         addReservation.add(textField3, gbc);
         final JLabel label5 = new JLabel();
-        label5.setText("ROOM NAME");
+        label5.setText("THEME NAME");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 7;

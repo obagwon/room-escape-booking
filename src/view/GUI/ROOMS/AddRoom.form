@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GUI.ROOMS.AddRoom">
-  <grid id="27dc6" binding="addRoom" layout-manager="GridBagLayout">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GUI.ESCAPE THEMES.AddTheme">
+  <grid id="27dc6" binding="addTheme" layout-manager="GridBagLayout">
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
@@ -43,7 +43,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="BUILDING NAME"/>
+          <text value="CAFE BRANCH NAME"/>
         </properties>
       </component>
       <component id="4329d" class="javax.swing.JTextField" binding="textField2" default-binding="true">
@@ -61,7 +61,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="ROOM NAME"/>
+          <text value="THEME NAME"/>
         </properties>
       </component>
       <component id="3c9d3" class="javax.swing.JTextField" binding="textField3" default-binding="true">
@@ -97,7 +97,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="ADD A ROOM"/>
+          <text value="ADD AN ESCAPE THEME"/>
         </properties>
       </component>
     </children>

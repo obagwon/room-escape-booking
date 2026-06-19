@@ -16,7 +16,7 @@ public class DelBuilding extends JFrame {
 
     public DelBuilding(BookingResource bookingResource) {
         setContentPane(this.delBuilding);
-        setTitle("DELETE BUILDING");
+        setTitle("DELETE CAFE BRANCH");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -76,7 +76,7 @@ public class DelBuilding extends JFrame {
         delBuilding = new JPanel();
         delBuilding.setLayout(new GridBagLayout());
         final JLabel label1 = new JLabel();
-        label1.setText("DELETE BUILDING");
+        label1.setText("DELETE CAFE BRANCH");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -90,7 +90,7 @@ public class DelBuilding extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delBuilding.add(spacer1, gbc);
         final JLabel label2 = new JLabel();
-        label2.setText("USER EMAIL");
+        label2.setText("CUSTOMER EMAIL");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -103,7 +103,7 @@ public class DelBuilding extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delBuilding.add(textField1, gbc);
         final JLabel label3 = new JLabel();
-        label3.setText("BUILDING NAME");
+        label3.setText("CAFE BRANCH NAME");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;

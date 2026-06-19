@@ -101,7 +101,7 @@ public class CommandLine implements Serializable, Runnable {
         try {
             viewResID = bookingResource.viewResName(email);
             for (Map.Entry<String, Reservation> entry : viewResID.entrySet()) {
-                System.out.println("Booking ID: " + entry.getValue().getBookingID() + ", " + entry.getValue().getEmail() + " has a reservation in " + entry.getValue().getBuildingName() + " and has booked the room: " + entry.getValue().getRoom() + " @ " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + ".The User exits @ " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime() + "." + "\n");
+                System.out.println("Booking ID: " + entry.getValue().getBookingID() + ", " + entry.getValue().getEmail() + " has a reservation in " + entry.getValue().getBuildingName() + " and has reserved the escape theme: " + entry.getValue().getRoom() + " @ " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + ".The customer exits @ " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime() + "." + "\n");
                 commandLine();
             }
         } catch (IllegalArgumentException ex) {
@@ -117,16 +117,16 @@ public class CommandLine implements Serializable, Runnable {
         final Scanner scanner = new Scanner(System.in);
         String line;
         System.out.println("""
-                1.Do you want to add an User\s
-                2.Do you want to delete a User?
-                3.View All Users\s
+                1.Do you want to add a Customer\s
+                2.Do you want to delete a Customer?
+                3.View All Customers\s
                 4.Main Menu\s
                 """);
         line = scanner.nextLine();
         if (line.length() == 1) {
             switch (line.charAt(0)) {
                 case '1' -> {
-                    System.out.print("Adding a User\n");
+                    System.out.print("Adding a Customer\n");
                     System.out.println("Enter Email format: name@domain.com");
                     line = scanner.nextLine();
                     final String email = line.trim();
@@ -135,7 +135,7 @@ public class CommandLine implements Serializable, Runnable {
                     final String name = line.trim();
                     try {
                         bookingResource.addUser(email, name);
-                        System.out.println("User added Successfully \n");
+                        System.out.println("Customer added successfully \n");
                         commandLine();
                     } catch (IllegalArgumentException | IOException e) {
                         System.out.println(e.getLocalizedMessage());
@@ -143,13 +143,13 @@ public class CommandLine implements Serializable, Runnable {
                     }
                 }
                 case '2' -> {
-                    System.out.println("Deleting a User");
+                    System.out.println("Deleting a Customer");
                     System.out.println("Enter the email");
                     line = scanner.nextLine();
                     final String del_email = line.trim();
                     try {
                         bookingResource.delUser(del_email);
-                        System.out.println("User deleted Successfully \n");
+                        System.out.println("Customer deleted successfully \n");
                         commandLine();
                     } catch (IllegalArgumentException e) {
                         System.out.println(e.getLocalizedMessage());
@@ -157,7 +157,7 @@ public class CommandLine implements Serializable, Runnable {
                     }
                 }
                 case '3' -> {
-                    System.out.print("Viewing All Users\n");
+                    System.out.print("Viewing All Customers\n");
                     try {
                         Map<String, User> viewUsers = bookingResource.viewUsers();
                         for (Map.Entry<String, User> entry : viewUsers.entrySet()) {
@@ -190,23 +190,23 @@ public class CommandLine implements Serializable, Runnable {
         final Scanner scanner = new Scanner(System.in);
         String line;
         System.out.println("""
-                1.Do you want to add a Building?\s
-                2.Do you want to delete a Building?
-                3.View All Building\s
+                1.Do you want to add a Cafe Branch?\s
+                2.Do you want to delete a Cafe Branch?
+                3.View All Cafe Branches\s
                 4.Main Menu\s
                 """);
         line = scanner.nextLine();
         if (line.length() == 1) {
             switch (line.charAt(0)) {
                 case '1' -> {
-                    System.out.println("Enter user email\n");
+                    System.out.println("Enter customer email\n");
                     line = scanner.nextLine();
                     final String email = line.trim();
                     try {
                         bookingResource.checkUser(email);
 
-                        System.out.print("Adding a Building\n");
-                        System.out.println("Enter Building Name");
+                        System.out.print("Adding a Cafe Branch\n");
+                        System.out.println("Enter Cafe Branch Name");
                         line = scanner.nextLine();
                         final String buildingName = line.trim();
                         System.out.println("Enter the address:");
@@ -217,7 +217,7 @@ public class CommandLine implements Serializable, Runnable {
                                 throw new IllegalArgumentException("Inputs given are empty.Try Again.");
                             }
                             bookingResource.addBuilding(buildingName, address, email);
-                            System.out.println("Building added Successfully \n");
+                            System.out.println("Cafe branch added successfully \n");
                             commandLine();
                         } catch (IllegalArgumentException e) {
                             System.out.println(e.getLocalizedMessage());
@@ -229,13 +229,13 @@ public class CommandLine implements Serializable, Runnable {
                     }
                 }
                 case '2' -> {
-                    System.out.println("Enter user email\n");
+                    System.out.println("Enter customer email\n");
                     line = scanner.nextLine();
                     final String email = line.trim();
                     try {
                         if (bookingResource.checkUser(email)) {
-                            System.out.print("Deleting a Building\n");
-                            System.out.println("Enter Building Name");
+                            System.out.print("Deleting a Cafe Branch\n");
+                            System.out.println("Enter Cafe Branch Name");
                             line = scanner.nextLine();
                             final String buildingName = line.trim();
                             try {
@@ -246,7 +246,7 @@ public class CommandLine implements Serializable, Runnable {
                                     System.out.println(e.getLocalizedMessage());
                                     addDelBuild();
                                 }
-                                System.out.println("Building Deleted Successfully \n");
+                                System.out.println("Cafe branch deleted successfully \n");
                                 commandLine();
                             } catch (IllegalArgumentException e) {
                                 System.out.println(e.getLocalizedMessage());
@@ -259,14 +259,14 @@ public class CommandLine implements Serializable, Runnable {
                     }
                 }
                 case '3' -> {
-                    System.out.print("Viewing All Buildings\n");
+                    System.out.print("Viewing All Cafe Branches\n");
                     try {
                         Map<String, Building> viewBuildings = bookingResource.viewBuildings();
                         for (Map.Entry<String, Building> entry : viewBuildings.entrySet()) {
                             String key = entry.getKey();
                             Object value = entry.getValue().getBuildingName();
                             Object address = entry.getValue().getAddress();
-                            System.out.println("Buildings :\n" + value + " and the address is " + address + "." + "\n");
+                            System.out.println("Cafe Branches :\n" + value + " and the address is " + address + "." + "\n");
                         }
                         commandLine();
                     } catch (IllegalArgumentException e) {
@@ -290,27 +290,27 @@ public class CommandLine implements Serializable, Runnable {
         final Scanner scanner = new Scanner(System.in);
         String line;
         System.out.println("""
-                1.Do you want to add a room?\s
-                2.Do you want to delete a room?
-                3.View All Rooms in the Buildings\s
+                1.Do you want to add an escape theme?\s
+                2.Do you want to delete an escape theme?
+                3.View All Escape Themes in Cafe Branches\s
                 4.Main Menu\s
                 """);
         line = scanner.nextLine();
         if (line.length() == 1) {
             switch (line.charAt(0)) {
                 case '1' -> {
-                    System.out.println("Enter user email\n");
+                    System.out.println("Enter customer email\n");
                     line = scanner.nextLine();
                     final String email = line.trim();
                     try {
                         if (bookingResource.checkUser(email)) {
-                            System.out.print("Adding a Room\n");
-                            System.out.println("\nEnter Building Name to add room");
+                            System.out.print("Adding an Escape Theme\n");
+                            System.out.println("\nEnter Cafe Branch Name to add the theme");
                             line = scanner.nextLine();
                             final String buildingName = line.trim();
                             try {
                                 bookingResource.checkBuilding(buildingName);
-                                System.out.println("Enter Room Name");
+                                System.out.println("Enter Escape Theme Name (example: 저택의 비밀 | 공포 | HARD | 60분 | 2~4명)");
                                 line = scanner.nextLine();
                                 String roomName = line.trim();
                                 boolean isBooked = false;
@@ -318,7 +318,7 @@ public class CommandLine implements Serializable, Runnable {
                                     throw new IllegalArgumentException("Empty Inputs given,Try Again.");
                                 }
                                 bookingResource.addRoom(buildingName, roomName, isBooked);
-                                System.out.println("Room added Successfully \n");
+                                System.out.println("Escape theme added successfully \n");
                                 commandLine();
                             } catch (IllegalArgumentException e) {
                                 System.out.println(e.getLocalizedMessage());
@@ -331,24 +331,24 @@ public class CommandLine implements Serializable, Runnable {
                     }
                 }
                 case '2' -> {
-                    System.out.println("Enter user email\n");
+                    System.out.println("Enter customer email\n");
                     line = scanner.nextLine();
                     final String email = line.trim();
                     try {
                         if (bookingResource.checkUser(email)) {
-                            System.out.print("Deleting a Room\n");
-                            System.out.println("Enter Building Name");
+                            System.out.print("Deleting an Escape Theme\n");
+                            System.out.println("Enter Cafe Branch Name");
                             line = scanner.nextLine();
                             final String buildingName = line.trim();
                             try {
                                 if (bookingResource.checkBuilding(buildingName)) {
                                     try {
-                                        System.out.println("\nEnter the room you wish to delete:");
+                                        System.out.println("\nEnter the escape theme you wish to delete:");
                                         line = scanner.nextLine();
                                         final String roomName = line.trim();
                                         if (bookingResource.checkRoom(roomName)) {
                                             bookingResource.delRoom(buildingName, roomName);
-                                            System.out.println("\n Room deleted Successfully");
+                                            System.out.println("\n Escape theme deleted successfully");
                                         }
                                     } catch (IllegalArgumentException e) {
                                         System.out.println(e.getLocalizedMessage());
@@ -367,7 +367,7 @@ public class CommandLine implements Serializable, Runnable {
                 }
 
                 case '3' -> {
-                    System.out.println("Viewing all Buildings with Rooms");
+                    System.out.println("Viewing all cafe branches with escape themes");
                     // Bug Fix: Building is not created, but it is passing (Overpassed and Addressed)
                     // System.out.println("Room Present in " + buildingName + " :\n");
                     try {
@@ -376,7 +376,7 @@ public class CommandLine implements Serializable, Runnable {
                             String key = entry.getKey();
                             Object buildingName = entry.getValue().getBuildingName();
                             Object roomName = entry.getValue().getRoomName();
-                            System.out.println("Rooms :\n" + buildingName + " has the room " + roomName + "\n");
+                            System.out.println("Escape Themes :\n" + buildingName + " offers " + roomName + "\n");
                         }
                     } catch (IllegalArgumentException e) {
                         System.out.println(e.getLocalizedMessage());
@@ -397,7 +397,7 @@ public class CommandLine implements Serializable, Runnable {
         final Scanner scanner = new Scanner(System.in);
         String line;
         System.out.println("""
-                1.Book a Room\s
+                1.Book an Escape Theme\s
                 2.Delete a Booking\s
                 3.Main Menu\s
                 """);
@@ -405,7 +405,7 @@ public class CommandLine implements Serializable, Runnable {
         if (line.length() == 1) {
             switch (line.charAt(0)) {
                 case '1' -> {
-                    System.out.println("\nBooking a Room");
+                    System.out.println("\nBooking an Escape Theme");
                     System.out.println("Enter Booking ID, it can be name,number,symbols.");
                     line = scanner.nextLine();
                     final String bookingID = line.trim();
@@ -415,17 +415,17 @@ public class CommandLine implements Serializable, Runnable {
                         System.out.println(e.getLocalizedMessage());
                         addDelRes();
                     }
-                    System.out.println("Enter user email\n");
+                    System.out.println("Enter customer email\n");
                     line = scanner.nextLine();
                     final String email = line.trim();
                     try {
                         bookingResource.checkUser(email);
-                        System.out.println("Enter the Building");
+                        System.out.println("Enter the Cafe Branch");
                         line = scanner.nextLine();
                         final String buildingName = line.trim();
                         try {
                             bookingResource.checkBuilding(buildingName);
-                            System.out.println("Enter the Room");
+                            System.out.println("Enter the Escape Theme");
                             line = scanner.nextLine();
                             final String roomName = line.trim();
                             try {
@@ -553,7 +553,7 @@ public class CommandLine implements Serializable, Runnable {
             for (Map.Entry<String, Reservation> entry : viewBookingIDRes.entrySet()) {
                 String key = entry.getKey();
                 Object value = entry.getValue();
-                System.out.println("Booking ID: " + entry.getValue().getBookingID() + ", " + entry.getValue().getEmail() + " has a reservation in " + entry.getValue().getBuildingName() + " and has booked the room: " + entry.getValue().getRoom() + " @ " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + ".The User exits @ " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime() + "." + "\n");
+                System.out.println("Booking ID: " + entry.getValue().getBookingID() + ", " + entry.getValue().getEmail() + " has a reservation in " + entry.getValue().getBuildingName() + " and has reserved the escape theme: " + entry.getValue().getRoom() + " @ " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + ".The customer exits @ " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime() + "." + "\n");
 
 
             }
@@ -567,11 +567,11 @@ public class CommandLine implements Serializable, Runnable {
 
 
     private void roomsFB() {
-        System.out.println("Viewing All Booked Rooms");
+        System.out.println("Viewing All Reserved Escape Themes");
         try {
             Map<String, Reservation> allRooms = bookingResource.bookedRooms();
             for (Map.Entry<String, Reservation> entry : allRooms.entrySet()) {
-                System.out.println("Booked Rooms :\n" + "Booking Reference: " + entry.getValue().getBookingID() + "\n" + entry.getValue().getRoom() + " is booked by " + entry.getValue().getEmail() + " from " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + " to " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime());
+                System.out.println("Reserved Escape Themes :\n" + "Booking Reference: " + entry.getValue().getBookingID() + "\n" + entry.getValue().getRoom() + " is reserved by " + entry.getValue().getEmail() + " from " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + " to " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime());
             }
         } catch (IllegalArgumentException ex) {
             System.out.println(ex.getLocalizedMessage());
@@ -585,6 +585,7 @@ public class CommandLine implements Serializable, Runnable {
         bookingResource.buildSave();
         bookingResource.roomSave();
         bookingResource.resSave();
+        bookingResource.playResultSave();
         System.out.print("File Saved Successfully\n");
         commandLine();
     }
@@ -594,6 +595,7 @@ public class CommandLine implements Serializable, Runnable {
         bookingResource.buildLoad();
         bookingResource.roomLoad();
         bookingResource.resLoad();
+        bookingResource.playResultLoad();
         System.out.print("File Loaded Successfully\n");
         commandLine();
     }
@@ -612,19 +614,19 @@ public class CommandLine implements Serializable, Runnable {
 
 
     public void printMainMenu() {
-        String Welcome = "Welcome to the University Room Booking Application ";
+        String Welcome = "Welcome to Escape Room Manager - 방탈출 카페 예약 및 힌트 관리 프로그램 ";
         String End = "*--------------Choose the options above to continue--------------*";
         for (int i = 0; i < Welcome.length(); i++) {
             System.out.print("-");
         }
         String Options = """
-                1.Add/Delete/View Users.
-                2.Add/Delete/View Buildings.
-                3.Add/Delete/View Rooms.
-                4.Book or Delete a Room Reservation.
+                1.Add/Delete/View Customers.
+                2.Add/Delete/View Cafe Branches.
+                3.Add/Delete/View Escape Themes.
+                4.Book or Delete an Escape Theme Reservation.
                 5.View Your Reservations by Booking ID.
-                6.View All Booked Rooms.
-                7.View Your Reservations by Name(EMAIL ID).
+                6.View All Reserved Escape Themes.
+                7.View Your Reservations by Customer Email.
                 8.Save the Data.
                 9.Load the Data.
                 0.Exit.

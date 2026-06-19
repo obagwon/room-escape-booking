@@ -17,7 +17,7 @@ public class AddUser extends JFrame {
 
     public AddUser(BookingResource bookingResource) {
         setContentPane(this.addUser);
-        setTitle("ADD USER");
+        setTitle("ADD CUSTOMER");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -82,7 +82,7 @@ public class AddUser extends JFrame {
         final JLabel label1 = new JLabel();
         label1.setHorizontalAlignment(0);
         label1.setHorizontalTextPosition(0);
-        label1.setText("ADD A USER");
+        label1.setText("ADD A CUSTOMER");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;

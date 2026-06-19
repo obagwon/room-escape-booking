@@ -7,22 +7,22 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="5e0a3" class="javax.swing.JButton" binding="ADDDELVIEWUsersButton" default-binding="true">
+      <component id="5e0a3" class="javax.swing.JButton" binding="ADDDELVIEWCustomersButton" default-binding="true">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="USER"/>
+          <text value="CUSTOMER"/>
         </properties>
       </component>
-      <component id="37683" class="javax.swing.JButton" binding="BUILDINGSButton" default-binding="true">
+      <component id="37683" class="javax.swing.JButton" binding="CAFE BRANCHESButton" default-binding="true">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="BUILDINGS"/>
+          <text value="CAFE BRANCHES"/>
         </properties>
       </component>
       <component id="3833f" class="javax.swing.JButton" binding="RESERVATIONSButton" default-binding="true">
@@ -40,7 +40,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="University Booking Application"/>
+          <text value="Escape Theme Manager"/>
         </properties>
       </component>
       <component id="ada0a" class="javax.swing.JButton" binding="VIEWRESERVATIONSBYBOOKINGButton" default-binding="true">
@@ -52,13 +52,13 @@
           <text value="VIEW RESERVATIONS BY BOOKING ID"/>
         </properties>
       </component>
-      <component id="67d5b" class="javax.swing.JButton" binding="VIEWBOOKEDROOMSButton" default-binding="true">
+      <component id="67d5b" class="javax.swing.JButton" binding="VIEWBOOKEDESCAPE THEMESButton" default-binding="true">
         <constraints>
           <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="VIEW BOOKED ROOMS"/>
+          <text value="VIEW BOOKED ESCAPE THEMES"/>
         </properties>
       </component>
       <component id="4b7d8" class="javax.swing.JButton" binding="VIEWRESERVATIONSBYEMAILButton" default-binding="true">
@@ -90,20 +90,29 @@
       </component>
       <component id="dfc33" class="javax.swing.JButton" binding="EXITButton" default-binding="true">
         <constraints>
-          <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
           <text value="EXIT"/>
         </properties>
       </component>
-      <component id="298b3" class="javax.swing.JButton" binding="ROOMSButton1" default-binding="true">
+      <component id="298b3" class="javax.swing.JButton" binding="ESCAPE THEMESButton1" default-binding="true">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="ROOMS"/>
+          <text value="ESCAPE THEMES"/>
+        </properties>
+      </component>
+      <component id="stat1" class="javax.swing.JButton" binding="STATISTICSButton" default-binding="true">
+        <constraints>
+          <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="OPERATION STATISTICS"/>
         </properties>
       </component>
     </children>

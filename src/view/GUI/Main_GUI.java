@@ -30,11 +30,12 @@ public class Main_GUI extends JFrame implements Runnable {
     private JButton LOADDATAButton;
     private JButton EXITButton;
     private JButton ROOMSButton1;
+    private JButton STATISTICSButton;
 
     public Main_GUI(BookingResource bookingResource) {
         this.isGUIView = true;
         setContentPane(this.main_GUI);
-        setTitle("UNIVERSITY ROOM BOOKING APPLICATION");
+        setTitle("ESCAPE ROOM MANAGER");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -60,6 +61,7 @@ public class Main_GUI extends JFrame implements Runnable {
             public void actionPerformed(ActionEvent e) {
                 try {
                     bookingResource.resSave();
+                    bookingResource.playResultSave();
                     bookingResource.roomSave();
                     bookingResource.userSave();
                     bookingResource.buildSave();
@@ -82,6 +84,7 @@ public class Main_GUI extends JFrame implements Runnable {
                     bookingResource.buildLoad();
                     bookingResource.roomLoad();
                     bookingResource.resLoad();
+                    bookingResource.playResultLoad();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 } catch (ClassNotFoundException ex) {
@@ -169,7 +172,7 @@ public class Main_GUI extends JFrame implements Runnable {
                 try {
                     Map<String, Reservation> allRooms = bookingResource.bookedRooms();
                     for (Map.Entry<String, Reservation> entry : allRooms.entrySet()) {
-                        JOptionPane.showMessageDialog(main_GUI, "Booked Rooms :\n" + "Booking Reference: " + entry.getValue().getBookingID() + "\n" + entry.getValue().getRoom() + " is booked by " + entry.getValue().getEmail() + " from " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + " to " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime());
+                        JOptionPane.showMessageDialog(main_GUI, "Reserved Escape Themes :\n" + "Booking Reference: " + entry.getValue().getBookingID() + "\n" + entry.getValue().getRoom() + " is reserved by " + entry.getValue().getEmail() + " from " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + " to " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime());
                     }
                 } catch (IllegalArgumentException ex) {
                     String error = ex.getLocalizedMessage();
@@ -193,6 +196,13 @@ public class Main_GUI extends JFrame implements Runnable {
                     String error = ex.getLocalizedMessage();
                     JOptionPane.showMessageDialog(main_GUI, error);
                 }
+            }
+        });
+        STATISTICSButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new StatisticsGUI(bookingResource);
             }
         });
     }
@@ -223,7 +233,7 @@ public class Main_GUI extends JFrame implements Runnable {
         main_GUI = new JPanel();
         main_GUI.setLayout(new GridBagLayout());
         ADDDELVIEWUsersButton = new JButton();
-        ADDDELVIEWUsersButton.setText("USER");
+        ADDDELVIEWUsersButton.setText("CUSTOMERS");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -231,7 +241,7 @@ public class Main_GUI extends JFrame implements Runnable {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(ADDDELVIEWUsersButton, gbc);
         BUILDINGSButton = new JButton();
-        BUILDINGSButton.setText("BUILDINGS");
+        BUILDINGSButton.setText("CAFES / BRANCHES");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -245,7 +255,7 @@ public class Main_GUI extends JFrame implements Runnable {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(RESERVATIONSButton, gbc);
         final JLabel label1 = new JLabel();
-        label1.setText("University Booking Application");
+        label1.setText("Escape Room Manager");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -259,14 +269,14 @@ public class Main_GUI extends JFrame implements Runnable {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(VIEWRESERVATIONSBYBOOKINGButton, gbc);
         VIEWBOOKEDROOMSButton = new JButton();
-        VIEWBOOKEDROOMSButton.setText("VIEW BOOKED ROOMS");
+        VIEWBOOKEDROOMSButton.setText("VIEW RESERVED THEMES");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(VIEWBOOKEDROOMSButton, gbc);
         VIEWRESERVATIONSBYEMAILButton = new JButton();
-        VIEWRESERVATIONSBYEMAILButton.setText("VIEW RESERVATIONS BY EMAIL ID");
+        VIEWRESERVATIONSBYEMAILButton.setText("VIEW RESERVATIONS BY CUSTOMER EMAIL");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 7;
@@ -290,16 +300,23 @@ public class Main_GUI extends JFrame implements Runnable {
         EXITButton.setText("EXIT");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 10;
+        gbc.gridy = 11;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(EXITButton, gbc);
         ROOMSButton1 = new JButton();
-        ROOMSButton1.setText("ROOMS");
+        ROOMSButton1.setText("ESCAPE THEMES");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(ROOMSButton1, gbc);
+        STATISTICSButton = new JButton();
+        STATISTICSButton.setText("OPERATION STATISTICS");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 10;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        main_GUI.add(STATISTICSButton, gbc);
     }
 
     /**

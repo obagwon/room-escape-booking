@@ -7,13 +7,13 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="e91dc" class="javax.swing.JButton" binding="BOOKATHEMEButton" default-binding="true">
+      <component id="e91dc" class="javax.swing.JButton" binding="BOOKAROOMButton" default-binding="true">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="BOOK A THEME"/>
+          <text value="1. 테마 예약하기"/>
         </properties>
       </component>
       <hspacer id="3d7cf">
@@ -28,7 +28,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="DELETE A BOOKING"/>
+          <text value="2. 예약 취소/삭제"/>
         </properties>
       </component>
       <component id="fdba2" class="javax.swing.JButton" binding="MAINMENUButton" default-binding="true">
@@ -37,7 +37,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="MAIN MENU"/>
+          <text value="메인 메뉴로 돌아가기"/>
         </properties>
       </component>
       <component id="a63e1" class="javax.swing.JButton" binding="ADDPLAYRESULTButton" default-binding="true">
@@ -46,7 +46,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="ADD PLAY RESULT"/>
+          <text value="3. 플레이 결과 등록"/>
         </properties>
       </component>
       <component id="a63e2" class="javax.swing.JButton" binding="VIEWPLAYRESULTSButton" default-binding="true">
@@ -55,7 +55,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="VIEW PLAY RESULTS"/>
+          <text value="4. 플레이 결과 조회"/>
         </properties>
       </component>
       <component id="dd2f5" class="javax.swing.JLabel">
@@ -64,7 +64,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="RESERVATION"/>
+          <text value="예약 및 플레이 결과 관리"/>
         </properties>
       </component>
     </children>

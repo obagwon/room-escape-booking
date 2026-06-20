@@ -13,7 +13,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Ok"/>
+          <text value="확인"/>
         </properties>
       </component>
       <hspacer id="cd2f3">
@@ -34,7 +34,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Main Menu"/>
+          <text value="메인 메뉴"/>
         </properties>
       </component>
       <component id="4e09" class="javax.swing.JTextField" binding="textField1" default-binding="true">
@@ -52,7 +52,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="VIEW RESERVATION"/>
+          <text value="예약 조회"/>
         </properties>
       </component>
       <component id="3e5e8" class="javax.swing.JLabel">
@@ -61,7 +61,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Email - ID"/>
+          <text value="이메일"/>
         </properties>
       </component>
     </children>

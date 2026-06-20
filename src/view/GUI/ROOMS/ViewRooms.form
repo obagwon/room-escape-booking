@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GUI.ESCAPE THEMES.ViewThemes">
-  <grid id="27dc6" binding="viewThemes" layout-manager="GridBagLayout">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GUI.ROOMS.ViewRooms">
+  <grid id="27dc6" binding="viewRooms" layout-manager="GridBagLayout">
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
-      <component id="e1ebe" class="javax.swing.JButton" binding="viewAllThemesButton" default-binding="true">
+      <component id="e1ebe" class="javax.swing.JButton" binding="viewAllRoomsButton" default-binding="true">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="View All Escape Themes"/>
+          <text value="전체 테마 보기"/>
         </properties>
       </component>
       <hspacer id="708d9">
@@ -34,7 +34,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Back"/>
+          <text value="뒤로"/>
         </properties>
       </component>
       <component id="e5031" class="javax.swing.JLabel">
@@ -43,7 +43,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="VIEW ALL ESCAPE THEMES"/>
+          <text value="전체 테마 조회"/>
         </properties>
       </component>
     </children>

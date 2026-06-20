@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GUI.CAFE BRANCHES.ViewCafe Branch">
-  <grid id="27dc6" binding="viewCafe Branchs" layout-manager="GridBagLayout">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GUI.BUILDINGS.ViewBuilding">
+  <grid id="27dc6" binding="viewBuildings" layout-manager="GridBagLayout">
     <constraints>
       <xy x="20" y="20" width="567" height="400"/>
     </constraints>
@@ -19,7 +19,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="VIEW ALL CAFE BRANCHES"/>
+          <text value="전체 지점 조회"/>
         </properties>
       </component>
       <component id="8b03b" class="javax.swing.JButton" binding="BACKButton" default-binding="true">
@@ -28,16 +28,16 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="MAIN MENU"/>
+          <text value="메인 메뉴"/>
         </properties>
       </component>
-      <component id="f9bf6" class="javax.swing.JButton" binding="SHOWCAFE BRANCHESButton" default-binding="true">
+      <component id="f9bf6" class="javax.swing.JButton" binding="SHOWBUILDINGSButton" default-binding="true">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="SHOW CAFE BRANCHES"/>
+          <text value="지점 보기"/>
         </properties>
       </component>
     </children>

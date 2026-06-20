@@ -7,22 +7,22 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="5e0a3" class="javax.swing.JButton" binding="ADDDELVIEWCustomersButton" default-binding="true">
+      <component id="5e0a3" class="javax.swing.JButton" binding="ADDDELVIEWUsersButton" default-binding="true">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="CUSTOMER"/>
+          <text value="1. 고객 관리"/>
         </properties>
       </component>
-      <component id="37683" class="javax.swing.JButton" binding="CAFE BRANCHESButton" default-binding="true">
+      <component id="37683" class="javax.swing.JButton" binding="BUILDINGSButton" default-binding="true">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="CAFE BRANCHES"/>
+          <text value="2. 지점 관리"/>
         </properties>
       </component>
       <component id="3833f" class="javax.swing.JButton" binding="RESERVATIONSButton" default-binding="true">
@@ -31,7 +31,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="RESERVATIONS"/>
+          <text value="4. 예약 및 플레이 결과 관리"/>
         </properties>
       </component>
       <component id="ba3b6" class="javax.swing.JLabel">
@@ -40,7 +40,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Escape Theme Manager"/>
+          <text value="방탈출 예약 관리 시스템"/>
         </properties>
       </component>
       <component id="ada0a" class="javax.swing.JButton" binding="VIEWRESERVATIONSBYBOOKINGButton" default-binding="true">
@@ -49,16 +49,16 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="VIEW RESERVATIONS BY BOOKING ID"/>
+          <text value="5. 예약 번호로 예약 조회"/>
         </properties>
       </component>
-      <component id="67d5b" class="javax.swing.JButton" binding="VIEWBOOKEDESCAPE THEMESButton" default-binding="true">
+      <component id="67d5b" class="javax.swing.JButton" binding="VIEWBOOKEDROOMSButton" default-binding="true">
         <constraints>
           <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="VIEW BOOKED ESCAPE THEMES"/>
+          <text value="6. 예약된 테마 조회"/>
         </properties>
       </component>
       <component id="4b7d8" class="javax.swing.JButton" binding="VIEWRESERVATIONSBYEMAILButton" default-binding="true">
@@ -67,7 +67,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="VIEW RESERVATIONS BY EMAIL ID"/>
+          <text value="7. 고객 이메일로 예약 조회"/>
         </properties>
       </component>
       <component id="a8215" class="javax.swing.JButton" binding="SAVEDATAButton" default-binding="true">
@@ -76,7 +76,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="SAVE DATA"/>
+          <text value="8. 데이터 저장"/>
         </properties>
       </component>
       <component id="4a309" class="javax.swing.JButton" binding="LOADDATAButton" default-binding="true">
@@ -85,7 +85,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="LOAD DATA"/>
+          <text value="9. 데이터 불러오기"/>
         </properties>
       </component>
       <component id="dfc33" class="javax.swing.JButton" binding="EXITButton" default-binding="true">
@@ -94,16 +94,16 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="EXIT"/>
+          <text value="종료"/>
         </properties>
       </component>
-      <component id="298b3" class="javax.swing.JButton" binding="ESCAPE THEMESButton1" default-binding="true">
+      <component id="298b3" class="javax.swing.JButton" binding="ROOMSButton1" default-binding="true">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="ESCAPE THEMES"/>
+          <text value="3. 테마 관리"/>
         </properties>
       </component>
       <component id="stat1" class="javax.swing.JButton" binding="STATISTICSButton" default-binding="true">
@@ -112,7 +112,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="OPERATION STATISTICS"/>
+          <text value="10. 운영 통계"/>
         </properties>
       </component>
     </children>

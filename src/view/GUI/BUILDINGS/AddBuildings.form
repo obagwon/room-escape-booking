@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GUI.CAFE BRANCHES.AddCafe Branchs">
-  <grid id="27dc6" binding="addCafe Branchs" layout-manager="GridBagLayout">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GUI.BUILDINGS.AddBuildings">
+  <grid id="27dc6" binding="addBuildings" layout-manager="GridBagLayout">
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
@@ -13,7 +13,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="ADD CAFE BRANCH"/>
+          <text value="지점 추가"/>
         </properties>
       </component>
       <hspacer id="228cd">
@@ -28,7 +28,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Back"/>
+          <text value="뒤로"/>
         </properties>
       </component>
       <component id="9dfb7" class="javax.swing.JLabel">
@@ -37,7 +37,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Enter Cafe Branch Name"/>
+          <text value="지점명을 입력하세요"/>
         </properties>
       </component>
       <component id="cd8cb" class="javax.swing.JTextField" binding="textField1" default-binding="true">
@@ -55,7 +55,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Enter Address"/>
+          <text value="주소를 입력하세요"/>
         </properties>
       </component>
       <component id="3e11b" class="javax.swing.JTextField" binding="textField2" default-binding="true">
@@ -73,7 +73,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Ok"/>
+          <text value="확인"/>
         </properties>
       </component>
       <component id="f6a40" class="javax.swing.JLabel">
@@ -82,7 +82,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Enter Email-ID"/>
+          <text value="이메일을 입력하세요"/>
         </properties>
       </component>
       <component id="6717c" class="javax.swing.JTextField" binding="textField3" default-binding="true">

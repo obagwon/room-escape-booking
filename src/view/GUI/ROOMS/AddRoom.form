@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GUI.ESCAPE THEMES.AddTheme">
-  <grid id="27dc6" binding="addTheme" layout-manager="GridBagLayout">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GUI.ROOMS.AddRoom">
+  <grid id="27dc6" binding="addRoom" layout-manager="GridBagLayout">
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
@@ -25,10 +25,10 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="EMAIL ID"/>
+          <text value="고객 이메일"/>
         </properties>
       </component>
-      <component id="b95b8" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+      <component id="b95b8" class="javax.swing.JTextField" binding="emailField" default-binding="true">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -43,10 +43,10 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="CAFE BRANCH NAME"/>
+          <text value="지점명"/>
         </properties>
       </component>
-      <component id="4329d" class="javax.swing.JTextField" binding="textField2" default-binding="true">
+      <component id="4329d" class="javax.swing.JTextField" binding="branchField" default-binding="true">
         <constraints>
           <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -61,10 +61,10 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="THEME NAME"/>
+          <text value="테마명"/>
         </properties>
       </component>
-      <component id="3c9d3" class="javax.swing.JTextField" binding="textField3" default-binding="true">
+      <component id="3c9d3" class="javax.swing.JTextField" binding="themeNameField" default-binding="true">
         <constraints>
           <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -79,7 +79,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Ok"/>
+          <text value="확인"/>
         </properties>
       </component>
       <component id="bf74c" class="javax.swing.JButton" binding="backButton" default-binding="true">
@@ -88,7 +88,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Back"/>
+          <text value="뒤로"/>
         </properties>
       </component>
       <component id="1e98a" class="javax.swing.JLabel">
@@ -97,7 +97,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="ADD AN ESCAPE THEME"/>
+          <text value="방탈출 테마 추가"/>
         </properties>
       </component>
     </children>

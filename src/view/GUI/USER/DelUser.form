@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GUI.CUSTOMER.DelCustomer">
-  <grid id="27dc6" binding="delCustomer" layout-manager="GridBagLayout">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GUI.USER.DelUser">
+  <grid id="27dc6" binding="delUser" layout-manager="GridBagLayout">
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
@@ -13,7 +13,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Ok"/>
+          <text value="확인"/>
         </properties>
       </component>
       <hspacer id="67a53">
@@ -28,7 +28,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Enter the Email-ID"/>
+          <text value="이메일을 입력하세요"/>
         </properties>
       </component>
       <component id="f04d4" class="javax.swing.JTextField" binding="aGmailTextField" default-binding="true">
@@ -48,7 +48,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Back"/>
+          <text value="뒤로"/>
         </properties>
       </component>
       <component id="539c5" class="javax.swing.JLabel">
@@ -57,7 +57,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="DELETE A CUSTOMER"/>
+          <text value="고객 삭제"/>
         </properties>
       </component>
     </children>

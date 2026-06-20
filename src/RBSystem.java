@@ -71,7 +71,7 @@ public class RBSystem extends Thread {
         final String sampleAdminEmail = "manager@escaperoom.local";
 
         try {
-            bookingResource.addUser(sampleAdminEmail, "Escape Room Manager");
+            bookingResource.addAdmin(sampleAdminEmail, "Escape Room Manager");
         } catch (Exception ignored) {
             // Sample manager already exists.
         }
@@ -82,14 +82,15 @@ public class RBSystem extends Thread {
             // Sample branch already exists.
         }
 
-        addSampleTheme(bookingResource, branchName, "저택의 비밀 | 공포 | HARD | 60분 | 2~4명");
-        addSampleTheme(bookingResource, branchName, "연구소 탈출 | SF | NORMAL | 60분 | 2~5명");
-        addSampleTheme(bookingResource, branchName, "사라진 탐정 | 추리 | EASY | 50분 | 2~4명");
+        addSampleTheme(bookingResource, branchName, "저택의 비밀", "공포", "HARD", 60, 2, 4, 28000);
+        addSampleTheme(bookingResource, branchName, "연구소 탈출", "SF", "NORMAL", 60, 2, 5, 26000);
+        addSampleTheme(bookingResource, branchName, "사라진 탐정", "추리", "EASY", 50, 2, 4, 24000);
     }
 
-    private static void addSampleTheme(BookingResource bookingResource, String branchName, String themeName) {
+    private static void addSampleTheme(BookingResource bookingResource, String branchName, String themeName, String genre,
+                                       String difficulty, int durationMinutes, int minPlayers, int maxPlayers, int pricePerPerson) {
         try {
-            bookingResource.addRoom(branchName, themeName, false);
+            bookingResource.addRoom(branchName, themeName, false, genre, difficulty, durationMinutes, minPlayers, maxPlayers, pricePerPerson);
         } catch (IllegalArgumentException ignored) {
             // Sample theme already exists.
         }

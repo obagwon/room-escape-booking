@@ -16,7 +16,7 @@ public class ViewRooms extends JFrame {
 
     public ViewRooms(BookingResource bookingResource) {
         setContentPane(this.viewRooms);
-        setTitle("VIEW ALL ESCAPE THEMES");
+        setTitle("전체 테마 조회");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -43,9 +43,7 @@ public class ViewRooms extends JFrame {
                 try {
                     Map<String, Room> rooms = (Map<String, Room>) bookingResource.viewRooms();
                     for (Map.Entry<String, Room> entry : rooms.entrySet()) {
-                        Object buildingName = entry.getValue().getBuildingName();
-                        Object roomName = entry.getValue().getRoomName();
-                        JOptionPane.showMessageDialog(viewRooms, "Escape Themes :\n" + buildingName + " offers " + roomName + "." + "\n");
+                        JOptionPane.showMessageDialog(viewRooms, "방탈출 테마 상세 정보:\n" + entry.getValue().toDisplayString() + "\n");
                     }
                 } catch (IllegalArgumentException ex) {
                     String error = ex.getLocalizedMessage();
@@ -73,7 +71,7 @@ public class ViewRooms extends JFrame {
         viewRooms = new JPanel();
         viewRooms.setLayout(new GridBagLayout());
         viewAllRoomsButton = new JButton();
-        viewAllRoomsButton.setText("View All Escape Themes");
+        viewAllRoomsButton.setText("전체 테마 보기");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -92,13 +90,13 @@ public class ViewRooms extends JFrame {
         gbc.fill = GridBagConstraints.VERTICAL;
         viewRooms.add(spacer2, gbc);
         backButton = new JButton();
-        backButton.setText("Back");
+        backButton.setText("뒤로");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
         viewRooms.add(backButton, gbc);
         final JLabel label1 = new JLabel();
-        label1.setText("VIEW ALL ESCAPE THEMES");
+        label1.setText("전체 테마 조회");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;

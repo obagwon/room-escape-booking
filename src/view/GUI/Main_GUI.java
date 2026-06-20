@@ -13,7 +13,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.Map;
 
 public class Main_GUI extends JFrame implements Runnable {
@@ -35,7 +34,7 @@ public class Main_GUI extends JFrame implements Runnable {
     public Main_GUI(BookingResource bookingResource) {
         this.isGUIView = true;
         setContentPane(this.main_GUI);
-        setTitle("ESCAPE ROOM MANAGER");
+        setTitle("방탈출 예약 관리 시스템");
         setSize(620, 700);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -60,15 +59,10 @@ public class Main_GUI extends JFrame implements Runnable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    bookingResource.resSave();
-                    bookingResource.playResultSave();
-                    bookingResource.roomSave();
-                    bookingResource.userSave();
-                    bookingResource.buildSave();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(main_GUI, bookingResource.saveAllData());
+                } catch (IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(main_GUI, ex.getLocalizedMessage());
                 }
-                JOptionPane.showMessageDialog(main_GUI, "Saved the data Successfully.");
             }
         });
         LOADDATAButton.addActionListener(new ActionListener() {
@@ -80,17 +74,10 @@ public class Main_GUI extends JFrame implements Runnable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    bookingResource.userLoad();
-                    bookingResource.buildLoad();
-                    bookingResource.roomLoad();
-                    bookingResource.resLoad();
-                    bookingResource.playResultLoad();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                } catch (ClassNotFoundException ex) {
-                    throw new RuntimeException(ex);
+                    JOptionPane.showMessageDialog(main_GUI, bookingResource.loadAllData());
+                } catch (IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(main_GUI, ex.getLocalizedMessage());
                 }
-                JOptionPane.showMessageDialog(main_GUI, "Loaded the Data Successfully.");
             }
         });
         EXITButton.addActionListener(new ActionListener() {
@@ -108,7 +95,7 @@ public class Main_GUI extends JFrame implements Runnable {
                     ViewHandler.isGUIView = true;
                     dispose();
                 }
-                JOptionPane.showMessageDialog(main_GUI, "Exited the application.");
+                JOptionPane.showMessageDialog(main_GUI, "프로그램을 종료합니다.");
             }
 
         });
@@ -121,8 +108,10 @@ public class Main_GUI extends JFrame implements Runnable {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                new Buildings(bookingResource);
+                if (promptAdmin(bookingResource, "지점 관리는 관리자 권한이 필요합니다.")) {
+                    dispose();
+                    new Buildings(bookingResource);
+                }
             }
         });
         ROOMSButton1.addActionListener(new ActionListener() {
@@ -133,8 +122,10 @@ public class Main_GUI extends JFrame implements Runnable {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                new Rooms(bookingResource);
+                if (promptAdmin(bookingResource, "테마 관리는 관리자 권한이 필요합니다.")) {
+                    dispose();
+                    new Rooms(bookingResource);
+                }
             }
         });
         RESERVATIONSButton.addActionListener(new ActionListener() {
@@ -169,10 +160,13 @@ public class Main_GUI extends JFrame implements Runnable {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (!promptAdmin(bookingResource, "전체 예약 현황 조회는 관리자 권한이 필요합니다.")) {
+                    return;
+                }
                 try {
                     Map<String, Reservation> allRooms = bookingResource.bookedRooms();
                     for (Map.Entry<String, Reservation> entry : allRooms.entrySet()) {
-                        JOptionPane.showMessageDialog(main_GUI, "Reserved Escape Themes :\n" + "Booking Reference: " + entry.getValue().getBookingID() + "\n" + entry.getValue().getRoom() + " is reserved by " + entry.getValue().getEmail() + " from " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + " to " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime());
+                        JOptionPane.showMessageDialog(main_GUI, "예약된 테마 :\n" + "예약 번호: " + entry.getValue().getBookingID() + "\n테마명: " + entry.getValue().getRoom() + "\n고객 이메일: " + entry.getValue().getEmail() + "\n예약 인원: " + entry.getValue().getPlayerCount() + "명\n총 가격: " + entry.getValue().getTotalPrice() + "원\n예약 상태: " + entry.getValue().getStatusDisplayName() + "\n이용 시간: " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + " ~ " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime());
                     }
                 } catch (IllegalArgumentException ex) {
                     String error = ex.getLocalizedMessage();
@@ -201,10 +195,27 @@ public class Main_GUI extends JFrame implements Runnable {
         STATISTICSButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                new StatisticsGUI(bookingResource);
+                if (promptAdmin(bookingResource, "운영 통계 조회는 관리자 권한이 필요합니다.")) {
+                    dispose();
+                    new StatisticsGUI(bookingResource);
+                }
             }
         });
+    }
+
+
+    private boolean promptAdmin(BookingResource bookingResource, String message) {
+        String email = JOptionPane.showInputDialog(main_GUI, message + "\n관리자 이메일을 입력하세요.");
+        if (email == null) {
+            return false;
+        }
+        try {
+            bookingResource.requireAdmin(email.trim());
+            return true;
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(main_GUI, ex.getLocalizedMessage());
+            return false;
+        }
     }
 
     public boolean isGUIView() {
@@ -233,7 +244,7 @@ public class Main_GUI extends JFrame implements Runnable {
         main_GUI = new JPanel();
         main_GUI.setLayout(new GridBagLayout());
         ADDDELVIEWUsersButton = new JButton();
-        ADDDELVIEWUsersButton.setText("1. Manage Customers");
+        ADDDELVIEWUsersButton.setText("1. 고객 관리");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -241,14 +252,14 @@ public class Main_GUI extends JFrame implements Runnable {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(ADDDELVIEWUsersButton, gbc);
         BUILDINGSButton = new JButton();
-        BUILDINGSButton.setText("2. Manage Cafe Branches");
+        BUILDINGSButton.setText("2. 지점 관리");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(BUILDINGSButton, gbc);
         RESERVATIONSButton = new JButton();
-        RESERVATIONSButton.setText("4. Reservations & Play Results");
+        RESERVATIONSButton.setText("4. 예약 및 플레이 결과 관리");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 4;
@@ -256,63 +267,63 @@ public class Main_GUI extends JFrame implements Runnable {
         main_GUI.add(RESERVATIONSButton, gbc);
         final JLabel label1 = new JLabel();
         label1.setFont(new Font(label1.getFont().getName(), Font.BOLD, 20));
-        label1.setText("Escape Room Manager");
+        label1.setText("방탈출 예약 관리 시스템");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
         main_GUI.add(label1, gbc);
         VIEWRESERVATIONSBYBOOKINGButton = new JButton();
-        VIEWRESERVATIONSBYBOOKINGButton.setText("5. Find Reservation by Booking ID");
+        VIEWRESERVATIONSBYBOOKINGButton.setText("5. 예약 번호로 예약 조회");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(VIEWRESERVATIONSBYBOOKINGButton, gbc);
         VIEWBOOKEDROOMSButton = new JButton();
-        VIEWBOOKEDROOMSButton.setText("6. View Reserved Themes");
+        VIEWBOOKEDROOMSButton.setText("6. 예약된 테마 조회");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(VIEWBOOKEDROOMSButton, gbc);
         VIEWRESERVATIONSBYEMAILButton = new JButton();
-        VIEWRESERVATIONSBYEMAILButton.setText("7. Find Reservations by Customer Email");
+        VIEWRESERVATIONSBYEMAILButton.setText("7. 고객 이메일로 예약 조회");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 7;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(VIEWRESERVATIONSBYEMAILButton, gbc);
         SAVEDATAButton = new JButton();
-        SAVEDATAButton.setText("8. Save Data");
+        SAVEDATAButton.setText("8. 데이터 저장");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 8;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(SAVEDATAButton, gbc);
         LOADDATAButton = new JButton();
-        LOADDATAButton.setText("9. Load Data");
+        LOADDATAButton.setText("9. 데이터 불러오기");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 9;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(LOADDATAButton, gbc);
         EXITButton = new JButton();
-        EXITButton.setText("Exit");
+        EXITButton.setText("종료");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 11;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(EXITButton, gbc);
         ROOMSButton1 = new JButton();
-        ROOMSButton1.setText("3. Manage Escape Themes");
+        ROOMSButton1.setText("3. 테마 관리");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         main_GUI.add(ROOMSButton1, gbc);
         STATISTICSButton = new JButton();
-        STATISTICSButton.setText("10. Operation Statistics");
+        STATISTICSButton.setText("10. 운영 통계");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 10;

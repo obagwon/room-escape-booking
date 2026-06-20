@@ -15,6 +15,7 @@ public class User implements Serializable {
 
     private final String name;
     private final String email;
+    private final UserRole role;
 
 
     /**
@@ -23,9 +24,17 @@ public class User implements Serializable {
      * @param email User email.
      */
     public User(String name, String email) {
+        this(name, email, UserRole.CUSTOMER);
+    }
+
+    public User(String name, String email, UserRole role) {
         this.isValidEmail(email);
+        if (role == null) {
+            throw new IllegalArgumentException("사용자 역할을 입력해주세요.");
+        }
         this.name = name;
         this.email = email;
+        this.role = role;
     }
 
     /**
@@ -36,7 +45,7 @@ public class User implements Serializable {
         Pattern pattern = Pattern.compile(EMAIL_REGEX_PATTERN);
 
         if (!pattern.matcher(email).matches()) {
-            throw new IllegalArgumentException("Invalid email is given\n");
+            throw new IllegalArgumentException("이메일 형식이 올바르지 않습니다.\n");
         }
     }
 
@@ -56,9 +65,17 @@ public class User implements Serializable {
         return this.email;
     }
 
+    public UserRole getRole() {
+        return role;
+    }
+
+    public boolean isAdmin() {
+        return role == UserRole.ADMIN;
+    }
+
     @Override
     public String toString() {
-        return "Name: " + this.name + " Email: " + this.email;
+        return "이름: " + this.name + " 이메일: " + this.email + " 역할: " + this.role.getDisplayName();
     }
 
 

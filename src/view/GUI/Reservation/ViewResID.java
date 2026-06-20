@@ -19,7 +19,7 @@ public class ViewResID extends JFrame {
 
     public ViewResID(BookingResource bookingResource) {
         setContentPane(this.viewRES);
-        setTitle("ESCAPE ROOM MANAGER");
+        setTitle("방탈출 예약 관리 시스템");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -48,12 +48,12 @@ public class ViewResID extends JFrame {
                 Map<String, Reservation> viewResID = new HashMap<>();
                 try {
                     if (emailID.isEmpty()) {
-                        throw new IllegalArgumentException("Text Field Cannot be Empty");
+                        throw new IllegalArgumentException("입력값을 작성해 주세요.");
                     }
                     bookingResource.checkUser(emailID);
                     viewResID = bookingResource.viewResName(emailID);
                     for (Map.Entry<String, Reservation> entry : viewResID.entrySet()) {
-                        JOptionPane.showMessageDialog(viewRES, "Booking ID: " + entry.getValue().getBookingID() + ", " + entry.getValue().getEmail() + " has a reservation in " + entry.getValue().getBuildingName() + " and has booked the room: " + entry.getValue().getRoom() + " @ " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + ".The User exits @ " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime() + "." + "\n");
+                        JOptionPane.showMessageDialog(viewRES, "예약 번호: " + entry.getValue().getBookingID() + "\n고객 이메일: " + entry.getValue().getEmail() + "\n지점명: " + entry.getValue().getBuildingName() + "\n테마명: " + entry.getValue().getRoom() + "\n시작 시간: " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + "\n종료 시간: " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime() + "\n예약 인원: " + entry.getValue().getPlayerCount() + "명\n총 가격: " + entry.getValue().getTotalPrice() + "원\n예약 상태: " + entry.getValue().getStatusDisplayName() + "\n");
                     }
                 } catch (IllegalArgumentException ex) {
                     String error = ex.getLocalizedMessage();
@@ -81,7 +81,7 @@ public class ViewResID extends JFrame {
         viewRES = new JPanel();
         viewRES.setLayout(new GridBagLayout());
         okButton = new JButton();
-        okButton.setText("Ok");
+        okButton.setText("확인");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -100,7 +100,7 @@ public class ViewResID extends JFrame {
         gbc.fill = GridBagConstraints.VERTICAL;
         viewRES.add(spacer2, gbc);
         mainMenuButton = new JButton();
-        mainMenuButton.setText("Main Menu");
+        mainMenuButton.setText("메인 메뉴");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 4;
@@ -112,14 +112,14 @@ public class ViewResID extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         viewRES.add(textField1, gbc);
         final JLabel label1 = new JLabel();
-        label1.setText("VIEW RESERVATION");
+        label1.setText("예약 조회");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
         viewRES.add(label1, gbc);
         final JLabel label2 = new JLabel();
-        label2.setText("Email - ID");
+        label2.setText("이메일");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;

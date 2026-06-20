@@ -16,7 +16,7 @@ public class DelBuilding extends JFrame {
 
     public DelBuilding(BookingResource bookingResource) {
         setContentPane(this.delBuilding);
-        setTitle("DELETE CAFE BRANCH");
+        setTitle("지점 삭제");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -44,12 +44,12 @@ public class DelBuilding extends JFrame {
                 String buildingName = textField2.getText().trim();
                 try {
                     if (emailID.isEmpty() || buildingName.isEmpty()) {
-                        throw new IllegalArgumentException("Text Fields cannot be empty.");
+                        throw new IllegalArgumentException("입력 항목을 모두 작성해 주세요.");
                     }
                     bookingResource.checkUser(emailID);
                     bookingResource.delRoomFromBuild(buildingName);
                     bookingResource.delBuilding(buildingName);
-                    JOptionPane.showMessageDialog(delBuilding, "Building Deleted Successfully");
+                    JOptionPane.showMessageDialog(delBuilding, "지점이 성공적으로 삭제되었습니다.");
                 } catch (IllegalArgumentException ex) {
                     String error = ex.getLocalizedMessage();
                     JOptionPane.showMessageDialog(delBuilding, error);
@@ -76,7 +76,7 @@ public class DelBuilding extends JFrame {
         delBuilding = new JPanel();
         delBuilding.setLayout(new GridBagLayout());
         final JLabel label1 = new JLabel();
-        label1.setText("DELETE CAFE BRANCH");
+        label1.setText("지점 삭제");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -90,7 +90,7 @@ public class DelBuilding extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delBuilding.add(spacer1, gbc);
         final JLabel label2 = new JLabel();
-        label2.setText("CUSTOMER EMAIL");
+        label2.setText("고객 이메일");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -103,7 +103,7 @@ public class DelBuilding extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delBuilding.add(textField1, gbc);
         final JLabel label3 = new JLabel();
-        label3.setText("CAFE BRANCH NAME");
+        label3.setText("지점명");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -116,14 +116,14 @@ public class DelBuilding extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delBuilding.add(textField2, gbc);
         okButton = new JButton();
-        okButton.setText("Ok");
+        okButton.setText("확인");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delBuilding.add(okButton, gbc);
         backButton = new JButton();
-        backButton.setText("Back");
+        backButton.setText("뒤로");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 6;

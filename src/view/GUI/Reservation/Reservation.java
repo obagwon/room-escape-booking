@@ -18,7 +18,7 @@ public class Reservation extends JFrame {
 
     public Reservation(BookingResource bookingResource) {
         setContentPane(this.reservation);
-        setTitle("Escape Room Manager - Reservations");
+        setTitle("예약 및 플레이 결과 관리");
         setSize(540, 420);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -92,7 +92,7 @@ public class Reservation extends JFrame {
         reservation = new JPanel();
         reservation.setLayout(new GridBagLayout());
         BOOKAROOMButton = new JButton();
-        BOOKAROOMButton.setText("1. Book Escape Theme");
+        BOOKAROOMButton.setText("1. 테마 예약하기");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -105,32 +105,32 @@ public class Reservation extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         reservation.add(spacer1, gbc);
         DELETEABOOKINGButton = new JButton();
-        DELETEABOOKINGButton.setText("2. Delete Reservation");
+        DELETEABOOKINGButton.setText("2. 예약 취소/삭제");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
         reservation.add(DELETEABOOKINGButton, gbc);
         MAINMENUButton = new JButton();
-        MAINMENUButton.setText("Back to Main Menu");
+        MAINMENUButton.setText("메인 메뉴로 돌아가기");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 5;
         reservation.add(MAINMENUButton, gbc);
         ADDPLAYRESULTButton = new JButton();
-        ADDPLAYRESULTButton.setText("3. Add Play Result");
+        ADDPLAYRESULTButton.setText("3. 플레이 결과 등록");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
         reservation.add(ADDPLAYRESULTButton, gbc);
         VIEWPLAYRESULTSButton = new JButton();
-        VIEWPLAYRESULTSButton.setText("4. View Play Results");
+        VIEWPLAYRESULTSButton.setText("4. 플레이 결과 조회");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 4;
         reservation.add(VIEWPLAYRESULTSButton, gbc);
         final JLabel label1 = new JLabel();
         label1.setFont(new Font(label1.getFont().getName(), Font.BOLD, 18));
-        label1.setText("Reservation & Play Result Management");
+        label1.setText("예약 및 플레이 결과 관리");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;

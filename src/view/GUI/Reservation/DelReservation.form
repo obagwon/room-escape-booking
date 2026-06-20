@@ -13,7 +13,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="DELETE A RESERVATION"/>
+          <text value="예약 취소"/>
         </properties>
       </component>
       <hspacer id="e4f7">
@@ -34,7 +34,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="BOOKING ID"/>
+          <text value="예약 번호"/>
         </properties>
       </component>
       <component id="76b0f" class="javax.swing.JTextField" binding="textField1" default-binding="true">
@@ -52,7 +52,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Ok"/>
+          <text value="확인"/>
         </properties>
       </component>
       <component id="c28ca" class="javax.swing.JButton" binding="backButton" default-binding="true">
@@ -61,7 +61,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Back"/>
+          <text value="뒤로"/>
         </properties>
       </component>
     </children>

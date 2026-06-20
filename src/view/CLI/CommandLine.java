@@ -65,16 +65,14 @@ public class CommandLine implements Serializable, Runnable {
                         case '9' -> loadData();
                         case '0' -> exit();
 
-                        default -> System.out.println("Unknown Action \n");
+                        default -> System.out.println("알 수 없는 메뉴입니다.\n");
                     }
                 } else {
-                    System.out.println("Error: Invalid action\n");
+                    System.out.println("오류: 잘못된 메뉴입니다.\n");
                 }
             } while (line.charAt(0) >= '3' || line.length() != 1);
-        } catch (StringIndexOutOfBoundsException | IOException e) {
-            System.out.println("Empty Input Received. Exiting Program...");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (StringIndexOutOfBoundsException e) {
+            System.out.println("입력이 없어 프로그램을 종료합니다.");
         }
     }
 
@@ -82,7 +80,7 @@ public class CommandLine implements Serializable, Runnable {
      * Method that lets the user view by email_ID.
      */
     private void viewResName() {
-        System.out.println("Enter your EMAIL - ID");
+        System.out.println("고객 이메일을 입력하세요.");
         Map<String, Reservation> viewResID;
         final Scanner scanner = new Scanner(System.in);
         String line;
@@ -91,7 +89,7 @@ public class CommandLine implements Serializable, Runnable {
 
         try {
             if (email.isEmpty()) {
-                throw new IllegalArgumentException("Text Field Cannot be Empty");
+                throw new IllegalArgumentException("입력값을 작성해 주세요.");
             }
             bookingResource.checkUser(email);
         } catch (IllegalArgumentException e) {
@@ -101,7 +99,7 @@ public class CommandLine implements Serializable, Runnable {
         try {
             viewResID = bookingResource.viewResName(email);
             for (Map.Entry<String, Reservation> entry : viewResID.entrySet()) {
-                System.out.println("Booking ID: " + entry.getValue().getBookingID() + ", " + entry.getValue().getEmail() + " has a reservation in " + entry.getValue().getBuildingName() + " and has reserved the escape theme: " + entry.getValue().getRoom() + " @ " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + ".The customer exits @ " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime() + "." + "\n");
+                System.out.println("예약 번호: " + entry.getValue().getBookingID() + "\n고객 이메일: " + entry.getValue().getEmail() + "\n지점명: " + entry.getValue().getBuildingName() + "\n테마명: " + entry.getValue().getRoom() + "\n시작 시간: " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + "\n종료 시간: " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime() + "\n예약 인원: " + entry.getValue().getPlayerCount() + "명\n총 가격: " + entry.getValue().getTotalPrice() + "원\n예약 상태: " + entry.getValue().getStatusDisplayName() + "\n");
                 commandLine();
             }
         } catch (IllegalArgumentException ex) {
@@ -117,25 +115,25 @@ public class CommandLine implements Serializable, Runnable {
         final Scanner scanner = new Scanner(System.in);
         String line;
         System.out.println("""
-                1.Do you want to add a Customer\s
-                2.Do you want to delete a Customer?
-                3.View All Customers\s
-                4.Main Menu\s
+                1. 고객 추가
+                2. 고객 삭제
+                3. 전체 고객 조회
+                4. 메인 메뉴
                 """);
         line = scanner.nextLine();
         if (line.length() == 1) {
             switch (line.charAt(0)) {
                 case '1' -> {
-                    System.out.print("Adding a Customer\n");
-                    System.out.println("Enter Email format: name@domain.com");
+                    System.out.print("고객을 추가합니다.\n");
+                    System.out.println("이메일을 입력하세요. 예: name@domain.com");
                     line = scanner.nextLine();
                     final String email = line.trim();
-                    System.out.println("Enter your Name:");
+                    System.out.println("이름을 입력하세요:");
                     line = scanner.nextLine();
                     final String name = line.trim();
                     try {
                         bookingResource.addUser(email, name);
-                        System.out.println("Customer added successfully \n");
+                        System.out.println("고객이 등록되었습니다.\n");
                         commandLine();
                     } catch (IllegalArgumentException | IOException e) {
                         System.out.println(e.getLocalizedMessage());
@@ -143,13 +141,13 @@ public class CommandLine implements Serializable, Runnable {
                     }
                 }
                 case '2' -> {
-                    System.out.println("Deleting a Customer");
-                    System.out.println("Enter the email");
+                    System.out.println("고객을 삭제합니다.");
+                    System.out.println("고객 이메일을 입력하세요.");
                     line = scanner.nextLine();
                     final String del_email = line.trim();
                     try {
                         bookingResource.delUser(del_email);
-                        System.out.println("Customer deleted successfully \n");
+                        System.out.println("고객이 삭제되었습니다.\n");
                         commandLine();
                     } catch (IllegalArgumentException e) {
                         System.out.println(e.getLocalizedMessage());
@@ -157,7 +155,7 @@ public class CommandLine implements Serializable, Runnable {
                     }
                 }
                 case '3' -> {
-                    System.out.print("Viewing All Customers\n");
+                    System.out.print("전체 고객을 조회합니다.\n");
                     try {
                         Map<String, User> viewUsers = bookingResource.viewUsers();
                         for (Map.Entry<String, User> entry : viewUsers.entrySet()) {
@@ -172,11 +170,11 @@ public class CommandLine implements Serializable, Runnable {
                     }
                 }
                 case '4' -> commandLine();
-                default -> System.out.println("Unknown action\n");
+                default -> System.out.println("알 수 없는 메뉴입니다.\n");
             }
 
         } else {
-            System.out.println("Invalid Input. Try Again !");
+            System.out.println("잘못된 입력입니다. 다시 시도해 주세요.");
             commandLine();
         }
 
@@ -190,34 +188,31 @@ public class CommandLine implements Serializable, Runnable {
         final Scanner scanner = new Scanner(System.in);
         String line;
         System.out.println("""
-                1.Do you want to add a Cafe Branch?\s
-                2.Do you want to delete a Cafe Branch?
-                3.View All Cafe Branches\s
-                4.Main Menu\s
+                1. 지점 추가
+                2. 지점 삭제
+                3. 전체 지점 조회
+                4. 메인 메뉴
                 """);
         line = scanner.nextLine();
         if (line.length() == 1) {
             switch (line.charAt(0)) {
                 case '1' -> {
-                    System.out.println("Enter customer email\n");
-                    line = scanner.nextLine();
-                    final String email = line.trim();
                     try {
-                        bookingResource.checkUser(email);
+                        requireAdminEmail(scanner);
 
-                        System.out.print("Adding a Cafe Branch\n");
-                        System.out.println("Enter Cafe Branch Name");
+                        System.out.print("지점을 추가합니다.\n");
+                        System.out.println("지점명을 입력하세요.");
                         line = scanner.nextLine();
                         final String buildingName = line.trim();
-                        System.out.println("Enter the address:");
+                        System.out.println("주소를 입력하세요:");
                         line = scanner.nextLine();
                         final String address = line.trim();
                         try {
                             if (buildingName.isEmpty() | address.isEmpty()) {
-                                throw new IllegalArgumentException("Inputs given are empty.Try Again.");
+                                throw new IllegalArgumentException("입력값이 비어 있습니다. 다시 시도해 주세요.");
                             }
-                            bookingResource.addBuilding(buildingName, address, email);
-                            System.out.println("Cafe branch added successfully \n");
+                            bookingResource.addBuilding(buildingName, address, getCurrentAdminEmail());
+                            System.out.println("지점이 등록되었습니다.\n");
                             commandLine();
                         } catch (IllegalArgumentException e) {
                             System.out.println(e.getLocalizedMessage());
@@ -225,17 +220,14 @@ public class CommandLine implements Serializable, Runnable {
                         }
                     } catch (IllegalArgumentException e) {
                         System.out.println(e.getLocalizedMessage());
-                        addDelUser();
+                        addDelBuild();
                     }
                 }
                 case '2' -> {
-                    System.out.println("Enter customer email\n");
-                    line = scanner.nextLine();
-                    final String email = line.trim();
                     try {
-                        if (bookingResource.checkUser(email)) {
-                            System.out.print("Deleting a Cafe Branch\n");
-                            System.out.println("Enter Cafe Branch Name");
+                        requireAdminEmail(scanner);
+                        System.out.print("지점을 삭제합니다.\n");
+                            System.out.println("지점명을 입력하세요.");
                             line = scanner.nextLine();
                             final String buildingName = line.trim();
                             try {
@@ -246,27 +238,26 @@ public class CommandLine implements Serializable, Runnable {
                                     System.out.println(e.getLocalizedMessage());
                                     addDelBuild();
                                 }
-                                System.out.println("Cafe branch deleted successfully \n");
+                                System.out.println("지점이 삭제되었습니다.\n");
                                 commandLine();
                             } catch (IllegalArgumentException e) {
                                 System.out.println(e.getLocalizedMessage());
                                 addDelBuild();
                             }
-                        }
                     } catch (IllegalArgumentException e) {
                         System.out.println(e.getLocalizedMessage());
-                        addDelUser();
+                        addDelBuild();
                     }
                 }
                 case '3' -> {
-                    System.out.print("Viewing All Cafe Branches\n");
+                    System.out.print("전체 지점을 조회합니다.\n");
                     try {
                         Map<String, Building> viewBuildings = bookingResource.viewBuildings();
                         for (Map.Entry<String, Building> entry : viewBuildings.entrySet()) {
                             String key = entry.getKey();
                             Object value = entry.getValue().getBuildingName();
                             Object address = entry.getValue().getAddress();
-                            System.out.println("Cafe Branches :\n" + value + " and the address is " + address + "." + "\n");
+                            System.out.println("지점명: " + value + "\n주소: " + address + "\n");
                         }
                         commandLine();
                     } catch (IllegalArgumentException e) {
@@ -275,7 +266,7 @@ public class CommandLine implements Serializable, Runnable {
                     }
                 }
                 case '4' -> commandLine();
-                default -> System.out.println("Unknown action\n");
+                default -> System.out.println("알 수 없는 메뉴입니다.\n");
             }
 
         }
@@ -290,93 +281,82 @@ public class CommandLine implements Serializable, Runnable {
         final Scanner scanner = new Scanner(System.in);
         String line;
         System.out.println("""
-                1.Do you want to add an escape theme?\s
-                2.Do you want to delete an escape theme?
-                3.View All Escape Themes in Cafe Branches\s
-                4.Main Menu\s
+                1. 방탈출 테마 추가
+                2. 방탈출 테마 삭제
+                3. 지점별 방탈출 테마 조회
+                4. 메인 메뉴
                 """);
         line = scanner.nextLine();
         if (line.length() == 1) {
             switch (line.charAt(0)) {
                 case '1' -> {
-                    System.out.println("Enter customer email\n");
-                    line = scanner.nextLine();
-                    final String email = line.trim();
                     try {
-                        if (bookingResource.checkUser(email)) {
-                            System.out.print("Adding an Escape Theme\n");
-                            System.out.println("\nEnter Cafe Branch Name to add the theme");
-                            line = scanner.nextLine();
-                            final String buildingName = line.trim();
-                            try {
-                                bookingResource.checkBuilding(buildingName);
-                                System.out.println("Enter Escape Theme Name (example: 저택의 비밀 | 공포 | HARD | 60분 | 2~4명)");
-                                line = scanner.nextLine();
-                                String roomName = line.trim();
-                                boolean isBooked = false;
-                                if (buildingName.isEmpty() | roomName.isEmpty()) {
-                                    throw new IllegalArgumentException("Empty Inputs given,Try Again.");
-                                }
-                                bookingResource.addRoom(buildingName, roomName, isBooked);
-                                System.out.println("Escape theme added successfully \n");
-                                commandLine();
-                            } catch (IllegalArgumentException e) {
-                                System.out.println(e.getLocalizedMessage());
-                                addDelBuild();
-                            }
+                        requireAdminEmail(scanner);
+                        System.out.print("방탈출 테마를 추가합니다.\n");
+                        System.out.println("\n테마를 추가할 지점명을 입력하세요.");
+                        line = scanner.nextLine();
+                        final String buildingName = line.trim();
+                        bookingResource.checkBuilding(buildingName);
+                        System.out.println("방탈출 테마명을 입력하세요.");
+                        line = scanner.nextLine();
+                        String roomName = line.trim();
+                        System.out.println("장르를 입력하세요. 예: 공포, SF, 추리");
+                        line = scanner.nextLine();
+                        String genre = line.trim();
+                        System.out.println("난이도를 입력하세요. EASY, NORMAL, HARD 중 하나를 권장합니다.");
+                        line = scanner.nextLine();
+                        String difficulty = line.trim();
+                        System.out.println("플레이 시간(분)을 입력하세요.");
+                        line = scanner.nextLine();
+                        int durationMinutes = parseCliInt(line.trim(), "플레이 시간");
+                        System.out.println("최소 인원을 입력하세요.");
+                        line = scanner.nextLine();
+                        int minPlayers = parseCliInt(line.trim(), "최소 인원");
+                        System.out.println("최대 인원을 입력하세요.");
+                        line = scanner.nextLine();
+                        int maxPlayers = parseCliInt(line.trim(), "최대 인원");
+                        System.out.println("1인 가격을 입력하세요.");
+                        line = scanner.nextLine();
+                        int pricePerPerson = parseCliInt(line.trim(), "1인 가격");
+                        boolean isBooked = false;
+                        if (buildingName.isEmpty() | roomName.isEmpty() | genre.isEmpty() | difficulty.isEmpty()) {
+                            throw new IllegalArgumentException("입력값이 비어 있습니다. 다시 시도해 주세요.");
                         }
+                        bookingResource.addRoom(buildingName, roomName, isBooked, genre, difficulty, durationMinutes, minPlayers, maxPlayers, pricePerPerson);
+                        System.out.println("방탈출 테마가 등록되었습니다.\n");
+                        commandLine();
                     } catch (IllegalArgumentException e) {
                         System.out.println(e.getLocalizedMessage());
-                        addDelUser();
+                        addDelRoom();
                     }
                 }
                 case '2' -> {
-                    System.out.println("Enter customer email\n");
-                    line = scanner.nextLine();
-                    final String email = line.trim();
                     try {
-                        if (bookingResource.checkUser(email)) {
-                            System.out.print("Deleting an Escape Theme\n");
-                            System.out.println("Enter Cafe Branch Name");
-                            line = scanner.nextLine();
-                            final String buildingName = line.trim();
-                            try {
-                                if (bookingResource.checkBuilding(buildingName)) {
-                                    try {
-                                        System.out.println("\nEnter the escape theme you wish to delete:");
-                                        line = scanner.nextLine();
-                                        final String roomName = line.trim();
-                                        if (bookingResource.checkRoom(roomName)) {
-                                            bookingResource.delRoom(buildingName, roomName);
-                                            System.out.println("\n Escape theme deleted successfully");
-                                        }
-                                    } catch (IllegalArgumentException e) {
-                                        System.out.println(e.getLocalizedMessage());
-                                        addDelRoom();
-                                    }
-                                }
-                            } catch (IllegalArgumentException e) {
-                                System.out.println(e.getLocalizedMessage());
-                                addDelBuild();
-                            }
-                        }
+                        requireAdminEmail(scanner);
+                        System.out.print("방탈출 테마를 삭제합니다.\n");
+                        System.out.println("지점명을 입력하세요.");
+                        line = scanner.nextLine();
+                        final String buildingName = line.trim();
+                        bookingResource.checkBuilding(buildingName);
+                        System.out.println("\n삭제할 방탈출 테마명을 입력하세요:");
+                        line = scanner.nextLine();
+                        final String roomName = line.trim();
+                        bookingResource.checkRoom(roomName);
+                        bookingResource.delRoom(buildingName, roomName);
+                        System.out.println("\n방탈출 테마가 삭제되었습니다.");
+                        commandLine();
                     } catch (IllegalArgumentException e) {
                         System.out.println(e.getLocalizedMessage());
-                        addDelUser();
+                        addDelRoom();
                     }
                 }
-
                 case '3' -> {
-                    System.out.println("Viewing all cafe branches with escape themes");
-                    // Bug Fix: Building is not created, but it is passing (Overpassed and Addressed)
-                    // System.out.println("Room Present in " + buildingName + " :\n");
+                    System.out.println("지점별 방탈출 테마를 조회합니다.");
                     try {
                         Map<String, Room> viewRooms = (Map<String, Room>) bookingResource.viewRooms();
                         for (Map.Entry<String, Room> entry : viewRooms.entrySet()) {
                             String key = entry.getKey();
-                            Object buildingName = entry.getValue().getBuildingName();
-                            Object roomName = entry.getValue().getRoomName();
-                            System.out.println("Escape Themes :\n" + buildingName + " offers " + roomName + "\n");
+                            System.out.println(entry.getValue().toDisplayString() + "\n");
                         }
                     } catch (IllegalArgumentException e) {
                         System.out.println(e.getLocalizedMessage());
@@ -385,7 +365,7 @@ public class CommandLine implements Serializable, Runnable {
                 }
                 case '4' -> commandLine();
 
-                default -> System.out.println("Unknown Action \n");
+                default -> System.out.println("알 수 없는 메뉴입니다.\n");
             }
         }
     }
@@ -397,16 +377,16 @@ public class CommandLine implements Serializable, Runnable {
         final Scanner scanner = new Scanner(System.in);
         String line;
         System.out.println("""
-                1.Book an Escape Theme\s
-                2.Delete a Booking\s
-                3.Main Menu\s
+                1. 테마 예약
+                2. 예약 취소/삭제
+                3. 메인 메뉴
                 """);
         line = scanner.nextLine();
         if (line.length() == 1) {
             switch (line.charAt(0)) {
                 case '1' -> {
-                    System.out.println("\nBooking an Escape Theme");
-                    System.out.println("Enter Booking ID, it can be name,number,symbols.");
+                    System.out.println("\n테마 예약을 진행합니다.");
+                    System.out.println("예약 번호를 입력하세요. 이름, 숫자, 기호를 사용할 수 있습니다.");
                     line = scanner.nextLine();
                     final String bookingID = line.trim();
                     try {
@@ -415,22 +395,22 @@ public class CommandLine implements Serializable, Runnable {
                         System.out.println(e.getLocalizedMessage());
                         addDelRes();
                     }
-                    System.out.println("Enter customer email\n");
+                    System.out.println("고객 이메일을 입력하세요.\n");
                     line = scanner.nextLine();
                     final String email = line.trim();
                     try {
                         bookingResource.checkUser(email);
-                        System.out.println("Enter the Cafe Branch");
+                        System.out.println("지점명을 입력하세요.");
                         line = scanner.nextLine();
                         final String buildingName = line.trim();
                         try {
                             bookingResource.checkBuilding(buildingName);
-                            System.out.println("Enter the Escape Theme");
+                            System.out.println("방탈출 테마명을 입력하세요.");
                             line = scanner.nextLine();
                             final String roomName = line.trim();
                             try {
                                 bookingResource.checkRoom(roomName); // To check if a Room exists or not.
-                                System.out.println("Enter BOOK-IN Date dd/mm/yyyy example 02/12/2022");
+                                System.out.println("예약 시작 날짜를 입력하세요. 예: 02/12/2022");
                                 line = scanner.nextLine();
                                 String checkInDate = line.trim();
                                 try {
@@ -440,7 +420,7 @@ public class CommandLine implements Serializable, Runnable {
                                     addDelRes();
                                 }
 //
-                                System.out.println("Enter BOOK-OUT Date dd/mm/yyyy example 03/12/2022");
+                                System.out.println("예약 종료 날짜를 입력하세요. 예: 03/12/2022");
                                 line = scanner.nextLine();
                                 String checkOutDate = line.trim();
                                 try {
@@ -450,7 +430,7 @@ public class CommandLine implements Serializable, Runnable {
                                     addDelRes();
                                 }
 
-                                System.out.println("Enter the IN Time HH:mm in 24-hr format");
+                                System.out.println("시작 시간을 24시간 형식(HH:mm)으로 입력하세요.");
                                 line = scanner.nextLine();
                                 String checkInTime = line.trim();
                                 try {
@@ -459,7 +439,7 @@ public class CommandLine implements Serializable, Runnable {
                                     System.out.println(e.getLocalizedMessage());
                                     addDelRes();
                                 }
-                                System.out.println("Enter the OUT Time HH:mm in 24-hr format");
+                                System.out.println("종료 시간을 24시간 형식(HH:mm)으로 입력하세요.");
                                 line = scanner.nextLine();
                                 String checkOutTime = line.trim();
                                 try {
@@ -488,6 +468,9 @@ public class CommandLine implements Serializable, Runnable {
                                 } catch (ParseException e) {
                                     throw new RuntimeException(e);
                                 }
+                                System.out.println("예약 인원을 입력하세요.");
+                                line = scanner.nextLine();
+                                int playerCount = parseCliInt(line.trim(), "예약 인원");
                                 try {
                                     bookingResource.checkOverlap(checkInTime, checkOutTime, roomName, checkInDate);
                                 } catch (IllegalArgumentException e) {
@@ -496,9 +479,9 @@ public class CommandLine implements Serializable, Runnable {
                                 }
                                 try {
                                     boolean isBooked = true;
+                                    bookingResource.addReservation(bookingID, email, buildingName, roomName, checkInDate, checkOutDate, checkInTime, checkOutTime, isBooked, playerCount);
                                     bookingResource.updateRoom(roomName, buildingName, isBooked);
-                                    bookingResource.addReservation(bookingID, email, buildingName, roomName, checkInDate, checkOutDate, checkInTime, checkOutTime, isBooked);
-                                    System.out.println("Booking is Done");
+                                    System.out.println("예약이 완료되었습니다.");
                                     commandLine();
                                 } catch (IllegalArgumentException e) {
                                     System.out.println(e.getLocalizedMessage());
@@ -519,21 +502,21 @@ public class CommandLine implements Serializable, Runnable {
                     }
                 }
                 case '2' -> {
-                    System.out.println("Deleting a Booking");
-                    System.out.println("Enter your Booking ID, it can be name,number,symbols.");
+                    System.out.println("예약을 취소합니다.");
+                    System.out.println("예약 번호를 입력하세요. 이름, 숫자, 기호를 사용할 수 있습니다.");
                     line = scanner.nextLine();
                     final String bookingID = line.trim();
                     try {
-                        bookingResource.delReservation(bookingID);
+                        bookingResource.cancelReservation(bookingID);
                     } catch (IllegalArgumentException e) {
                         System.out.println(e.getLocalizedMessage());
                         addDelRes();
                     }
-                    System.out.println("Booking Deleted Successfully");
+                    System.out.println("예약이 취소되었습니다.");
                     commandLine();
                 }
                 case '3' -> commandLine();
-                default -> System.out.println("Unknown Action \n");
+                default -> System.out.println("알 수 없는 메뉴입니다.\n");
             }
         }
     }
@@ -542,7 +525,7 @@ public class CommandLine implements Serializable, Runnable {
      * Method that allows the user to view their reservations using Booking-ID.
      */
     private void viewMyRes() {
-        System.out.println("Enter your Booking - ID");
+        System.out.println("예약 번호를 입력하세요.");
         Map<String, Reservation> viewBookingIDRes = new HashMap<>();
         final Scanner scanner = new Scanner(System.in);
         String line;
@@ -553,7 +536,7 @@ public class CommandLine implements Serializable, Runnable {
             for (Map.Entry<String, Reservation> entry : viewBookingIDRes.entrySet()) {
                 String key = entry.getKey();
                 Object value = entry.getValue();
-                System.out.println("Booking ID: " + entry.getValue().getBookingID() + ", " + entry.getValue().getEmail() + " has a reservation in " + entry.getValue().getBuildingName() + " and has reserved the escape theme: " + entry.getValue().getRoom() + " @ " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + ".The customer exits @ " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime() + "." + "\n");
+                System.out.println("예약 번호: " + entry.getValue().getBookingID() + "\n고객 이메일: " + entry.getValue().getEmail() + "\n지점명: " + entry.getValue().getBuildingName() + "\n테마명: " + entry.getValue().getRoom() + "\n시작 시간: " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + "\n종료 시간: " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime() + "\n예약 인원: " + entry.getValue().getPlayerCount() + "명\n총 가격: " + entry.getValue().getTotalPrice() + "원\n예약 상태: " + entry.getValue().getStatusDisplayName() + "\n");
 
 
             }
@@ -561,17 +544,18 @@ public class CommandLine implements Serializable, Runnable {
             System.out.println(ex.getLocalizedMessage());
             addDelRes();
         }
-        System.out.println("Booking ID shown Successfully.");
+        System.out.println("예약 조회가 완료되었습니다.");
         commandLine();
     }
 
 
     private void roomsFB() {
-        System.out.println("Viewing All Reserved Escape Themes");
+        System.out.println("전체 예약 현황을 조회합니다.");
         try {
+            requireAdminEmail(new Scanner(System.in));
             Map<String, Reservation> allRooms = bookingResource.bookedRooms();
             for (Map.Entry<String, Reservation> entry : allRooms.entrySet()) {
-                System.out.println("Reserved Escape Themes :\n" + "Booking Reference: " + entry.getValue().getBookingID() + "\n" + entry.getValue().getRoom() + " is reserved by " + entry.getValue().getEmail() + " from " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + " to " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime());
+                System.out.println("예약된 테마 :\n" + "예약 번호: " + entry.getValue().getBookingID() + "\n테마명: " + entry.getValue().getRoom() + "\n고객 이메일: " + entry.getValue().getEmail() + "\n예약 인원: " + entry.getValue().getPlayerCount() + "명\n총 가격: " + entry.getValue().getTotalPrice() + "원\n예약 상태: " + entry.getValue().getStatusDisplayName() + "\n이용 시간: " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + " ~ " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime());
             }
         } catch (IllegalArgumentException ex) {
             System.out.println(ex.getLocalizedMessage());
@@ -580,29 +564,49 @@ public class CommandLine implements Serializable, Runnable {
 
     }
 
-    private void saveData() throws IOException {
-        bookingResource.userSave();
-        bookingResource.buildSave();
-        bookingResource.roomSave();
-        bookingResource.resSave();
-        bookingResource.playResultSave();
-        System.out.print("File Saved Successfully\n");
+    private void saveData() {
+        try {
+            System.out.println(bookingResource.saveAllData());
+        } catch (IllegalArgumentException ex) {
+            System.out.println(ex.getLocalizedMessage());
+        }
         commandLine();
     }
 
-    private void loadData() throws IOException, ClassNotFoundException {
-        bookingResource.userLoad();
-        bookingResource.buildLoad();
-        bookingResource.roomLoad();
-        bookingResource.resLoad();
-        bookingResource.playResultLoad();
-        System.out.print("File Loaded Successfully\n");
+    private void loadData() {
+        try {
+            System.out.println(bookingResource.loadAllData());
+        } catch (IllegalArgumentException ex) {
+            System.out.println(ex.getLocalizedMessage());
+        }
         commandLine();
+    }
+
+
+    private String currentAdminEmail;
+
+    private void requireAdminEmail(Scanner scanner) {
+        System.out.println("관리자 이메일을 입력하세요.");
+        String adminEmail = scanner.nextLine().trim();
+        bookingResource.requireAdmin(adminEmail);
+        currentAdminEmail = adminEmail;
+    }
+
+    private String getCurrentAdminEmail() {
+        return currentAdminEmail == null ? "" : currentAdminEmail;
+    }
+
+    private int parseCliInt(String value, String fieldName) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException ex) {
+            throw new IllegalArgumentException(fieldName + "은(는) 숫자로 입력해주세요.");
+        }
     }
 
 
     private void exit() {
-        System.out.println("Exit");
+        System.out.println("종료합니다.");
         this.setContinueCli(false);
         if (ViewHandler.isGUIView) {
             System.exit(0);
@@ -614,22 +618,22 @@ public class CommandLine implements Serializable, Runnable {
 
 
     public void printMainMenu() {
-        String Welcome = "Welcome to Escape Room Manager - 방탈출 카페 예약 및 힌트 관리 프로그램 ";
-        String End = "*--------------Choose the options above to continue--------------*";
+        String Welcome = "방탈출 예약 관리 시스템에 오신 것을 환영합니다.";
+        String End = "*--------------계속하려면 메뉴 번호를 선택하세요--------------*";
         for (int i = 0; i < Welcome.length(); i++) {
             System.out.print("-");
         }
         String Options = """
-                1.Add/Delete/View Customers.
-                2.Add/Delete/View Cafe Branches.
-                3.Add/Delete/View Escape Themes.
-                4.Book or Delete an Escape Theme Reservation.
-                5.View Your Reservations by Booking ID.
-                6.View All Reserved Escape Themes.
-                7.View Your Reservations by Customer Email.
-                8.Save the Data.
-                9.Load the Data.
-                0.Exit.
+                1. 고객 추가/삭제/조회
+                2. 지점 추가/삭제/조회
+                3. 방탈출 테마 추가/삭제/조회
+                4. 테마 예약/예약 취소
+                5. 예약 번호로 예약 조회
+                6. 전체 예약 현황 조회
+                7. 고객 이메일로 예약 조회
+                8. 데이터 저장
+                9. 데이터 불러오기
+                0. 종료
                 """;
         System.out.print("\n" + Welcome + "\n");
         for (int i = 0; i < Welcome.length(); i++) {

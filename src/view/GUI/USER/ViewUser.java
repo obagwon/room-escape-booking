@@ -18,7 +18,7 @@ public class ViewUser extends JFrame {
 
     public ViewUser(BookingResource bookingResource) {
         setContentPane(this.viewUser);
-        setTitle("VIEW ALL CUSTOMERS");
+        setTitle("전체 고객 조회");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -93,14 +93,14 @@ public class ViewUser extends JFrame {
         final JLabel label2 = new JLabel();
         label2.setHorizontalAlignment(0);
         label2.setHorizontalTextPosition(0);
-        label2.setText("VIEW ALL CUSTOMERS");
+        label2.setText("전체 고객 조회");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         viewUser.add(label2, gbc);
         mainMenuButton = new JButton();
-        mainMenuButton.setText("Main Menu");
+        mainMenuButton.setText("메인 메뉴");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -108,7 +108,7 @@ public class ViewUser extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         viewUser.add(mainMenuButton, gbc);
         SHOWALLUSERSButton = new JButton();
-        SHOWALLUSERSButton.setText("SHOW ALL CUSTOMERS");
+        SHOWALLUSERSButton.setText("전체 고객 보기");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;

@@ -4,40 +4,33 @@ import model.Room.Room;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class RoomTest {
-    Room room = new Room("J.11", "jack cole", false);
+    Room room = new Room("J.11", "jack cole", false, "공포", "HARD", 60, 2, 4, 28000);
 
     @Test
     void getRoomName() {
-        String expected = "J.11";
-        String actual = room.getRoomName();
-        assertEquals(expected, actual);
+        assertEquals("J.11", room.getRoomName());
     }
 
     @Test
     void isBooked() {
-        boolean expected = false;
-        boolean actual = false;
-        assertEquals(expected, actual);
+        assertFalse(room.isBooked());
     }
 
     @Test
     void getBuildingName() {
-        String expected = "jack cole";
-        String actual = room.getBuildingName();
-        assertEquals(expected, actual);
+        assertEquals("jack cole", room.getBuildingName());
     }
 
     @Test
-    void testGetRoomName() {
-    }
-
-    @Test
-    void testIsBooked() {
-    }
-
-    @Test
-    void testGetBuildingName() {
+    void getThemeDetails() {
+        assertEquals("공포", room.getGenre());
+        assertEquals("HARD", room.getDifficulty());
+        assertEquals(60, room.getDurationMinutes());
+        assertEquals(2, room.getMinPlayers());
+        assertEquals(4, room.getMaxPlayers());
+        assertEquals(28000, room.getPricePerPerson());
     }
 }

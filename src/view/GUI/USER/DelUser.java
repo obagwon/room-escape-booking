@@ -15,7 +15,7 @@ public class DelUser extends JFrame {
 
     public DelUser(BookingResource bookingResource) {
         setContentPane(this.delUser);
-        setTitle("DELETE CUSTOMER");
+        setTitle("고객 삭제");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -43,7 +43,7 @@ public class DelUser extends JFrame {
                 String email_ID = aGmailTextField.getText();
                 try {
                     bookingResource.delUser(email_ID);
-                    JOptionPane.showMessageDialog(delUser, "User Deleted Successfully");
+                    JOptionPane.showMessageDialog(delUser, "고객이 성공적으로 삭제되었습니다.");
                 } catch (IllegalArgumentException ex) {
                     String error = ex.getLocalizedMessage();
                     JOptionPane.showMessageDialog(delUser, error);
@@ -70,7 +70,7 @@ public class DelUser extends JFrame {
         delUser = new JPanel();
         delUser.setLayout(new GridBagLayout());
         okButton = new JButton();
-        okButton.setText("Ok");
+        okButton.setText("확인");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -84,7 +84,7 @@ public class DelUser extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delUser.add(spacer1, gbc);
         final JLabel label1 = new JLabel();
-        label1.setText("Enter the Email-ID");
+        label1.setText("이메일을 입력하세요");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -99,14 +99,14 @@ public class DelUser extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delUser.add(aGmailTextField, gbc);
         backButton = new JButton();
-        backButton.setText("Back");
+        backButton.setText("뒤로");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delUser.add(backButton, gbc);
         final JLabel label2 = new JLabel();
-        label2.setText("DELETE A CUSTOMER");
+        label2.setText("고객 삭제");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;

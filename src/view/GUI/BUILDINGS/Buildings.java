@@ -18,7 +18,7 @@ public class Buildings extends JFrame {
 
     public Buildings(BookingResource bookingResource) {
         setContentPane(this.building);
-        setTitle("CAFE BRANCHES");
+        setTitle("지점 관리");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -102,7 +102,7 @@ public class Buildings extends JFrame {
         building = new JPanel();
         building.setLayout(new GridBagLayout());
         ADDBUILDINGButton = new JButton();
-        ADDBUILDINGButton.setText("ADD CAFE BRANCH");
+        ADDBUILDINGButton.setText("지점 추가");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -122,28 +122,28 @@ public class Buildings extends JFrame {
         gbc.fill = GridBagConstraints.VERTICAL;
         building.add(spacer2, gbc);
         DELETEBUILDINGButton = new JButton();
-        DELETEBUILDINGButton.setText("DELETE CAFE BRANCH");
+        DELETEBUILDINGButton.setText("지점 삭제");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         building.add(DELETEBUILDINGButton, gbc);
         VIEWBUILDINGButton = new JButton();
-        VIEWBUILDINGButton.setText("VIEW CAFE BRANCHES");
+        VIEWBUILDINGButton.setText("지점 조회");
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         building.add(VIEWBUILDINGButton, gbc);
         BACKButton = new JButton();
-        BACKButton.setText("BACK");
+        BACKButton.setText("뒤로");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         building.add(BACKButton, gbc);
         final JLabel label1 = new JLabel();
-        label1.setText("CAFE BRANCHES");
+        label1.setText("지점 관리");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 0;

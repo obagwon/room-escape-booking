@@ -63,6 +63,18 @@ public class BookingResource implements Runnable {
 
     }
 
+    public void addAdmin(String email, String name) {
+        userService.addAdmin(email, name);
+    }
+
+    public boolean checkAdmin(String email) {
+        return userService.checkAdmin(email);
+    }
+
+    public void requireAdmin(String email) {
+        userService.checkAdmin(email);
+    }
+
     /**
      * Updates the value to the service layer.
      *
@@ -121,6 +133,11 @@ public class BookingResource implements Runnable {
         roomService.addRoom(buildingName, roomName, isBooked);
     }
 
+    public void addRoom(String buildingName, String roomName, boolean isBooked, String genre, String difficulty,
+                        int durationMinutes, int minPlayers, int maxPlayers, int pricePerPerson) {
+        roomService.addRoom(buildingName, roomName, isBooked, genre, difficulty, durationMinutes, minPlayers, maxPlayers, pricePerPerson);
+    }
+
     /**
      * Updating the model by invoking service layer from the controller.
      *
@@ -170,6 +187,10 @@ public class BookingResource implements Runnable {
         return roomService.checkRoom(roomName);
     }
 
+    public Room getRoom(String roomName) {
+        return roomService.getRoom(roomName);
+    }
+
     /**
      * Adding the Reservation of a room in the Building by a User.
      *
@@ -187,6 +208,23 @@ public class BookingResource implements Runnable {
         reservationService.addReservation(bookingID, email, buildingName, room, checkInDate, checkOutDate, checkInTime, checkOutTime, isBooked);
     }
 
+    public void addReservation(String bookingID, String email, String buildingName, String room, String checkInDate, String checkOutDate,
+                               String checkInTime, String checkOutTime, boolean isBooked, int playerCount) {
+        Room theme = roomService.getRoom(room);
+        validatePlayerCount(theme, playerCount);
+        int totalPrice = playerCount * theme.getPricePerPerson();
+        reservationService.addReservation(bookingID, email, buildingName, room, checkInDate, checkOutDate, checkInTime, checkOutTime, isBooked, playerCount, totalPrice);
+    }
+
+    private void validatePlayerCount(Room theme, int playerCount) {
+        if (playerCount < 1) {
+            throw new IllegalArgumentException("예약 인원은 1명 이상이어야 합니다.");
+        }
+        if (playerCount < theme.getMinPlayers() || playerCount > theme.getMaxPlayers()) {
+            throw new IllegalArgumentException("예약 인원은 테마 권장 인원(" + theme.getMinPlayers() + "~" + theme.getMaxPlayers() + "명) 범위 안에서 입력해주세요.");
+        }
+    }
+
     /**
      * Deleting the booking done by User.
      *
@@ -194,6 +232,14 @@ public class BookingResource implements Runnable {
      */
     public void delReservation(String bookingID) {
         reservationService.delReservation(bookingID);
+    }
+
+    public void cancelReservation(String bookingID) {
+        reservationService.cancelReservation(bookingID);
+    }
+
+    public void completeReservation(String bookingID) {
+        reservationService.completeReservation(bookingID);
     }
 
 
@@ -274,6 +320,7 @@ public class BookingResource implements Runnable {
     public void addPlayResult(String bookingId, boolean success, int hintCount, int remainingMinutes, String staffMemo) {
         reservationService.viewMyRes(bookingId);
         playResultService.addPlayResult(bookingId, success, hintCount, remainingMinutes, staffMemo);
+        reservationService.completeReservation(bookingId);
     }
 
     /**
@@ -308,8 +355,8 @@ public class BookingResource implements Runnable {
      * @throws IOException            throws IOException.
      * @throws ClassNotFoundException throws ClassNotFoundException.
      */
-    public void userLoad() throws IOException, ClassNotFoundException {
-        userService.userLoad();
+    public boolean userLoad() throws IOException, ClassNotFoundException {
+        return userService.userLoad();
     }
 
     /**
@@ -326,8 +373,8 @@ public class BookingResource implements Runnable {
      *
      * @throws IOException throws IOException.
      */
-    public void buildLoad() throws IOException {
-        buildingService.buildLoad();
+    public boolean buildLoad() throws IOException, ClassNotFoundException {
+        return buildingService.buildLoad();
 
     }
 
@@ -347,8 +394,8 @@ public class BookingResource implements Runnable {
      * @throws IOException            throws IOException
      * @throws ClassNotFoundException throws ClassNotFoundException.
      */
-    public void roomLoad() throws IOException, ClassNotFoundException {
-        roomService.roomLoad();
+    public boolean roomLoad() throws IOException, ClassNotFoundException {
+        return roomService.roomLoad();
 
     }
 
@@ -368,16 +415,46 @@ public class BookingResource implements Runnable {
      *
      * @throws IOException throws IOException.
      */
-    public void resLoad() throws IOException {
-        reservationService.resLoad();
+    public boolean resLoad() throws IOException, ClassNotFoundException {
+        return reservationService.resLoad();
     }
 
     public void playResultSave() throws IOException {
         playResultService.playResultSave();
     }
 
-    public void playResultLoad() {
-        playResultService.playResultLoad();
+    public boolean playResultLoad() throws IOException, ClassNotFoundException {
+        return playResultService.playResultLoad();
+    }
+
+    public String saveAllData() {
+        try {
+            userSave();
+            buildSave();
+            roomSave();
+            resSave();
+            playResultSave();
+            return "데이터가 성공적으로 저장되었습니다.";
+        } catch (IOException ex) {
+            throw new IllegalArgumentException("데이터 저장에 실패했습니다: " + ex.getMessage());
+        }
+    }
+
+    public String loadAllData() {
+        try {
+            boolean loaded = false;
+            loaded |= userLoad();
+            loaded |= buildLoad();
+            loaded |= roomLoad();
+            loaded |= resLoad();
+            loaded |= playResultLoad();
+            if (!loaded) {
+                return "저장된 데이터가 없어 새로 시작합니다.";
+            }
+            return "데이터를 성공적으로 불러왔습니다.";
+        } catch (IOException | ClassNotFoundException | ClassCastException ex) {
+            throw new IllegalArgumentException("데이터 불러오기에 실패했습니다: " + ex.getMessage());
+        }
     }
 
     //To implement the following parameters for these types of functions.(Addressed)
@@ -385,9 +462,9 @@ public class BookingResource implements Runnable {
     public void isBeforeTime(String checkInTime, String checkOutTime) {
         int cmp = checkInTime.compareTo(checkOutTime);
         if (cmp > 0) {
-            throw new IllegalArgumentException("Check In Time cannot be after Check Out Time");
+            throw new IllegalArgumentException("시작 시간은 종료 시간보다 늦을 수 없습니다.");
         } else if (cmp == 0) {
-            throw new IllegalArgumentException("There must least 5 min per booking ");
+            throw new IllegalArgumentException("예약은 최소 5분 이상이어야 합니다.");
         }
 
     }
@@ -400,7 +477,7 @@ public class BookingResource implements Runnable {
 
         long difference = ChronoUnit.DAYS.between(d1, d2);
         if (difference != 0) {
-            throw new IllegalArgumentException("Cannot book a room over a day.");
+            throw new IllegalArgumentException("하루를 초과하는 예약은 할 수 없습니다.");
         }
     }
 
@@ -419,9 +496,9 @@ public class BookingResource implements Runnable {
         int totalMin = minOut1 - minIn1;
         int totalTime = dif60 + totalMin;
         if (totalTime < 5) {
-            throw new IllegalArgumentException("There must least 5 min per booking ");
+            throw new IllegalArgumentException("예약은 최소 5분 이상이어야 합니다.");
         } else if ((totalTime % 5) != 0) {
-            throw new IllegalArgumentException("Booking length must be a multiple of 5 minutes.");
+            throw new IllegalArgumentException("예약 시간은 5분 단위로 입력해야 합니다.");
         }
 
     }
@@ -433,7 +510,7 @@ public class BookingResource implements Runnable {
             try {
                 LocalDate.parse(date, f);
             } catch (DateTimeParseException e) {
-                throw new IllegalArgumentException("Error" + e);
+                throw new IllegalArgumentException("오류가 발생했습니다: " + e);
             }
         }
 
@@ -448,7 +525,7 @@ public class BookingResource implements Runnable {
     public void validateTime(String input) {
         if (input.matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")) {
         } else {
-            throw new IllegalArgumentException("Invalid Time Format");
+            throw new IllegalArgumentException("시간 형식이 올바르지 않습니다. 예: 14:30");
         }
     }
 

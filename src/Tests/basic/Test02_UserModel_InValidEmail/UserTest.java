@@ -14,7 +14,7 @@ public class UserTest {
             User user = new User("", "");
         });
 
-        String expectedMessage = "Invalid email is given\n";
+        String expectedMessage = "이메일 형식이 올바르지 않습니다.\n";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));

@@ -13,18 +13,19 @@ import java.util.Map;
  * GUI는 BookingResource를 통해 이 서비스를 호출합니다.
  */
 public class PlayResultService implements Serializable {
+    private static final String DATA_FILE = "playResultData.txt";
     private Map<String, PlayResult> playResults = new HashMap<>();
 
     public void addPlayResult(String bookingId, boolean success, int hintCount, int remainingMinutes, String staffMemo) {
         // 발표 포인트: 잘못된 입력을 Service 계층에서 한 번 더 검증하여 데이터 안정성을 유지합니다.
         if (bookingId == null || bookingId.trim().isEmpty()) {
-            throw new IllegalArgumentException("Booking ID cannot be empty.");
+            throw new IllegalArgumentException("예약 번호를 입력해주세요.");
         }
         if (hintCount < 0) {
-            throw new IllegalArgumentException("Hint count must be 0 or greater.");
+            throw new IllegalArgumentException("힌트 사용 횟수는 0 이상이어야 합니다.");
         }
         if (remainingMinutes < 0) {
-            throw new IllegalArgumentException("Remaining time must be 0 or greater.");
+            throw new IllegalArgumentException("남은 시간은 0 이상이어야 합니다.");
         }
 
         playResults.put(bookingId, new PlayResult(bookingId, success, hintCount, remainingMinutes, staffMemo));
@@ -32,7 +33,7 @@ public class PlayResultService implements Serializable {
 
     public Map<String, PlayResult> viewPlayResults() {
         if (playResults.isEmpty()) {
-            throw new IllegalArgumentException("No play results are registered in the system.");
+            throw new IllegalArgumentException("등록된 플레이 결과가 없습니다.");
         }
         return new HashMap<>(playResults);
     }
@@ -42,22 +43,19 @@ public class PlayResultService implements Serializable {
     }
 
     public void playResultSave() throws IOException {
-        FileOutputStream f = new FileOutputStream(new File("playResultData.txt"));
-        ObjectOutputStream o = new ObjectOutputStream(f);
-        o.writeObject(playResults);
-        o.close();
-        f.close();
+        try (ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(DATA_FILE))) {
+            o.writeObject(playResults);
+        }
     }
 
-    public void playResultLoad() {
-        try {
-            FileInputStream fi = new FileInputStream(new File("playResultData.txt"));
-            ObjectInputStream oi = new ObjectInputStream(fi);
+    public boolean playResultLoad() throws IOException, ClassNotFoundException {
+        File file = new File(DATA_FILE);
+        if (!file.exists()) {
+            return false;
+        }
+        try (ObjectInputStream oi = new ObjectInputStream(new FileInputStream(file))) {
             playResults = (Map<String, PlayResult>) oi.readObject();
-            oi.close();
-            fi.close();
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            return true;
         }
     }
 }

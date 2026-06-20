@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ReservationTest {
 
-    Reservation reservation = new Reservation("101", "alpha@gmail.com", "jack cole", "J.11", "11/02/2022", "11/02/2022", "12:00", "13:00", true);
+    Reservation reservation = new Reservation("101", "alpha@gmail.com", "jack cole", "J.11", "11/02/2022", "11/02/2022", "12:00", "13:00", true, 3, 84000);
 
     @Test
     void getBookingID() {
@@ -64,5 +64,15 @@ class ReservationTest {
         String expected = "13:00";
         String actual = reservation.getCheckOutTime();
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void getPlayerCount() {
+        assertEquals(3, reservation.getPlayerCount());
+    }
+
+    @Test
+    void getTotalPrice() {
+        assertEquals(84000, reservation.getTotalPrice());
     }
 }

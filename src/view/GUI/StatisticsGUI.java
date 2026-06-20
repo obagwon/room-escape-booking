@@ -17,12 +17,12 @@ public class StatisticsGUI extends JFrame {
 
     public StatisticsGUI(BookingResource bookingResource) {
         statisticsPanel = new JPanel(new GridBagLayout());
-        statisticsArea = new JTextArea(18, 44);
+        statisticsArea = new JTextArea(24, 56);
         statisticsArea.setEditable(false);
 
         setContentPane(statisticsPanel);
-        setTitle("Escape Room Manager - Operation Statistics");
-        setSize(760, 620);
+        setTitle("운영 통계");
+        setSize(860, 720);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         buildView(bookingResource);
         statisticsArea.setText(bookingResource.viewStatistics());
@@ -34,12 +34,12 @@ public class StatisticsGUI extends JFrame {
         gbc.insets = new Insets(4, 4, 4, 4);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel title = new JLabel("Escape Room Operation Statistics");
+        JLabel title = new JLabel("방탈출 운영 통계");
         gbc.gridx = 0;
         gbc.gridy = 0;
         statisticsPanel.add(title, gbc);
 
-        JButton refreshButton = new JButton("Refresh Statistics");
+        JButton refreshButton = new JButton("통계 새로고침");
         refreshButton.addActionListener(e -> statisticsArea.setText(bookingResource.viewStatistics()));
         gbc.gridy = 1;
         statisticsPanel.add(refreshButton, gbc);
@@ -48,7 +48,7 @@ public class StatisticsGUI extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         statisticsPanel.add(new JScrollPane(statisticsArea), gbc);
 
-        JButton backButton = new JButton("Back to Main Menu");
+        JButton backButton = new JButton("메인 메뉴로 돌아가기");
         backButton.addActionListener(e -> {
             dispose();
             new Main_GUI(bookingResource);

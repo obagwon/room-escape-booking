@@ -17,7 +17,7 @@ public class AddBuildings extends JFrame {
 
     public AddBuildings(BookingResource bookingResource) {
         setContentPane(this.addBuildings);
-        setTitle("ADD CAFE BRANCH");
+        setTitle("지점 추가");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -46,11 +46,11 @@ public class AddBuildings extends JFrame {
                 String address = textField2.getText().trim();
                 try {
                     if (emailID.trim().isEmpty() || buildingName.trim().isEmpty() || address.trim().isEmpty()) {
-                        throw new IllegalArgumentException("Text Fields are Empty");
+                        throw new IllegalArgumentException("입력 항목을 모두 작성해 주세요.");
                     }
                     bookingResource.checkUser(emailID);
                     bookingResource.addBuilding(buildingName, address, emailID);
-                    JOptionPane.showMessageDialog(addBuildings, "Building Added Sucessfully.");
+                    JOptionPane.showMessageDialog(addBuildings, "지점이 성공적으로 추가되었습니다.");
                 } catch (IllegalArgumentException ex) {
                     String error = ex.getLocalizedMessage();
                     JOptionPane.showMessageDialog(addBuildings, error);
@@ -77,7 +77,7 @@ public class AddBuildings extends JFrame {
         addBuildings = new JPanel();
         addBuildings.setLayout(new GridBagLayout());
         final JLabel label1 = new JLabel();
-        label1.setText("ADD CAFE BRANCH");
+        label1.setText("지점 추가");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -90,14 +90,14 @@ public class AddBuildings extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         addBuildings.add(spacer1, gbc);
         backButton = new JButton();
-        backButton.setText("Back");
+        backButton.setText("뒤로");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 8;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         addBuildings.add(backButton, gbc);
         final JLabel label2 = new JLabel();
-        label2.setText("Enter Cafe Branch Name");
+        label2.setText("지점명을 입력하세요");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -110,7 +110,7 @@ public class AddBuildings extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         addBuildings.add(textField1, gbc);
         final JLabel label3 = new JLabel();
-        label3.setText("Enter Address");
+        label3.setText("주소를 입력하세요");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 5;
@@ -123,14 +123,14 @@ public class AddBuildings extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         addBuildings.add(textField2, gbc);
         okButton = new JButton();
-        okButton.setText("Ok");
+        okButton.setText("확인");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 7;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         addBuildings.add(okButton, gbc);
         final JLabel label4 = new JLabel();
-        label4.setText("Enter Email-ID");
+        label4.setText("이메일을 입력하세요");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;

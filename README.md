@@ -391,11 +391,59 @@ CLI 실행 시 다음과 같은 메뉴가 표시됩니다.
 
 ---
 
-## 10. 시연 순서
+## 10. 실행 결과
+
+프로그램의 주요 GUI 화면은 다음과 같습니다. 각 이미지는 프로젝트 루트의 `images` 폴더에 포함되어 있습니다.
+
+### 10.1 메인 화면
+
+![메인 화면](images/main.png)
+
+프로그램 실행 후 고객, 지점, 테마, 예약, 저장/불러오기, 통계 기능으로 이동할 수 있는 메인 화면입니다.
+
+### 10.2 테마 예약 화면
+
+![테마 예약 화면](images/booking.png)
+
+예약할 방탈출 테마를 선택하고 예약 절차를 시작하는 화면입니다.
+
+### 10.3 테마 예약 정보 입력 화면
+
+![테마 예약 정보 입력 화면](images/theme_booking.png)
+
+예약자 정보, 예약 날짜와 시간, 예약 인원 등 필요한 예약 내용을 입력하는 화면입니다.
+
+### 10.4 지점 관리 화면
+
+![지점 관리 화면](images/store_manage.png)
+
+방탈출 카페 지점 정보를 추가, 삭제, 조회할 수 있는 관리자용 화면입니다.
+
+### 10.5 플레이 결과 입력 화면
+
+![플레이 결과 입력 화면](images/play_result.png)
+
+예약 번호와 연결해 탈출 성공 여부, 힌트 사용 횟수, 남은 시간, 직원 메모를 입력하는 화면입니다.
+
+### 10.6 플레이 결과 조회 화면
+
+![플레이 결과 조회 화면](images/play_result2.png)
+
+등록된 플레이 결과 목록과 상세 내용을 확인하는 화면입니다.
+
+### 10.7 예약 조회 화면
+
+![예약 조회 화면](images/book_check.png)
+
+예약 번호 또는 고객 정보를 기준으로 등록된 예약 내역을 확인하는 화면입니다.
+
+---
+
+## 11. 시연 순서
 
 발표 시에는 아래 순서로 진행하면 프로젝트의 핵심 기능과 적용 기술을 자연스럽게 설명할 수 있습니다.
 
-### 10.1 GUI 시연 권장 흐름
+### 11.1 GUI 시연 권장 흐름
 
 1. **프로그램 실행**
    * `java -cp out RBSystem --gui`로 실행합니다.
@@ -445,7 +493,7 @@ CLI 실행 시 다음과 같은 메뉴가 표시됩니다.
     * 프로그램을 다시 실행한 뒤 데이터 불러오기로 저장된 데이터를 복원할 수 있음을 설명합니다.
     * 저장 파일이 없는 상태에서 불러오기를 실행하면 `저장된 데이터가 없어 새로 시작합니다.` 메시지가 표시되는 점을 확인합니다.
 
-### 10.2 CLI 시연 권장 흐름
+### 11.2 CLI 시연 권장 흐름
 
 1. `java -cp out RBSystem --cli`로 CLI를 실행합니다.
 2. 메인 메뉴가 한글로 표시되는 것을 확인합니다.
@@ -455,13 +503,13 @@ CLI 실행 시 다음과 같은 메뉴가 표시됩니다.
 
 ---
 
-## 11. 적용한 Java 개념
+## 12. 적용한 Java 개념
 
-### 11.1 객체지향 설계
+### 12.1 객체지향 설계
 
 고객, 지점, 테마, 예약, 플레이 결과를 각각 Model 클래스로 분리했습니다. 각 객체는 자신에게 필요한 데이터를 필드로 가지고, Service 계층은 이 객체들을 생성·저장·조회합니다.
 
-### 11.2 MVC 구조와 계층 분리
+### 12.2 MVC 구조와 계층 분리
 
 프로젝트는 다음 계층으로 나뉩니다.
 
@@ -474,7 +522,7 @@ CLI 실행 시 다음과 같은 메뉴가 표시됩니다.
 
 이 구조를 통해 화면 코드가 직접 데이터를 조작하지 않고 `BookingResource`를 통해 Service에 요청하도록 구성했습니다.
 
-### 11.3 Collection Framework와 Map/HashMap
+### 12.3 Collection Framework와 Map/HashMap
 
 각 Service는 `Map` 또는 `HashMap`을 사용해 데이터를 관리합니다.
 
@@ -488,7 +536,7 @@ CLI 실행 시 다음과 같은 메뉴가 표시됩니다.
 
 이를 통해 key 기반 조회, 중복 확인, 삭제를 구현했습니다.
 
-### 11.4 Enum
+### 12.4 Enum
 
 `UserRole` Enum으로 고객/관리자 권한을 구분하고, `ReservationStatus` Enum을 사용해 예약 상태를 표현합니다.
 
@@ -510,11 +558,11 @@ public enum ReservationStatus {
 
 예약 생성 시 기본 상태는 `RESERVED`이며, 예약 취소 시 Map에서 삭제하지 않고 `CANCELLED`로 변경합니다. 플레이 결과를 등록하면 해당 예약은 `COMPLETED` 상태로 변경됩니다. 취소된 예약은 이력 조회와 통계에는 남지만, 같은 날짜/테마의 중복 예약 검사에서는 제외됩니다.
 
-### 11.5 File I/O와 Object Serialization
+### 12.5 File I/O와 Object Serialization
 
 Service 클래스들은 `FileOutputStream`, `ObjectOutputStream`, `FileInputStream`, `ObjectInputStream`을 사용해 객체 Map 데이터를 파일로 저장하고 다시 불러옵니다.
 
-### 11.6 Stream API
+### 12.6 Stream API
 
 `StatisticsService`에서는 Stream API를 사용해 통계를 계산합니다.
 
@@ -525,17 +573,17 @@ Service 클래스들은 `FileOutputStream`, `ObjectOutputStream`, `FileInputStre
 * `max(...)`로 가장 인기 있는 테마와 힌트 최다 사용 예약 계산
 * 데이터가 없는 경우 `orElse(...)`로 기본값 처리
 
-### 11.7 예외 처리와 입력값 검증
+### 12.7 예외 처리와 입력값 검증
 
 잘못된 입력이 들어오면 `IllegalArgumentException`을 발생시키고, GUI에서는 `JOptionPane`, CLI에서는 콘솔 출력으로 사용자에게 안내합니다.
 
 ---
 
-## 12. 예외 처리 및 입력 검증
+## 13. 예외 처리 및 입력 검증
 
 본 프로젝트는 사용자 입력이 잘못되었을 때 기능이 비정상적으로 진행되지 않도록 여러 계층에서 검증합니다.
 
-### 12.1 고객 검증
+### 13.1 고객 검증
 
 * 이메일 형식 검증
 * 이메일 빈 값 검증
@@ -543,7 +591,7 @@ Service 클래스들은 `FileOutputStream`, `ObjectOutputStream`, `FileInputStre
 * 중복 고객 등록 방지
 * 등록되지 않은 고객 접근 방지
 
-### 12.2 권한 검증
+### 13.2 권한 검증
 
 * 지점 추가/삭제 전 관리자 이메일 검증
 * 테마 추가/삭제 전 관리자 이메일 검증
@@ -551,14 +599,14 @@ Service 클래스들은 `FileOutputStream`, `ObjectOutputStream`, `FileInputStre
 * 운영 통계 조회 전 관리자 이메일 검증
 * 일반 고객 계정으로 관리자 기능 접근 시 차단
 
-### 12.3 지점 검증
+### 13.3 지점 검증
 
 * 지점명 빈 값 검증
 * 주소 빈 값 검증
 * 중복 지점 등록 방지
 * 등록되지 않은 지점 접근 방지
 
-### 12.4 테마 검증
+### 13.4 테마 검증
 
 * 테마명 빈 값 검증
 * 장르와 난이도 빈 값 검증
@@ -571,7 +619,7 @@ Service 클래스들은 `FileOutputStream`, `ObjectOutputStream`, `FileInputStre
 * 등록되지 않은 테마 접근 방지
 * 지점이 존재하는지 확인 후 테마 등록
 
-### 12.5 예약 검증
+### 13.5 예약 검증
 
 * 예약 번호 빈 값 검증
 * 예약 번호 중복 검증
@@ -590,7 +638,7 @@ Service 클래스들은 `FileOutputStream`, `ObjectOutputStream`, `FileInputStre
 * 같은 날짜와 테마의 예약 시간 중복 방지
 * 취소된 예약은 중복 예약 검사에서 제외
 
-### 12.6 플레이 결과 검증
+### 13.6 플레이 결과 검증
 
 * 예약 번호 빈 값 검증
 * 힌트 사용 횟수 0 이상 검증
@@ -598,7 +646,7 @@ Service 클래스들은 `FileOutputStream`, `ObjectOutputStream`, `FileInputStre
 
 ---
 
-## 13. 데이터 저장 방식
+## 14. 데이터 저장 방식
 
 프로그램은 메모리의 `Map` 데이터를 파일로 저장하고 다시 불러옵니다. 저장 방식은 **File I/O + Object Serialization**입니다.
 
@@ -632,7 +680,7 @@ Service 클래스들은 `FileOutputStream`, `ObjectOutputStream`, `FileInputStre
 
 ---
 
-## 14. 현재 한계점
+## 15. 현재 한계점
 
 현재 구현된 기능을 기준으로 다음 한계가 있습니다.
 
@@ -646,7 +694,7 @@ Service 클래스들은 `FileOutputStream`, `ObjectOutputStream`, `FileInputStre
 
 ---
 
-## 15. 향후 개선 방향
+## 16. 향후 개선 방향
 
 현재 구현을 기반으로 다음 기능을 추가하면 더 완성도 높은 방탈출 카페 운영 시스템으로 확장할 수 있습니다.
 
@@ -671,7 +719,7 @@ Service 클래스들은 `FileOutputStream`, `ObjectOutputStream`, `FileInputStre
 
 ---
 
-## 16. 제출 및 발표 핵심 포인트
+## 17. 제출 및 발표 핵심 포인트
 
 발표에서 강조할 만한 핵심 포인트는 다음과 같습니다.
 

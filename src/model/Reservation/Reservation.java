@@ -11,7 +11,7 @@ import java.io.Serializable;
  * bookingID는 예약 조회와 PlayResult 연결에 사용되는 핵심 식별자입니다.
  */
 public class Reservation implements Serializable {
-
+    private static final long serialVersionUID = -8376204894422513685L;
 
     private final String bookingID;
     private final String buildingName;
@@ -21,9 +21,11 @@ public class Reservation implements Serializable {
     private final String checkOutDate;
     private final String checkInTime;
     private final String checkOutTime;
+    private final int playerCount;
+    private final int totalPrice;
 
     private final boolean isBooked = false;
-    private final ReservationStatus status;
+    private ReservationStatus status;
 
 
     /**
@@ -39,6 +41,11 @@ public class Reservation implements Serializable {
      * @param isBooked     Room's status if booked or not (redundant).
      */
     public Reservation(String bookingID, String email, String buildingName, String room, String checkInDate, String checkOutDate, String checkInTime, String checkOutTime, boolean isBooked) {
+        this(bookingID, email, buildingName, room, checkInDate, checkOutDate, checkInTime, checkOutTime, isBooked, 0, 0);
+    }
+
+    public Reservation(String bookingID, String email, String buildingName, String room, String checkInDate, String checkOutDate,
+                       String checkInTime, String checkOutTime, boolean isBooked, int playerCount, int totalPrice) {
         this.bookingID = bookingID;
         this.email = email;
         this.buildingName = buildingName;
@@ -47,6 +54,8 @@ public class Reservation implements Serializable {
         this.checkOutDate = checkOutDate;
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
+        this.playerCount = playerCount;
+        this.totalPrice = totalPrice;
         this.status = isBooked ? ReservationStatus.RESERVED : ReservationStatus.CANCELLED;
     }
 
@@ -123,6 +132,14 @@ public class Reservation implements Serializable {
         return checkOutTime;
     }
 
+    public int getPlayerCount() {
+        return playerCount;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
     /**
      * Returns the reservation status enum used for presentation and future extension.
      *
@@ -130,5 +147,20 @@ public class Reservation implements Serializable {
      */
     public ReservationStatus getStatus() {
         return status;
+    }
+
+    public void setStatus(ReservationStatus status) {
+        if (status == null) {
+            throw new IllegalArgumentException("예약 상태를 입력해주세요.");
+        }
+        this.status = status;
+    }
+
+    public String getStatusDisplayName() {
+        return status.getDisplayName();
+    }
+
+    public boolean blocksReservationOverlap() {
+        return status != ReservationStatus.CANCELLED;
     }
 }

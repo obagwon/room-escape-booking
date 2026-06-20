@@ -1,6 +1,7 @@
 package service;
 
 import model.User.User;
+import model.User.UserRole;
 
 import java.io.*;
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import java.util.Map;
  * @author 220031985
  */
 public class UserService implements Serializable {
-
+    private static final String DATA_FILE = "userData.txt";
 
     private Map<String, User> user = new HashMap<>();
 
@@ -29,35 +30,23 @@ public class UserService implements Serializable {
      * @throws IOException throws IOException.
      */
     public void userSave() throws IOException {
-        FileOutputStream f = new FileOutputStream(new File("userData.txt"));
-        ObjectOutputStream o = new ObjectOutputStream(f);
-
-        // Write objects to file
-        o.writeObject(user);
-        o.close();
-        f.close();
-
+        try (ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(DATA_FILE))) {
+            o.writeObject(user);
+        }
     }
 
     /**
      * Load the User Data.
      */
-    public void userLoad() {
-        try {
-
-            FileInputStream fi = new FileInputStream(new File("userData.txt"));
-            ObjectInputStream oi = new ObjectInputStream(fi);
-
-            // Read objects
-            user = (Map<String, User>) oi.readObject();
-
-
-            oi.close();
-            fi.close();
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+    public boolean userLoad() throws IOException, ClassNotFoundException {
+        File file = new File(DATA_FILE);
+        if (!file.exists()) {
+            return false;
         }
-
+        try (ObjectInputStream oi = new ObjectInputStream(new FileInputStream(file))) {
+            user = (Map<String, User>) oi.readObject();
+            return true;
+        }
     }
 
 
@@ -68,12 +57,20 @@ public class UserService implements Serializable {
      * @param name  Name.
      */
     public void addUser(String email, String name) {
+        addUser(email, name, UserRole.CUSTOMER);
+    }
+
+    public void addAdmin(String email, String name) {
+        addUser(email, name, UserRole.ADMIN);
+    }
+
+    public void addUser(String email, String name, UserRole role) {
         if (user.containsKey(email)) {
-            throw new IllegalArgumentException("User registered in the System. \n");
+            throw new IllegalArgumentException("이미 등록된 고객입니다.\n");
         } else if (name.isEmpty()) {
-            throw new IllegalArgumentException("No Name given. \n");
+            throw new IllegalArgumentException("고객 이름을 입력해주세요.\n");
         } else {
-            user.put(email, new User(name, email));
+            user.put(email, new User(name, email, role));
         }
     }
 
@@ -86,13 +83,13 @@ public class UserService implements Serializable {
     public void delUser(String emailID) {
         String email = emailID.trim();
         if (email.isEmpty()) {
-            throw new IllegalArgumentException("Given Email is Empty");
+            throw new IllegalArgumentException("고객 이메일을 입력해주세요.");
         } else if (user.isEmpty()) {
-            throw new IllegalArgumentException("No Users registered in the System. \n");
+            throw new IllegalArgumentException("등록된 고객이 없습니다.\n");
         } else if (user.containsKey(email)) {
             user.remove(email);
         } else {
-            throw new IllegalArgumentException(" User not registered in the System. \n");
+            throw new IllegalArgumentException("등록되지 않은 고객입니다.\n");
         }
     }
 
@@ -113,7 +110,7 @@ public class UserService implements Serializable {
     public Map<String, User> viewUsers() {
         Map<String, User> viewUsers = new HashMap<>();
         if (user.isEmpty()) {
-            throw new IllegalArgumentException("No Users registered in the System. \n");
+            throw new IllegalArgumentException("등록된 고객이 없습니다.\n");
         } else {
             viewUsers.putAll(user);
             return viewUsers;
@@ -132,8 +129,21 @@ public class UserService implements Serializable {
         if (user.containsKey(email)) {
             return true;
         } else {
-            throw new IllegalArgumentException("User not registered in the System. \n");
+            throw new IllegalArgumentException("등록되지 않은 고객입니다.\n");
         }
+    }
+
+    public boolean checkAdmin(String email) {
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("관리자 이메일을 입력해주세요.");
+        }
+        User target = user.get(email.trim());
+        if (target == null) {
+            throw new IllegalArgumentException("등록되지 않은 관리자 계정입니다.");
+        } else if (!target.isAdmin()) {
+            throw new IllegalArgumentException("관리자 권한이 필요한 기능입니다.");
+        }
+        return true;
     }
 
 

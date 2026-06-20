@@ -17,7 +17,7 @@ public class User extends JFrame {
 
     public User(BookingResource bookingResource) {
         setContentPane(this.user);
-        setTitle("User");
+        setTitle("고객 관리");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -91,7 +91,7 @@ public class User extends JFrame {
         user = new JPanel();
         user.setLayout(new GridBagLayout());
         final JLabel label1 = new JLabel();
-        label1.setText("ADD/DELETE/VIEW CUSTOMERS");
+        label1.setText("고객 추가/삭제/조회");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
@@ -105,21 +105,21 @@ public class User extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         user.add(spacer1, gbc);
         ADDUSERButton = new JButton();
-        ADDUSERButton.setText("ADD CUSTOMER");
+        ADDUSERButton.setText("고객 추가");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         user.add(ADDUSERButton, gbc);
         DELETEUSERButton = new JButton();
-        DELETEUSERButton.setText("DELETE CUSTOMER");
+        DELETEUSERButton.setText("고객 삭제");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         user.add(DELETEUSERButton, gbc);
         VIEWUSERSButton = new JButton();
-        VIEWUSERSButton.setText("VIEW CUSTOMERS");
+        VIEWUSERSButton.setText("고객 조회");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 1;
@@ -132,7 +132,7 @@ public class User extends JFrame {
         gbc.fill = GridBagConstraints.VERTICAL;
         user.add(spacer2, gbc);
         mainMenuButton = new JButton();
-        mainMenuButton.setText("Main Menu");
+        mainMenuButton.setText("메인 메뉴");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 3;

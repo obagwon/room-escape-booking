@@ -17,7 +17,7 @@ public class Rooms extends JFrame {
 
     public Rooms(BookingResource bookingResource) {
         setContentPane(this.rooms);
-        setTitle("ESCAPE THEMES");
+        setTitle("테마 관리");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -89,7 +89,7 @@ public class Rooms extends JFrame {
         rooms = new JPanel();
         rooms.setLayout(new GridBagLayout());
         ADDROOMButton = new JButton();
-        ADDROOMButton.setText("ADD THEME");
+        ADDROOMButton.setText("테마 추가");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -102,25 +102,25 @@ public class Rooms extends JFrame {
         gbc.fill = GridBagConstraints.VERTICAL;
         rooms.add(spacer1, gbc);
         DELETEROOMSButton = new JButton();
-        DELETEROOMSButton.setText("DELETE THEME");
+        DELETEROOMSButton.setText("테마 삭제");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;
         rooms.add(DELETEROOMSButton, gbc);
         VIEWROOMSButton = new JButton();
-        VIEWROOMSButton.setText("VIEW THEMES");
+        VIEWROOMSButton.setText("테마 조회");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 1;
         rooms.add(VIEWROOMSButton, gbc);
         final JLabel label1 = new JLabel();
-        label1.setText("ESCAPE THEMES");
+        label1.setText("테마 관리");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         rooms.add(label1, gbc);
         BACKButton = new JButton();
-        BACKButton.setText("BACK");
+        BACKButton.setText("뒤로");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 3;

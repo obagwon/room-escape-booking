@@ -13,7 +13,7 @@ import java.util.Map;
  * @author 220031985
  */
 public class BuildingService implements Serializable {
-
+    private static final String DATA_FILE = "buildingData.txt";
 
     private Map<String, Building> buildings = new HashMap<>();
 
@@ -37,11 +37,11 @@ public class BuildingService implements Serializable {
     public void addBuilding(String buildingName, String address, String email) {
 
         if (buildings.containsKey(buildingName.toLowerCase())) {
-            throw new IllegalArgumentException("Building registered in the System. \n");
+            throw new IllegalArgumentException("이미 등록된 지점입니다.\n");
         } else if (buildingName.isEmpty()) {
-            throw new IllegalArgumentException(" No Building name is given. \n");
+            throw new IllegalArgumentException("지점명을 입력해주세요.\n");
         } else if (address.isEmpty()) {
-            throw new IllegalArgumentException("Empty Address if given. \n");
+            throw new IllegalArgumentException("지점 주소를 입력해주세요.\n");
         } else {
 
             buildings.put(buildingName.toLowerCase(), new Building(buildingName, address, email, null));
@@ -56,7 +56,7 @@ public class BuildingService implements Serializable {
     public Map<String, Building> viewBuildings() {
         Map<String, Building> viewBuildings = new HashMap<>();
         if (buildings.isEmpty()) {
-            throw new IllegalArgumentException("No Building are registered in the System. \n");
+            throw new IllegalArgumentException("등록된 지점이 없습니다.\n");
         } else {
             viewBuildings.putAll(buildings);
             return viewBuildings;
@@ -76,9 +76,9 @@ public class BuildingService implements Serializable {
             buildings.remove(buildingName.toLowerCase());
 
         } else if (buildingName.isEmpty()) {
-            throw new IllegalArgumentException("No Building name is given.");
+            throw new IllegalArgumentException("지점명을 입력해주세요.");
         } else {
-            throw new IllegalArgumentException("Building is not in the System.");
+            throw new IllegalArgumentException("등록되지 않은 지점입니다.");
         }
     }
 
@@ -93,7 +93,7 @@ public class BuildingService implements Serializable {
         if (buildings.containsKey(buildingName.toLowerCase())) {
             return true;
         } else {
-            throw new IllegalArgumentException("Building not in the System. \n");
+            throw new IllegalArgumentException("등록되지 않은 지점입니다.\n");
         }
     }
 
@@ -103,37 +103,23 @@ public class BuildingService implements Serializable {
      * @throws IOException throws IOException.
      */
     public void buildSave() throws IOException {
-        FileOutputStream f = new FileOutputStream(new File("buildingData.txt"));
-        ObjectOutputStream o = new ObjectOutputStream(f);
-
-        // Write objects to file
-        o.writeObject(buildings);
-        o.close();
-        f.close();
-
+        try (ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(DATA_FILE))) {
+            o.writeObject(buildings);
+        }
     }
 
     /**
      * Load the Building Data.
      */
-    public void buildLoad() {
-        try {
-
-            FileInputStream fi = new FileInputStream(new File("buildingData.txt"));
-            ObjectInputStream oi = new ObjectInputStream(fi);
-
-            // Read objects
-            buildings = (Map<String, Building>) oi.readObject();
-
-
-            //  System.out.println(pr1.toString());
-
-            oi.close();
-            fi.close();
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+    public boolean buildLoad() throws IOException, ClassNotFoundException {
+        File file = new File(DATA_FILE);
+        if (!file.exists()) {
+            return false;
         }
-
+        try (ObjectInputStream oi = new ObjectInputStream(new FileInputStream(file))) {
+            buildings = (Map<String, Building>) oi.readObject();
+            return true;
+        }
     }
 
     /**

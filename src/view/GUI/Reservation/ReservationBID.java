@@ -19,7 +19,7 @@ public class ReservationBID extends JFrame {
 
     public ReservationBID(BookingResource bookingResource) {
         setContentPane(this.resEmailID);
-        setTitle("VIEWING RESERVATIONS BY EMAIL-ID");
+        setTitle("예약 번호로 예약 조회");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -36,13 +36,13 @@ public class ReservationBID extends JFrame {
                 Map<String, Reservation> viewBookingIDRes = new HashMap<>();
                 try {
                     if (bookingID.isEmpty()) {
-                        throw new IllegalArgumentException("Text Fields cannot be empty.");
+                        throw new IllegalArgumentException("입력 항목을 작성해 주세요.");
                     }
                     viewBookingIDRes = bookingResource.viewMyRes(bookingID);
                     for (Map.Entry<String, Reservation> entry : viewBookingIDRes.entrySet()) {
                         String key = entry.getKey();
                         Object value = entry.getValue();
-                        JOptionPane.showMessageDialog(resEmailID, "Booking ID: " + entry.getValue().getBookingID() + ", " + entry.getValue().getEmail() + " has a reservation in " + entry.getValue().getBuildingName() + " and has booked the room: " + entry.getValue().getRoom() + " @ " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + ".The User exits @ " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime() + "\n");
+                        JOptionPane.showMessageDialog(resEmailID, "예약 번호: " + entry.getValue().getBookingID() + "\n고객 이메일: " + entry.getValue().getEmail() + "\n지점명: " + entry.getValue().getBuildingName() + "\n테마명: " + entry.getValue().getRoom() + "\n시작 시간: " + entry.getValue().getCheckInDate() + ":" + entry.getValue().getCheckInTime() + "\n종료 시간: " + entry.getValue().getCheckOutDate() + ":" + entry.getValue().getCheckOutTime() + "\n예약 인원: " + entry.getValue().getPlayerCount() + "명\n총 가격: " + entry.getValue().getTotalPrice() + "원\n예약 상태: " + entry.getValue().getStatusDisplayName() + "\n");
                     }
                 } catch (IllegalArgumentException ex) {
                     String error = ex.getLocalizedMessage();
@@ -83,7 +83,7 @@ public class ReservationBID extends JFrame {
         resEmailID = new JPanel();
         resEmailID.setLayout(new GridBagLayout());
         final JLabel label1 = new JLabel();
-        label1.setText("VIEW RESERVATION BY BOOKING ID");
+        label1.setText("예약 번호로 예약 조회");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -91,7 +91,7 @@ public class ReservationBID extends JFrame {
         gbc.gridwidth = 2;
         resEmailID.add(label1, gbc);
         final JLabel label2 = new JLabel();
-        label2.setText("BOOKING - ID");
+        label2.setText("예약 번호");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -104,13 +104,13 @@ public class ReservationBID extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         resEmailID.add(textField1, gbc);
         OKButton = new JButton();
-        OKButton.setText("OK");
+        OKButton.setText("확인");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 3;
         resEmailID.add(OKButton, gbc);
         backButton = new JButton();
-        backButton.setText("Back");
+        backButton.setText("뒤로");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 4;

@@ -1,6 +1,7 @@
 package Tests.basic.Test01_UserModel_correct_arguments;
 
 import model.User.User;
+import model.User.UserRole;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,5 +22,10 @@ class UserTest {
         String expected = "alpha@gmail.com";
         String actual = user.getEmail();
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void defaultRoleIsCustomer() {
+        assertEquals(UserRole.CUSTOMER, user.getRole());
     }
 }

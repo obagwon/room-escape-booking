@@ -1,5 +1,6 @@
 package Tests.basic.Test10_ReservationService;
 
+import model.Reservation.ReservationStatus;
 import org.junit.Test;
 import service.ReservationService;
 
@@ -7,92 +8,129 @@ import static org.junit.Assert.*;
 
 public class ReservationServiceTest {
 
-    ReservationService reservationService = new ReservationService();
-
     @Test
     public void addReservation() {
-        reservationService.addReservation("abc", "alpha@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "13:00", "14:00", true);
+        ReservationService reservationService = new ReservationService();
+        reservationService.addReservation("abc", "alpha@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "13:00", "14:00", true, 3, 84000);
         assertEquals(1, reservationService.resCount());
-
+        assertEquals(3, reservationService.viewMyRes("abc").get("abc").getPlayerCount());
+        assertEquals(84000, reservationService.viewMyRes("abc").get("abc").getTotalPrice());
     }
 
     @Test
     public void delReservation() {
+        ReservationService reservationService = new ReservationService();
         reservationService.addReservation("abc", "alpha@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "13:00", "14:00", true);
         reservationService.delReservation("abc");
-        assertEquals(0, reservationService.resCount());
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            reservationService.addReservation("abc", "alpha@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "13:00", "14:00", true);
-            reservationService.delReservation("abc1");
-        });
-        String expectedMessage = "No Booking done under this Booking ID.";
-        String actualMessage = exception.getMessage();
+        assertEquals(1, reservationService.resCount());
+        assertEquals(ReservationStatus.CANCELLED, reservationService.viewMyRes("abc").get("abc").getStatus());
 
-        assertTrue(actualMessage.contains(expectedMessage));
-
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> reservationService.delReservation("abc1"));
+        assertTrue(exception.getMessage().contains("해당 예약 번호로 등록된 예약이 없습니다."));
     }
 
     @Test
     public void viewMyRes() {
+        ReservationService reservationService = new ReservationService();
         reservationService.addReservation("abc", "alpha@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "13:00", "14:00", true);
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            reservationService.viewMyRes("");
-        });
-        String expectedMessage = "User has not placed any Reservations.";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-
-
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> reservationService.viewMyRes("missing"));
+        assertTrue(exception.getMessage().contains("해당 고객의 예약 내역이 없습니다."));
     }
 
     @Test
     public void checkID() {
+        ReservationService reservationService = new ReservationService();
         reservationService.addReservation("abc", "alpha@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "13:00", "14:00", true);
         assertFalse(reservationService.checkID("abc1"));
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            reservationService.checkID("abc");
-        });
-        String expectedMessage = "No Two Bookings can have the same ID.";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> reservationService.checkID("abc"));
+        assertTrue(exception.getMessage().contains("같은 예약 번호를 중복 사용할 수 없습니다."));
     }
 
     @Test
-    public void checkOverlap() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            reservationService.addReservation("abc", "alpha@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "13:00", "14:00", true);
-            reservationService.checkOverlap("13:05", "13:35", "J10", "12-02-2022");
-        });
-        String expectedMessage = "Room is booked by " + "alpha@gmail.com";
-        String actualMessage = exception.getMessage();
+    public void checkOverlapRejectsSameThemeSameDateOverlappingTime() {
+        ReservationService reservationService = new ReservationService();
+        reservationService.addReservation("abc", "alpha@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "10:00", "11:00", true);
 
-        assertTrue(actualMessage.contains(expectedMessage));
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                reservationService.checkOverlap("10:30", "11:30", "j10", "12-02-2022"));
 
-
+        assertTrue(exception.getMessage().contains("해당 테마는 이미 예약되어 있습니다. 예약 고객: alpha@gmail.com"));
         assertEquals(1, reservationService.resCount());
     }
 
     @Test
+    public void checkOverlapAllowsAdjacentReservation() {
+        ReservationService reservationService = new ReservationService();
+        reservationService.addReservation("abc", "alpha@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "10:00", "11:00", true);
+
+        reservationService.checkOverlap("11:00", "12:00", "J10", "12-02-2022");
+        reservationService.addReservation("def", "beta@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "11:00", "12:00", true);
+
+        assertEquals(2, reservationService.resCount());
+    }
+
+    @Test
+    public void checkOverlapAllowsDifferentThemeAtSameTime() {
+        ReservationService reservationService = new ReservationService();
+        reservationService.addReservation("abc", "alpha@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "10:00", "11:00", true);
+
+        reservationService.checkOverlap("10:30", "11:30", "J11", "12-02-2022");
+        reservationService.addReservation("def", "beta@gmail.com", "jack cole", "J11", "12-02-2022", "12-02-2022", "10:30", "11:30", true);
+
+        assertEquals(2, reservationService.resCount());
+    }
+
+    @Test
+    public void checkOverlapAllowsSameThemeSameTimeOnDifferentDate() {
+        ReservationService reservationService = new ReservationService();
+        reservationService.addReservation("abc", "alpha@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "10:00", "11:00", true);
+
+        reservationService.checkOverlap("10:00", "11:00", "J10", "13-02-2022");
+        reservationService.addReservation("def", "beta@gmail.com", "jack cole", "J10", "13-02-2022", "13-02-2022", "10:00", "11:00", true);
+
+        assertEquals(2, reservationService.resCount());
+    }
+
+    @Test
+    public void checkOverlapRejectsInvalidTimeFormat() {
+        ReservationService reservationService = new ReservationService();
+        reservationService.addReservation("abc", "alpha@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "10:00", "11:00", true);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                reservationService.checkOverlap("10:AA", "11:30", "J10", "12-02-2022"));
+
+        assertTrue(exception.getMessage().contains("시간 형식이 올바르지 않습니다. 예: 14:30"));
+    }
+
+    @Test
     public void viewResName() {
+        ReservationService reservationService = new ReservationService();
         reservationService.addReservation("abc", "alpha@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "13:00", "14:00", true);
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            reservationService.viewResName("");
-        });
-        String expectedMessage = "EMAIL IS EMPTY. TRY AGAIN!";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> reservationService.viewResName(""));
+        assertTrue(exception.getMessage().contains("고객 이메일을 입력해주세요."));
         reservationService.delReservation("abc");
-        assertEquals(0, reservationService.resCount());
-        Exception exception_1 = assertThrows(IllegalArgumentException.class, () -> {
-            reservationService.viewResName("alpha@gmail.com");
-        });
-        String expectedMessage_1 = "No Reservations Booked under " + "alpha@gmail.com";
-        String actualMessage_1 = exception_1.getMessage();
+        assertEquals(1, reservationService.resCount());
+        assertEquals(ReservationStatus.CANCELLED, reservationService.viewResName("alpha@gmail.com").get("abc").getStatus());
+    }
 
-        assertTrue(actualMessage_1.contains(expectedMessage_1));
+    @Test
+    public void checkOverlapIgnoresCancelledReservation() {
+        ReservationService reservationService = new ReservationService();
+        reservationService.addReservation("abc", "alpha@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "10:00", "11:00", true);
+        reservationService.cancelReservation("abc");
 
+        reservationService.checkOverlap("10:30", "11:30", "j10", "12-02-2022");
+        reservationService.addReservation("def", "beta@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "10:30", "11:30", true);
+
+        assertEquals(2, reservationService.resCount());
+    }
+
+    @Test
+    public void completeReservationChangesStatus() {
+        ReservationService reservationService = new ReservationService();
+        reservationService.addReservation("abc", "alpha@gmail.com", "jack cole", "J10", "12-02-2022", "12-02-2022", "10:00", "11:00", true);
+        reservationService.completeReservation("abc");
+
+        assertEquals(ReservationStatus.COMPLETED, reservationService.viewMyRes("abc").get("abc").getStatus());
     }
 }

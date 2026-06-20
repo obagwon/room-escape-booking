@@ -17,7 +17,7 @@ public class ViewBuilding extends JFrame {
 
     public ViewBuilding(BookingResource bookingResource) {
         setContentPane(this.viewBuildings);
-        setTitle("VIEW ALL CAFE BRANCHES");
+        setTitle("전체 지점 조회");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -47,7 +47,7 @@ public class ViewBuilding extends JFrame {
                         String key = entry.getKey();
                         Object value = entry.getValue().getBuildingName();
                         Object address = entry.getValue().getAddress();
-                        JOptionPane.showMessageDialog(viewBuildings, "Buildings :\n" + value + " and the address is " + address + "." + "\n");
+                        JOptionPane.showMessageDialog(viewBuildings, "지점명: " + value + "\n주소: " + address + "\n");
                     }
                 } catch (IllegalArgumentException ex) {
                     String error = ex.getLocalizedMessage();
@@ -82,19 +82,19 @@ public class ViewBuilding extends JFrame {
         gbc.fill = GridBagConstraints.VERTICAL;
         viewBuildings.add(spacer1, gbc);
         final JLabel label1 = new JLabel();
-        label1.setText("VIEW ALL CAFE BRANCHES");
+        label1.setText("전체 지점 조회");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         viewBuildings.add(label1, gbc);
         BACKButton = new JButton();
-        BACKButton.setText("MAIN MENU");
+        BACKButton.setText("메인 메뉴");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 2;
         viewBuildings.add(BACKButton, gbc);
         SHOWBUILDINGSButton = new JButton();
-        SHOWBUILDINGSButton.setText("SHOW CAFE BRANCHES");
+        SHOWBUILDINGSButton.setText("지점 보기");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;

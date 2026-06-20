@@ -17,7 +17,7 @@ public class AddUser extends JFrame {
 
     public AddUser(BookingResource bookingResource) {
         setContentPane(this.addUser);
-        setTitle("ADD CUSTOMER");
+        setTitle("고객 추가");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -45,7 +45,7 @@ public class AddUser extends JFrame {
                 String name = textField2.getText();
                 try {
                     bookingResource.addUser(email_ID, name);
-                    JOptionPane.showMessageDialog(addUser, "User Added Successfully");
+                    JOptionPane.showMessageDialog(addUser, "고객이 성공적으로 추가되었습니다.");
                 } catch (IllegalArgumentException | IOException ex) {
                     String error = ex.getLocalizedMessage();
                     JOptionPane.showMessageDialog(addUser, error);
@@ -82,13 +82,13 @@ public class AddUser extends JFrame {
         final JLabel label1 = new JLabel();
         label1.setHorizontalAlignment(0);
         label1.setHorizontalTextPosition(0);
-        label1.setText("ADD A CUSTOMER");
+        label1.setText("고객 추가");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         addUser.add(label1, gbc);
         final JLabel label2 = new JLabel();
-        label2.setText("Enter Email format: name@domain.com ");
+        label2.setText("이메일을 입력하세요. 예: name@domain.com");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -104,7 +104,7 @@ public class AddUser extends JFrame {
         final JLabel label3 = new JLabel();
         label3.setHorizontalAlignment(0);
         label3.setHorizontalTextPosition(0);
-        label3.setText("Enter your NAME");
+        label3.setText("이름을 입력하세요");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 4;
@@ -117,14 +117,14 @@ public class AddUser extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         addUser.add(textField2, gbc);
         OKButton = new JButton();
-        OKButton.setText("OK");
+        OKButton.setText("확인");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 6;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         addUser.add(OKButton, gbc);
         backButton = new JButton();
-        backButton.setText("Back");
+        backButton.setText("뒤로");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 7;

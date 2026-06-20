@@ -2,8 +2,12 @@ package service;
 
 
 import model.Reservation.Reservation;
+import model.Reservation.ReservationStatus;
 
 import java.io.*;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +19,7 @@ import java.util.Map;
  */
 // Bug Fix: If user is the key, they cannot make more than one booking (Addressed).
 public class ReservationService implements Serializable {
-
+    private static final String DATA_FILE = "resData.txt";
 
     private Map<String, Reservation> reservation = new HashMap<>();
 
@@ -40,10 +44,21 @@ public class ReservationService implements Serializable {
      */
     // Bug Fix: Rewrite the method as keeping bookingID as the key. (Addressed)
     public void addReservation(String bookingID, String email, String buildingName, String room, String checkInDate, String checkOutDate, String checkInTime, String checkOutTime, boolean isBooked) {
+        addReservation(bookingID, email, buildingName, room, checkInDate, checkOutDate, checkInTime, checkOutTime, isBooked, 0, 0);
+    }
+
+    public void addReservation(String bookingID, String email, String buildingName, String room, String checkInDate, String checkOutDate,
+                               String checkInTime, String checkOutTime, boolean isBooked, int playerCount, int totalPrice) {
         if (bookingID.trim().isEmpty() || email.trim().isEmpty() || buildingName.trim().isEmpty() || checkInDate.trim().isEmpty() || checkInDate.trim().isEmpty() || checkOutDate.trim().isEmpty() || checkInTime.trim().isEmpty() || checkOutTime.trim().isEmpty()) {
-            throw new IllegalArgumentException("Texts Fields cannot be empty");
+            throw new IllegalArgumentException("입력값을 모두 입력해주세요.");
         }
-        reservation.put(bookingID, new Reservation(bookingID, email, buildingName, room, checkInDate, checkOutDate, checkInTime, checkOutTime, isBooked));
+        if (playerCount < 0) {
+            throw new IllegalArgumentException("예약 인원은 1명 이상이어야 합니다.");
+        }
+        if (totalPrice < 0) {
+            throw new IllegalArgumentException("총 가격은 0원 이상이어야 합니다.");
+        }
+        reservation.put(bookingID, new Reservation(bookingID, email, buildingName, room, checkInDate, checkOutDate, checkInTime, checkOutTime, isBooked, playerCount, totalPrice));
 
     }
 
@@ -53,14 +68,38 @@ public class ReservationService implements Serializable {
      * @param bookingID Booking ID.
      */
     public void delReservation(String bookingID) {
-        if (reservation.containsKey(bookingID)) {
-            reservation.remove(bookingID);
+        cancelReservation(bookingID);
+    }
+
+    public void cancelReservation(String bookingID) {
+        Reservation target = reservation.get(bookingID);
+        if (target != null) {
+            target.setStatus(ReservationStatus.CANCELLED);
         } else if (reservation.isEmpty()) {
-            throw new IllegalArgumentException("No Bookings present in the System.");
+            throw new IllegalArgumentException("등록된 예약이 없습니다.");
         } else {
-            throw new IllegalArgumentException("No Booking done under this Booking ID.");
+            throw new IllegalArgumentException("해당 예약 번호로 등록된 예약이 없습니다.");
         }
 
+    }
+
+    public void completeReservation(String bookingID) {
+        updateReservationStatus(bookingID, ReservationStatus.COMPLETED);
+    }
+
+    public void markNoShow(String bookingID) {
+        updateReservationStatus(bookingID, ReservationStatus.NO_SHOW);
+    }
+
+    public void updateReservationStatus(String bookingID, ReservationStatus status) {
+        Reservation target = reservation.get(bookingID);
+        if (target != null) {
+            target.setStatus(status);
+        } else if (reservation.isEmpty()) {
+            throw new IllegalArgumentException("등록된 예약이 없습니다.");
+        } else {
+            throw new IllegalArgumentException("해당 예약 번호로 등록된 예약이 없습니다.");
+        }
     }
 
 
@@ -73,7 +112,7 @@ public class ReservationService implements Serializable {
     public HashMap<String, Reservation> viewMyRes(String bookingID) {
         HashMap<String, Reservation> bookingIDRes = new HashMap<String, Reservation>();
         if (reservation.isEmpty()) {
-            throw new IllegalArgumentException("No Reservations Booked under " + bookingID);
+            throw new IllegalArgumentException("해당 예약 번호로 등록된 예약이 없습니다: " + bookingID);
         } else if (reservation.containsKey(bookingID)) {
             for (Map.Entry<String, Reservation> m : reservation.entrySet()) {
                 if (m.getKey().equals(bookingID)) {
@@ -81,7 +120,7 @@ public class ReservationService implements Serializable {
                 }
             }
         } else {
-            throw new IllegalArgumentException("User has not placed any Reservations.");
+            throw new IllegalArgumentException("해당 고객의 예약 내역이 없습니다.");
         }
         return bookingIDRes;
     }
@@ -94,11 +133,11 @@ public class ReservationService implements Serializable {
      */
     public boolean checkID(String bookingID) {
         if (bookingID.trim().isEmpty()) {
-            throw new IllegalArgumentException("Text Fields cannot be Empty.");
+            throw new IllegalArgumentException("입력값을 모두 입력해주세요.");
         } else if (reservation.containsKey(bookingID)) {
-            throw new IllegalArgumentException("No Two Bookings can have the same ID.");
+            throw new IllegalArgumentException("같은 예약 번호를 중복 사용할 수 없습니다.");
         } else if (bookingID.isEmpty()) {
-            throw new IllegalArgumentException(("Booking ID cannot be empty"));
+            throw new IllegalArgumentException(("예약 번호를 입력해주세요."));
         }
         return false;
     }
@@ -112,22 +151,38 @@ public class ReservationService implements Serializable {
      * @param checkInDate  Check In Date.
      */
     public void checkOverlap(String checkInTime, String checkOutTime, String roomName, String checkInDate) {
+        LocalTime newCheckInTime = parseReservationTime(checkInTime);
+        LocalTime newCheckOutTime = parseReservationTime(checkOutTime);
+        String normalizedRoomName = normalizeRoomName(roomName);
+        String normalizedCheckInDate = checkInDate.trim();
+
         for (Map.Entry<String, Reservation> m : reservation.entrySet()) {
-            if (m.getValue().getRoom().contains(roomName) && m.getValue().getCheckInDate().contains(checkInDate)) {
-                int cmp1 = checkOutTime.compareTo(m.getValue().getCheckOutTime());
-                int cmp2 = checkInTime.compareTo(m.getValue().getCheckInTime());
-                if (cmp1 <= 0 && cmp2 >= 0) {
-                    throw new IllegalArgumentException("Room is booked by " + m.getValue().getEmail());
-                }
-                if (m.getValue().getCheckInTime().equals(checkInTime) || m.getValue().getCheckOutTime().equals(checkOutTime)) {
-                    throw new IllegalArgumentException("Room is booked by " + m.getValue().getEmail());
+            Reservation existingReservation = m.getValue();
+            boolean sameRoom = normalizeRoomName(existingReservation.getRoom()).equals(normalizedRoomName);
+            boolean sameDate = existingReservation.getCheckInDate().trim().equals(normalizedCheckInDate);
+
+            if (sameRoom && sameDate && existingReservation.blocksReservationOverlap()) {
+                LocalTime existingCheckInTime = parseReservationTime(existingReservation.getCheckInTime());
+                LocalTime existingCheckOutTime = parseReservationTime(existingReservation.getCheckOutTime());
+                boolean overlaps = newCheckInTime.isBefore(existingCheckOutTime) && newCheckOutTime.isAfter(existingCheckInTime);
+
+                if (overlaps) {
+                    throw new IllegalArgumentException("해당 테마는 이미 예약되어 있습니다. 예약 고객: " + existingReservation.getEmail());
                 }
             }
-
-
         }
+    }
 
+    private LocalTime parseReservationTime(String time) {
+        try {
+            return LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
+        } catch (DateTimeParseException | NullPointerException e) {
+            throw new IllegalArgumentException("시간 형식이 올바르지 않습니다. 예: 14:30");
+        }
+    }
 
+    private String normalizeRoomName(String roomName) {
+        return roomName == null ? "" : roomName.trim().toUpperCase();
     }
 
     /**
@@ -137,7 +192,7 @@ public class ReservationService implements Serializable {
      */
     public Map<String, Reservation> roomsBooked() {
         if (reservation.isEmpty()) {
-            throw new IllegalArgumentException("No Booked Rooms");
+            throw new IllegalArgumentException("예약된 테마가 없습니다.");
         } else {
             Map<String, Reservation> bookedRooms = new HashMap<>();
             bookedRooms.putAll(reservation);
@@ -156,9 +211,9 @@ public class ReservationService implements Serializable {
     public Map<String, Reservation> viewResName(String email) {
         HashMap<String, Reservation> viewResID = new HashMap<String, Reservation>();
         if (email.isEmpty()) {
-            throw new IllegalArgumentException("EMAIL IS EMPTY. TRY AGAIN!");
+            throw new IllegalArgumentException("고객 이메일을 입력해주세요.");
         } else if (reservation.isEmpty()) {
-            throw new IllegalArgumentException("No Reservations Booked under " + email);
+            throw new IllegalArgumentException("해당 이메일로 등록된 예약이 없습니다: " + email);
         } else if (!reservation.isEmpty()) {
             for (Map.Entry<String, Reservation> m : reservation.entrySet()) {
                 if (m.getValue().getEmail().contains(email)) {
@@ -166,7 +221,7 @@ public class ReservationService implements Serializable {
                 }
             }
         } else {
-            throw new IllegalArgumentException("User has not placed any Reservations.");
+            throw new IllegalArgumentException("해당 고객의 예약 내역이 없습니다.");
         }
         return viewResID;
 
@@ -178,35 +233,23 @@ public class ReservationService implements Serializable {
      * @throws IOException
      */
     public void resSave() throws IOException {
-        FileOutputStream f = new FileOutputStream(new File("resData.txt"));
-        ObjectOutputStream o = new ObjectOutputStream(f);
-
-        // Write objects to file
-        o.writeObject(reservation);
-        o.close();
-        f.close();
-
+        try (ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(DATA_FILE))) {
+            o.writeObject(reservation);
+        }
     }
 
     /**
      * Loading Reservation Data.
      */
-    public void resLoad() {
-        try {
-
-            FileInputStream fi = new FileInputStream(new File("resData.txt"));
-            ObjectInputStream oi = new ObjectInputStream(fi);
-
-            // Read objects
-            reservation = (Map<String, Reservation>) oi.readObject();
-
-
-            oi.close();
-            fi.close();
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+    public boolean resLoad() throws IOException, ClassNotFoundException {
+        File file = new File(DATA_FILE);
+        if (!file.exists()) {
+            return false;
         }
-
+        try (ObjectInputStream oi = new ObjectInputStream(new FileInputStream(file))) {
+            reservation = (Map<String, Reservation>) oi.readObject();
+            return true;
+        }
     }
 
     /**

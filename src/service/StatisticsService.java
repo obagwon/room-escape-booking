@@ -2,83 +2,70 @@ package service;
 
 import model.PlayResult.PlayResult;
 import model.Reservation.Reservation;
+import model.Reservation.ReservationStatus;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Comparator;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * 방탈출 카페 운영 통계를 계산하는 Service 클래스입니다.
  *
- * <p>예약 데이터와 플레이 결과 데이터를 입력받아 전체 예약 수, 완료된 플레이 수,
- * 전체 성공률, 평균 힌트 수, 테마별 예약 수, 테마별 성공률을 계산합니다.
- * 발표에서는 Java Stream API를 활용한 집계 로직의 핵심 클래스로 설명하면 됩니다.
+ * <p>예약 데이터와 플레이 결과 데이터를 입력받아 예약 상태, 매출, 테마별 예약/성공률,
+ * 인기 테마, 힌트 최다 사용 예약을 Stream API로 계산합니다.
  */
 public class StatisticsService implements Serializable {
 
     public String buildStatisticsReport(Map<String, Reservation> reservations, Map<String, PlayResult> playResults) {
-        // 전체 예약 수와 완료된 플레이 수는 Map 크기로 바로 계산합니다.
         int totalReservations = reservations.size();
+        long reservedReservations = countByStatus(reservations, ReservationStatus.RESERVED);
+        long cancelledReservations = countByStatus(reservations, ReservationStatus.CANCELLED);
+        long completedReservations = countByStatus(reservations, ReservationStatus.COMPLETED);
         int completedPlays = playResults.size();
         double overallSuccessRate = successRate(playResults);
-
-        // Stream API로 모든 플레이 결과의 hintCount를 int 스트림으로 바꾼 뒤 평균을 계산합니다.
-        // 데이터가 하나도 없으면 orElse(0.0)으로 0을 사용하여 예외를 방지합니다.
-        double averageHints = playResults.values().stream()
-                .mapToInt(PlayResult::getHintCount)
-                .average()
-                .orElse(0.0);
+        double averageHints = averageHints(playResults);
+        int expectedRevenue = expectedRevenue(reservations);
+        Map<String, Long> reservationsByTheme = reservationsByTheme(reservations);
+        Map<String, Double> successRateByTheme = successRateByTheme(reservations, playResults);
+        String mostPopularTheme = mostPopularTheme(reservationsByTheme);
+        String mostHintedReservation = mostHintedReservation(playResults);
 
         StringBuilder report = new StringBuilder();
-        report.append("Escape Room Operation Statistics\n")
-                .append("--------------------------------\n")
-                .append("Total Reservations: ").append(totalReservations).append("\n")
-                .append("Completed Plays: ").append(completedPlays).append("\n")
-                .append("Overall Success Rate: ").append(formatPercent(overallSuccessRate)).append("\n")
-                .append("Average Hints Used: ").append(String.format("%.2f", averageHints)).append("\n\n")
-                .append("Reservations by Theme\n")
-                .append("---------------------\n");
-
-        // 테마 이름(Reservation.getRoom)을 기준으로 예약 수를 그룹화합니다.
-        // Collectors.groupingBy + counting 조합이 "테마별 예약 수" 계산의 핵심입니다.
-        Map<String, Long> reservationsByTheme = reservations.values().stream()
-                .collect(Collectors.groupingBy(Reservation::getRoom, Collectors.counting()));
+        report.append("방탈출 운영 통계\n")
+                .append("====================\n")
+                .append("전체 예약 수: ").append(formatNumber(totalReservations)).append("건\n")
+                .append("예약 완료 수: ").append(formatNumber(completedReservations)).append("건\n")
+                .append("예약 대기/확정 수: ").append(formatNumber(reservedReservations)).append("건\n")
+                .append("취소 예약 수: ").append(formatNumber(cancelledReservations)).append("건\n")
+                .append("완료된 플레이 수: ").append(formatNumber(completedPlays)).append("건\n")
+                .append("전체 성공률: ").append(formatPercent(overallSuccessRate)).append("\n")
+                .append("평균 힌트 사용 횟수: ").append(String.format(Locale.KOREA, "%.2f회", averageHints)).append("\n")
+                .append("총 예상 매출: ").append(formatCurrency(expectedRevenue)).append("\n")
+                .append("가장 인기 있는 테마: ").append(mostPopularTheme).append("\n")
+                .append("힌트를 가장 많이 사용한 예약: ").append(mostHintedReservation).append("\n\n")
+                .append("테마별 예약 수\n")
+                .append("--------------------\n");
 
         if (reservationsByTheme.isEmpty()) {
-            report.append("No reservation data.\n");
+            report.append("예약 데이터가 없습니다.\n");
         } else {
             reservationsByTheme.entrySet().stream()
                     .sorted(Map.Entry.comparingByKey())
                     .forEach(entry -> report.append(entry.getKey())
                             .append(": ")
-                            .append(entry.getValue())
-                            .append("\n"));
+                            .append(formatNumber(entry.getValue()))
+                            .append("건\n"));
         }
 
-        report.append("\nSuccess Rate by Theme\n")
-                .append("---------------------\n");
-
-        // 테마별 성공률 계산 흐름:
-        // 1) 예약을 테마별로 묶고
-        // 2) 각 예약의 bookingId로 PlayResult를 찾고
-        // 3) 성공이면 1, 실패면 0으로 변환한 뒤 평균을 냅니다.
-        // 아직 플레이 결과가 없는 예약은 filter(result != null)로 제외합니다.
-        Map<String, Double> successRateByTheme = reservations.values().stream()
-                .collect(Collectors.groupingBy(
-                        Reservation::getRoom,
-                        Collectors.collectingAndThen(Collectors.toList(), themeReservations ->
-                                themeReservations.stream()
-                                        .map(Reservation::getBookingID)
-                                        .map(playResults::get)
-                                        .filter(result -> result != null)
-                                        .mapToInt(result -> result.isSuccess() ? 1 : 0)
-                                        .average()
-                                        .orElse(0.0)
-                        )
-                ));
+        report.append("\n테마별 성공률\n")
+                .append("--------------------\n");
 
         if (successRateByTheme.isEmpty()) {
-            report.append("No theme success data.\n");
+            report.append("플레이 결과 데이터가 없습니다.\n");
         } else {
             successRateByTheme.entrySet().stream()
                     .sorted(Map.Entry.comparingByKey())
@@ -91,15 +78,78 @@ public class StatisticsService implements Serializable {
         return report.toString();
     }
 
+    private long countByStatus(Map<String, Reservation> reservations, ReservationStatus status) {
+        return reservations.values().stream()
+                .filter(reservation -> reservation.getStatus() == status)
+                .count();
+    }
+
     private double successRate(Map<String, PlayResult> playResults) {
-        // 전체 성공률도 성공=1, 실패=0으로 변환한 뒤 평균을 내는 방식입니다.
         return playResults.values().stream()
                 .mapToInt(result -> result.isSuccess() ? 1 : 0)
                 .average()
                 .orElse(0.0);
     }
 
+    private double averageHints(Map<String, PlayResult> playResults) {
+        return playResults.values().stream()
+                .mapToInt(PlayResult::getHintCount)
+                .average()
+                .orElse(0.0);
+    }
+
+    private int expectedRevenue(Map<String, Reservation> reservations) {
+        return reservations.values().stream()
+                .filter(reservation -> reservation.getStatus() != ReservationStatus.CANCELLED)
+                .mapToInt(Reservation::getTotalPrice)
+                .sum();
+    }
+
+    private Map<String, Long> reservationsByTheme(Map<String, Reservation> reservations) {
+        return reservations.values().stream()
+                .collect(Collectors.groupingBy(Reservation::getRoom, Collectors.counting()));
+    }
+
+    private Map<String, Double> successRateByTheme(Map<String, Reservation> reservations, Map<String, PlayResult> playResults) {
+        return reservations.values().stream()
+                .collect(Collectors.groupingBy(
+                        Reservation::getRoom,
+                        Collectors.collectingAndThen(Collectors.toList(), themeReservations ->
+                                themeReservations.stream()
+                                        .map(Reservation::getBookingID)
+                                        .map(playResults::get)
+                                        .filter(result -> result != null)
+                                        .mapToInt(result -> result.isSuccess() ? 1 : 0)
+                                        .average()
+                                        .orElse(0.0)
+                        )
+                ));
+    }
+
+    private String mostPopularTheme(Map<String, Long> reservationsByTheme) {
+        return reservationsByTheme.entrySet().stream()
+                .max(Map.Entry.<String, Long>comparingByValue().thenComparing(Map.Entry.comparingByKey()))
+                .map(entry -> entry.getKey() + " (" + formatNumber(entry.getValue()) + "건)")
+                .orElse("예약 데이터가 없습니다.");
+    }
+
+    private String mostHintedReservation(Map<String, PlayResult> playResults) {
+        Optional<PlayResult> mostHinted = playResults.values().stream()
+                .max(Comparator.comparingInt(PlayResult::getHintCount));
+        return mostHinted
+                .map(result -> result.getBookingId() + " (" + formatNumber(result.getHintCount()) + "회)")
+                .orElse("플레이 결과 데이터가 없습니다.");
+    }
+
+    private String formatNumber(long number) {
+        return NumberFormat.getNumberInstance(Locale.KOREA).format(number);
+    }
+
+    private String formatCurrency(int amount) {
+        return NumberFormat.getNumberInstance(Locale.KOREA).format(amount) + "원";
+    }
+
     private String formatPercent(double rate) {
-        return String.format("%.2f%%", rate * 100);
+        return String.format(Locale.KOREA, "%.2f%%", rate * 100);
     }
 }

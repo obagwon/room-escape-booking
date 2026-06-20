@@ -17,7 +17,7 @@ public class ViewPlayResults extends JFrame {
         resultsArea.setEditable(false);
 
         setContentPane(viewPlayResults);
-        setTitle("Escape Room Manager - Play Results");
+        setTitle("플레이 결과 조회");
         setSize(680, 560);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         buildView(bookingResource);
@@ -29,12 +29,12 @@ public class ViewPlayResults extends JFrame {
         gbc.insets = new Insets(4, 4, 4, 4);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel title = new JLabel("Play Result List");
+        JLabel title = new JLabel("플레이 결과 목록");
         gbc.gridx = 0;
         gbc.gridy = 0;
         viewPlayResults.add(title, gbc);
 
-        JButton loadButton = new JButton("Refresh Results");
+        JButton loadButton = new JButton("결과 새로고침");
         loadButton.addActionListener(e -> loadResults(bookingResource));
         gbc.gridy = 1;
         viewPlayResults.add(loadButton, gbc);
@@ -43,7 +43,7 @@ public class ViewPlayResults extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         viewPlayResults.add(new JScrollPane(resultsArea), gbc);
 
-        JButton backButton = new JButton("Back to Reservation Menu");
+        JButton backButton = new JButton("예약 메뉴로 돌아가기");
         backButton.addActionListener(e -> {
             dispose();
             new Reservation(bookingResource);
@@ -58,11 +58,11 @@ public class ViewPlayResults extends JFrame {
             StringBuilder builder = new StringBuilder();
             for (Map.Entry<String, PlayResult> entry : bookingResource.viewPlayResults().entrySet()) {
                 PlayResult result = entry.getValue();
-                builder.append("Booking ID: ").append(result.getBookingId()).append("\n")
-                        .append("Success: ").append(result.isSuccess() ? "YES" : "NO").append("\n")
-                        .append("Hints Used: ").append(result.getHintCount()).append("\n")
-                        .append("Remaining Time: ").append(result.getRemainingMinutes()).append(" minutes\n")
-                        .append("Staff Memo: ").append(result.getStaffMemo()).append("\n\n");
+                builder.append("예약 번호: ").append(result.getBookingId()).append("\n")
+                        .append("성공 여부: ").append(result.isSuccess() ? "예" : "아니오").append("\n")
+                        .append("힌트 사용 횟수: ").append(result.getHintCount()).append("\n")
+                        .append("남은 시간: ").append(result.getRemainingMinutes()).append("분\n")
+                        .append("직원 메모: ").append(result.getStaffMemo()).append("\n\n");
             }
             resultsArea.setText(builder.toString());
         } catch (IllegalArgumentException ex) {

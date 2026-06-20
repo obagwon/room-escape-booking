@@ -22,6 +22,7 @@ public class AddReservation extends JFrame {
     private final JTextField checkOutDateField;
     private final JTextField checkInTimeField;
     private final JTextField checkOutTimeField;
+    private final JTextField playerCountField;
 
     public AddReservation(BookingResource bookingResource) {
         addReservation = new JPanel(new GridBagLayout());
@@ -33,9 +34,10 @@ public class AddReservation extends JFrame {
         checkOutDateField = new JTextField(24);
         checkInTimeField = new JTextField(24);
         checkOutTimeField = new JTextField(24);
+        playerCountField = new JTextField(24);
 
         setContentPane(this.addReservation);
-        setTitle("Escape Room Manager - Book Theme");
+        setTitle("테마 예약");
         setSize(660, 620);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         buildForm(bookingResource);
@@ -47,7 +49,7 @@ public class AddReservation extends JFrame {
         gbc.insets = new Insets(6, 8, 6, 8);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel title = new JLabel("Theme Reservation Entry");
+        JLabel title = new JLabel("테마 예약 정보 입력");
         title.setFont(new Font(title.getFont().getName(), Font.BOLD, 18));
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -55,28 +57,29 @@ public class AddReservation extends JFrame {
         addReservation.add(title, gbc);
         gbc.gridwidth = 1;
 
-        addRow("Booking ID", bookingIdField, 1, gbc);
-        addRow("Customer Email", emailField, 2, gbc);
-        addRow("Cafe Branch Name", branchField, 3, gbc);
-        addRow("Escape Theme Name", themeField, 4, gbc);
-        addRow("Book-In Date (dd/mm/yyyy)", checkInDateField, 5, gbc);
-        addRow("Book-Out Date (dd/mm/yyyy)", checkOutDateField, 6, gbc);
-        addRow("Start Time (HH:mm)", checkInTimeField, 7, gbc);
-        addRow("End Time (HH:mm)", checkOutTimeField, 8, gbc);
+        addRow("예약 번호", bookingIdField, 1, gbc);
+        addRow("고객 이메일", emailField, 2, gbc);
+        addRow("지점명", branchField, 3, gbc);
+        addRow("테마명", themeField, 4, gbc);
+        addRow("예약 시작 날짜(dd/mm/yyyy)", checkInDateField, 5, gbc);
+        addRow("예약 종료 날짜(dd/mm/yyyy)", checkOutDateField, 6, gbc);
+        addRow("시작 시간(HH:mm)", checkInTimeField, 7, gbc);
+        addRow("종료 시간(HH:mm)", checkOutTimeField, 8, gbc);
+        addRow("예약 인원", playerCountField, 9, gbc);
 
-        JButton okButton = new JButton("Save Reservation");
+        JButton okButton = new JButton("예약 저장");
         okButton.addActionListener(e -> saveReservation(bookingResource));
         gbc.gridx = 0;
-        gbc.gridy = 9;
+        gbc.gridy = 10;
         gbc.gridwidth = 2;
         addReservation.add(okButton, gbc);
 
-        JButton backButton = new JButton("Back to Reservation Menu");
+        JButton backButton = new JButton("예약 메뉴로 돌아가기");
         backButton.addActionListener(e -> {
             dispose();
             new Reservation(bookingResource);
         });
-        gbc.gridy = 10;
+        gbc.gridy = 11;
         addReservation.add(backButton, gbc);
     }
 
@@ -90,7 +93,9 @@ public class AddReservation extends JFrame {
         String checkOutDate = checkOutDateField.getText().trim();
         String checkInTime = checkInTimeField.getText().trim();
         String checkOutTime = checkOutTimeField.getText().trim();
+        String playerCountText = playerCountField.getText().trim();
         try {
+            int playerCount = parsePlayerCount(playerCountText);
             // 검증 순서가 발표 포인트입니다: ID 중복 → 고객/지점/테마 존재 → 날짜/시간 → 중복 예약.
             bookingResource.checkID(bookingID);
             bookingResource.checkUser(emailID);
@@ -105,11 +110,19 @@ public class AddReservation extends JFrame {
             bookingResource.checkDay(checkInDate, checkOutDate);
             bookingResource.checkOverlap(checkInTime, checkOutTime, roomName, checkInDate);
             boolean isBooked = true;
+            bookingResource.addReservation(bookingID, emailID, buildingName, roomName, checkInDate, checkOutDate, checkInTime, checkOutTime, isBooked, playerCount);
             bookingResource.updateRoom(roomName, buildingName, isBooked);
-            bookingResource.addReservation(bookingID, emailID, buildingName, roomName, checkInDate, checkOutDate, checkInTime, checkOutTime, isBooked);
-            JOptionPane.showMessageDialog(addReservation, "Reservation completed successfully.");
+            JOptionPane.showMessageDialog(addReservation, "예약이 완료되었습니다.");
         } catch (IllegalArgumentException | ParseException ex) {
             JOptionPane.showMessageDialog(addReservation, ex.getLocalizedMessage());
+        }
+    }
+
+    private int parsePlayerCount(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException ex) {
+            throw new IllegalArgumentException("예약 인원은 숫자로 입력해주세요.");
         }
     }
 

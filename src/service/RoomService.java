@@ -16,6 +16,7 @@ import java.util.Set;
  * @author 220031985
  */
 public class RoomService implements Serializable {
+    private static final String DATA_FILE = "roomData.txt";
     private static Map<String, Room> rooms = new HashMap<>();
 
     /**
@@ -34,13 +35,40 @@ public class RoomService implements Serializable {
     //Bug Fix: Only one room is storing for one value in the Terminal???? (Addressed)
     // Bug Fix: If Key is the same, the building is getting replaced with the latest update. (Addressed)
     public void addRoom(String buildingName, String roomName, boolean isBooked) {
-        // Bug Fix: Not checking for Duplication (Addressed)
-        if (buildingName.isEmpty() || roomName.isEmpty()) {
-            throw new IllegalArgumentException("Text Fields cannot be empty. Try Again!");
-        } else if (rooms.containsKey(roomName.toUpperCase())) {
-            throw new IllegalArgumentException("Room Name registered in the System. \n");
-        } else {
-            rooms.put(roomName.toUpperCase(), new Room(roomName.toUpperCase(), buildingName.toLowerCase(), isBooked));
+        addRoom(buildingName, roomName, isBooked, "미지정", "NORMAL", 60, 2, 4, 0);
+    }
+
+    public void addRoom(String buildingName, String roomName, boolean isBooked, String genre, String difficulty,
+                        int durationMinutes, int minPlayers, int maxPlayers, int pricePerPerson) {
+        validateThemeInput(buildingName, roomName, genre, difficulty, durationMinutes, minPlayers, maxPlayers, pricePerPerson);
+        String normalizedRoomName = roomName.trim().toUpperCase();
+        if (rooms.containsKey(normalizedRoomName)) {
+            throw new IllegalArgumentException("이미 등록된 테마명입니다.\n");
+        }
+        rooms.put(normalizedRoomName, new Room(normalizedRoomName, buildingName.trim().toLowerCase(), isBooked,
+                genre.trim(), difficulty.trim().toUpperCase(), durationMinutes, minPlayers, maxPlayers, pricePerPerson));
+    }
+
+    private void validateThemeInput(String buildingName, String roomName, String genre, String difficulty,
+                                    int durationMinutes, int minPlayers, int maxPlayers, int pricePerPerson) {
+        if (buildingName.isEmpty() || roomName.isEmpty() || genre.isEmpty() || difficulty.isEmpty()) {
+            throw new IllegalArgumentException("입력값을 모두 입력해주세요.");
+        }
+        if (durationMinutes < 1) {
+            throw new IllegalArgumentException("플레이 시간은 1분 이상이어야 합니다.");
+        }
+        if (minPlayers < 1) {
+            throw new IllegalArgumentException("최소 인원은 1명 이상이어야 합니다.");
+        }
+        if (maxPlayers < minPlayers) {
+            throw new IllegalArgumentException("최대 인원은 최소 인원 이상이어야 합니다.");
+        }
+        if (pricePerPerson < 0) {
+            throw new IllegalArgumentException("1인 가격은 0원 이상이어야 합니다.");
+        }
+        String normalizedDifficulty = difficulty.trim().toUpperCase();
+        if (!normalizedDifficulty.equals("EASY") && !normalizedDifficulty.equals("NORMAL") && !normalizedDifficulty.equals("HARD")) {
+            throw new IllegalArgumentException("난이도는 EASY, NORMAL, HARD 중 하나를 입력해주세요.");
         }
     }
 
@@ -54,9 +82,9 @@ public class RoomService implements Serializable {
         String buildingName = buildingName1;
         String roomName = roomName1;
         if (roomName.isEmpty() || buildingName.isEmpty()) {
-            throw new IllegalArgumentException("Text Fields cannot be empty!");
+            throw new IllegalArgumentException("입력값을 모두 입력해주세요.");
         } else if (rooms.isEmpty()) {
-            throw new IllegalArgumentException("No Rooms are registered in the System. \n");
+            throw new IllegalArgumentException("등록된 테마가 없습니다.\n");
         } else if (!rooms.isEmpty()) {
             Set<Entry<String, Room>> setOfEntries = rooms.entrySet();
             Iterator<Entry<String, Room>> iterator = setOfEntries.iterator();
@@ -68,7 +96,7 @@ public class RoomService implements Serializable {
                 }
             }
         } else {
-            throw new IllegalArgumentException("Room not registered in the System. \n");
+            throw new IllegalArgumentException("등록되지 않은 테마입니다.\n");
         }
     }
 
@@ -98,7 +126,7 @@ public class RoomService implements Serializable {
     public Map<String, Room> viewRooms() {
         Map<String, Room> viewRooms = new HashMap<>();
         if (rooms.isEmpty()) {
-            throw new IllegalArgumentException("No Room are registered in the System. \n");
+            throw new IllegalArgumentException("등록된 테마가 없습니다.\n");
         } else {
             viewRooms.putAll(rooms);
             return rooms;
@@ -114,13 +142,24 @@ public class RoomService implements Serializable {
      */
     public boolean checkRoom(String roomName) {
         if (roomName.trim().isEmpty()) {
-            throw new IllegalArgumentException("No Rooms are in the System. \n");
+            throw new IllegalArgumentException("등록된 테마가 없습니다.\n");
         }
         if (rooms.containsKey(roomName.toUpperCase())) {
             return true;
         } else {
-            throw new IllegalArgumentException("Room not in the System. \n");
+            throw new IllegalArgumentException("등록되지 않은 테마입니다.\n");
         }
+    }
+
+    public Room getRoom(String roomName) {
+        if (roomName.trim().isEmpty()) {
+            throw new IllegalArgumentException("테마명을 입력해주세요.");
+        }
+        Room room = rooms.get(roomName.toUpperCase());
+        if (room == null) {
+            throw new IllegalArgumentException("등록되지 않은 테마입니다.\n");
+        }
+        return room;
     }
 
 
@@ -141,7 +180,7 @@ public class RoomService implements Serializable {
             String key = entry.getKey();
 
             if (key.contains(roomName)) {
-                rooms.replace(roomName, new Room(roomName.toUpperCase(), buildingName.toLowerCase(), isBooked));
+                rooms.replace(roomName, entry.getValue().withBookingStatus(buildingName.toLowerCase(), isBooked));
             }
 
         }
@@ -150,13 +189,13 @@ public class RoomService implements Serializable {
 
     public void roomsBooked() {
         if (rooms.isEmpty()) {
-            throw new IllegalArgumentException("No Rooms are Present in the System");
+            throw new IllegalArgumentException("등록된 테마가 없습니다.");
         } else if (!rooms.isEmpty()) {
             for (Map.Entry<String, Room> m : rooms.entrySet()) {
                 if (m.getValue().isBooked()) {
-                    System.out.println("Rooms: " + m.getValue().getRoomName() + " are booked in" + m.getValue().getBuildingName());
+                    System.out.println(m.getValue().toDisplayString());
                 } else {
-                    System.out.println("No Rooms are booked at the moment.");
+                    System.out.println("현재 예약된 테마가 없습니다.");
                 }
 
             }
@@ -174,11 +213,11 @@ public class RoomService implements Serializable {
 
     public void roomsFree() {
         if (rooms.isEmpty()) {
-            throw new IllegalArgumentException("No Rooms are Present in the System");
+            throw new IllegalArgumentException("등록된 테마가 없습니다.");
         } else {
             for (Map.Entry<String, Room> m : rooms.entrySet()) {
                 if (!m.getValue().isBooked()) {
-                    System.out.println("Rooms: " + m.getValue().getRoomName() + " are free in " + m.getValue().getBuildingName().toUpperCase());
+                    System.out.println(m.getValue().toDisplayString());
                 }
 
             }
@@ -191,14 +230,9 @@ public class RoomService implements Serializable {
      * @throws IOException throws IOException.
      */
     public void roomSave() throws IOException {
-        FileOutputStream f = new FileOutputStream(new File("roomData.txt"));
-        ObjectOutputStream o = new ObjectOutputStream(f);
-
-        // Write objects to file
-        o.writeObject(rooms);
-        o.close();
-        f.close();
-
+        try (ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(DATA_FILE))) {
+            o.writeObject(rooms);
+        }
     }
 
     /**
@@ -207,20 +241,14 @@ public class RoomService implements Serializable {
      * @throws IOException            throws IOException
      * @throws ClassNotFoundException throws ClassNotFoundException.
      */
-    public void roomLoad() throws IOException, ClassNotFoundException {
-        try {
-
-            FileInputStream fi = new FileInputStream(new File("roomData.txt"));
-            ObjectInputStream oi = new ObjectInputStream(fi);
-
-            // Read objects
+    public boolean roomLoad() throws IOException, ClassNotFoundException {
+        File file = new File(DATA_FILE);
+        if (!file.exists()) {
+            return false;
+        }
+        try (ObjectInputStream oi = new ObjectInputStream(new FileInputStream(file))) {
             rooms = (Map<String, Room>) oi.readObject();
-
-
-            oi.close();
-            fi.close();
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            return true;
         }
     }
 

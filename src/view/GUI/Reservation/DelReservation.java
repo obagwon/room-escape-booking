@@ -15,7 +15,7 @@ public class DelReservation extends JFrame {
 
     public DelReservation(BookingResource bookingResource) {
         setContentPane(this.delReservation);
-        setTitle("DELETE RESERVATION");
+        setTitle("예약 취소");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -29,10 +29,11 @@ public class DelReservation extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String bookingID = textField1.getText();
                 if (bookingID.trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(delReservation, "Booking ID cannot be empty!");
+                    JOptionPane.showMessageDialog(delReservation, "예약 번호를 입력해 주세요.");
                 } else {
                     try {
-                        bookingResource.delReservation(bookingID);
+                        bookingResource.cancelReservation(bookingID);
+                        JOptionPane.showMessageDialog(delReservation, "예약이 취소되었습니다.");
                     } catch (IllegalArgumentException ex) {
                         String error = ex.getLocalizedMessage();
                         JOptionPane.showMessageDialog(delReservation, error);
@@ -73,7 +74,7 @@ public class DelReservation extends JFrame {
         delReservation = new JPanel();
         delReservation.setLayout(new GridBagLayout());
         final JLabel label1 = new JLabel();
-        label1.setText("DELETE A RESERVATION");
+        label1.setText("예약 취소");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -92,7 +93,7 @@ public class DelReservation extends JFrame {
         gbc.fill = GridBagConstraints.VERTICAL;
         delReservation.add(spacer2, gbc);
         final JLabel label2 = new JLabel();
-        label2.setText("BOOKING ID");
+        label2.setText("예약 번호");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -105,14 +106,14 @@ public class DelReservation extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delReservation.add(textField1, gbc);
         okButton = new JButton();
-        okButton.setText("Ok");
+        okButton.setText("확인");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delReservation.add(okButton, gbc);
         backButton = new JButton();
-        backButton.setText("Back");
+        backButton.setText("뒤로");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 5;

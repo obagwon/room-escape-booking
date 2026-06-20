@@ -17,7 +17,7 @@ public class DelRoom extends JFrame {
 
     public DelRoom(BookingResource bookingResource) {
         setContentPane(this.delRoom);
-        setTitle("DELETE ESCAPE THEME");
+        setTitle("테마 삭제");
         setSize(450, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -34,7 +34,7 @@ public class DelRoom extends JFrame {
                 String room = textField3.getText();
                 try {
                     bookingResource.delRoom(buildingName, room);
-                    JOptionPane.showMessageDialog(delRoom, "Escape theme deleted successfully");
+                    JOptionPane.showMessageDialog(delRoom, "테마가 성공적으로 삭제되었습니다.");
                 } catch (IllegalArgumentException ex) {
                     String error = ex.getLocalizedMessage();
                     JOptionPane.showMessageDialog(delRoom, error);
@@ -73,7 +73,7 @@ public class DelRoom extends JFrame {
         delRoom = new JPanel();
         delRoom.setLayout(new GridBagLayout());
         final JLabel label1 = new JLabel();
-        label1.setText("EMAIL");
+        label1.setText("이메일");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -94,7 +94,7 @@ public class DelRoom extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delRoom.add(textField2, gbc);
         final JLabel label2 = new JLabel();
-        label2.setText("THEME NAME");
+        label2.setText("테마명");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 4;
@@ -107,21 +107,21 @@ public class DelRoom extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delRoom.add(textField3, gbc);
         okButton = new JButton();
-        okButton.setText("Ok");
+        okButton.setText("확인");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delRoom.add(okButton, gbc);
         backButton = new JButton();
-        backButton.setText("Back");
+        backButton.setText("뒤로");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 7;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         delRoom.add(backButton, gbc);
         final JLabel label3 = new JLabel();
-        label3.setText("CAFE BRANCH NAME");
+        label3.setText("지점명");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;

@@ -22,13 +22,13 @@ public class AddPlayResult extends JFrame {
     public AddPlayResult(BookingResource bookingResource) {
         addPlayResult = new JPanel(new GridBagLayout());
         bookingIdField = new JTextField(24);
-        successCheckBox = new JCheckBox("Escaped successfully");
+        successCheckBox = new JCheckBox("탈출 성공");
         hintCountField = new JTextField(24);
         remainingMinutesField = new JTextField(24);
         staffMemoArea = new JTextArea(5, 24);
 
         setContentPane(addPlayResult);
-        setTitle("Escape Room Manager - Add Play Result");
+        setTitle("플레이 결과 등록");
         setSize(620, 520);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         buildForm(bookingResource);
@@ -40,7 +40,7 @@ public class AddPlayResult extends JFrame {
         gbc.insets = new Insets(6, 8, 6, 8);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel title = new JLabel("Play Result Entry");
+        JLabel title = new JLabel("플레이 결과 입력");
         title.setFont(new Font(title.getFont().getName(), Font.BOLD, 18));
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -48,20 +48,20 @@ public class AddPlayResult extends JFrame {
         addPlayResult.add(title, gbc);
         gbc.gridwidth = 1;
 
-        addRow("Booking ID", bookingIdField, 1, gbc);
-        addRow("Success", successCheckBox, 2, gbc);
-        addRow("Hint Count (0 or greater)", hintCountField, 3, gbc);
-        addRow("Remaining Time in Minutes (0 or greater)", remainingMinutesField, 4, gbc);
-        addRow("Staff Memo", new JScrollPane(staffMemoArea), 5, gbc);
+        addRow("예약 번호", bookingIdField, 1, gbc);
+        addRow("성공 여부", successCheckBox, 2, gbc);
+        addRow("힌트 사용 횟수(0 이상)", hintCountField, 3, gbc);
+        addRow("남은 시간(분, 0 이상)", remainingMinutesField, 4, gbc);
+        addRow("직원 메모", new JScrollPane(staffMemoArea), 5, gbc);
 
-        JButton saveButton = new JButton("Save Play Result");
+        JButton saveButton = new JButton("플레이 결과 저장");
         saveButton.addActionListener(e -> savePlayResult(bookingResource));
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.gridwidth = 2;
         addPlayResult.add(saveButton, gbc);
 
-        JButton backButton = new JButton("Back to Reservation Menu");
+        JButton backButton = new JButton("예약 메뉴로 돌아가기");
         backButton.addActionListener(e -> {
             dispose();
             new Reservation(bookingResource);
@@ -74,11 +74,11 @@ public class AddPlayResult extends JFrame {
         try {
             // bookingId는 기존 예약과 연결되는 값이며, 실제 존재 여부는 BookingResource에서 확인합니다.
             String bookingId = bookingIdField.getText().trim();
-            int hintCount = parseNonNegativeInt(hintCountField.getText().trim(), "Hint count");
-            int remainingMinutes = parseNonNegativeInt(remainingMinutesField.getText().trim(), "Remaining time");
+            int hintCount = parseNonNegativeInt(hintCountField.getText().trim(), "힌트 사용 횟수");
+            int remainingMinutes = parseNonNegativeInt(remainingMinutesField.getText().trim(), "남은 시간");
             String staffMemo = staffMemoArea.getText().trim();
             bookingResource.addPlayResult(bookingId, successCheckBox.isSelected(), hintCount, remainingMinutes, staffMemo);
-            JOptionPane.showMessageDialog(addPlayResult, "Play result saved successfully.");
+            JOptionPane.showMessageDialog(addPlayResult, "플레이 결과가 저장되었습니다.");
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(addPlayResult, ex.getLocalizedMessage());
         }
@@ -89,11 +89,11 @@ public class AddPlayResult extends JFrame {
         try {
             int number = Integer.parseInt(value);
             if (number < 0) {
-                throw new IllegalArgumentException(fieldName + " must be 0 or greater.");
+                throw new IllegalArgumentException(fieldName + "은(는) 0 이상이어야 합니다.");
             }
             return number;
         } catch (NumberFormatException ex) {
-            throw new IllegalArgumentException(fieldName + " must be a whole number.");
+            throw new IllegalArgumentException(fieldName + "은(는) 정수여야 합니다.");
         }
     }
 
